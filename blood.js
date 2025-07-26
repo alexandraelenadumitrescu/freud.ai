@@ -45,101 +45,98 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Sound Toggle Button
 const soundToggleButton = document.getElementById("sound-toggle-button");
-const soundOnIcon = document.getElementById("sound-on-icon"); // Re-declare for scope within this block if needed, or use global
-const soundOffIcon = document.getElementById("sound-off-icon"); // Re-declare for scope within this block if needed, or use global
-const batSound = document.getElementById("bat-sound"); // Get the bat sound element again
-const chimeSound = document.getElementById("chime-sound"); // Get the chime sound element
-const typingSound = document.getElementById("typing-sound"); // Get the typing sound element
-const evilLaughSound = document.getElementById("evil-laugh-sound"); // Get evil laugh sound
-const wolfHowlSound = document.getElementById("wolf-howl-sound"); // Get wolf howl sound
+const soundOnIcon = document.getElementById("sound-on-icon");
+const soundOffIcon = document.getElementById("sound-off-icon");
+const batSound = document.getElementById("bat-sound");
+const chimeSound = document.getElementById("chime-sound");
+const typingSound = document.getElementById("typing-sound");
+const evilLaughSound = document.getElementById("evil-laugh-sound");
+const wolfHowlSound = document.getElementById("wolf-howl-sound");
 
-
-let isSoundOn = true; // --- IMPORTANT: Initial state: sound ON ---
+let isSoundOn = true; // Initial state: sound ON
 
 soundToggleButton.addEventListener("click", () => {
   if (isSoundOn) {
-    // --- IMPORTANT: Turn sound OFF (user clicked when sound was ON) ---
+    // Turn sound OFF
     if (batSound) batSound.pause();
     if (chimeSound) chimeSound.pause();
     if (typingSound) typingSound.pause();
     if (evilLaughSound) evilLaughSound.pause();
     if (wolfHowlSound) wolfHowlSound.pause();
 
-    soundOnIcon.style.display = "none"; // Hide sound ON icon
-    soundOffIcon.style.display = "block"; // Show sound OFF icon
+    if (soundOnIcon) soundOnIcon.style.display = "none";
+    if (soundOffIcon) soundOffIcon.style.display = "block";
   } else {
-    // --- IMPORTANT: Turn sound ON (user clicked when sound was OFF) ---
-    // Only play batSound if it's explicitly the main background sound
-    if (batSound) {
-      batSound.play().catch((e) => console.error("Audio play failed:", e));
-    }
-    // You might also want to play other sounds if they were paused
-    // if (chimeSound) chimeSound.play().catch((e) => console.error("Chime sound play failed:", e)); // Example
-    soundOnIcon.style.display = "block"; // Show sound ON icon
-    soundOffIcon.style.display = "none"; // Hide sound OFF icon
+    // Turn sound ON
+    if (batSound) batSound.play().catch((e) => console.error("Audio play failed:", e));
+
+    if (soundOnIcon) soundOnIcon.style.display = "block";
+    if (soundOffIcon) soundOffIcon.style.display = "none";
   }
   isSoundOn = !isSoundOn; // Toggle the state
 });
 
 // Bat animation
 const batContainer = document.getElementById("bat-container");
+const numBats = 5; // Number of bats
 
-const createBat = () => {
+function createBat() {
   const bat = document.createElement("img");
-  bat.src = "halloween-flying-bat-sticker-u889c-x450.png"; // Make sure this path is correct
-  bat.alt = "bat";
-  bat.classList.add("bat");
+  bat.src = "halloween-flying-bat-sticker-u889c-x450.png"; // Make sure you have this image
+  bat.className = "bat";
   batContainer.appendChild(bat);
 
-  const startY = Math.random() * (window.innerHeight * 0.8); // 80% of viewport height
-  const midY = Math.random() * (window.innerHeight * 0.8);
-  const endY = Math.random() * (window.innerHeight * 0.8);
-  const duration = Math.random() * 10 + 5; // 5 to 15 seconds
-  const direction = Math.random() > 0.5 ? "right" : "left";
+  const startY = Math.random() * window.innerHeight;
+  const endY = Math.random() * window.innerHeight;
+  const midY = Math.random() * window.innerHeight; // For more varied paths
 
   bat.style.setProperty("--startY", `${startY}px`);
-  bat.style.setProperty("--midY", `${midY}px`);
   bat.style.setProperty("--endY", `${endY}px`);
-  bat.style.animation = `${
-    direction === "right" ? "flyToRight" : "flyToLeft"
-  } ${duration}s linear forwards`;
+  bat.style.setProperty("--midY", `${midY}px`);
 
-  bat.addEventListener("animationend", () => {
-    bat.remove();
-    createBat(); // Create a new bat when one finishes flying
+  const duration = 10 + Math.random() * 10; // 10-20 seconds
+  bat.style.animationDuration = `${duration}s`;
+  bat.style.animationIterationCount = "infinite";
+  bat.style.left = `${-60}px`; // Start off-screen
+  bat.style.top = `${startY}px`;
+
+  // Randomly choose direction
+  if (Math.random() > 0.5) {
+    bat.style.animationName = "flyToRight";
+  } else {
+    bat.style.animationName = "flyToLeft";
+  }
+
+  // Restart animation when it ends
+  bat.addEventListener("animationiteration", () => {
+    bat.style.left = Math.random() > 0.5 ? `${-60}px` : `${window.innerWidth}px`;
+    bat.style.top = `${Math.random() * window.innerHeight}px`;
+    bat.style.animationName = Math.random() > 0.5 ? "flyToRight" : "flyToLeft";
+    bat.style.setProperty("--startY", `${Math.random() * window.innerHeight}px`);
+    bat.style.setProperty("--endY", `${Math.random() * window.innerHeight}px`);
+    bat.style.setProperty("--midY", `${Math.random() * window.innerHeight}px`);
   });
-};
+}
 
-for (let i = 0; i < 5; i++) {
-  // Create 5 bats
+for (let i = 0; i < numBats; i++) {
   createBat();
 }
 
-// Mouse Glow Effect
-const mouseGlow = document.getElementById("mouse-glow");
-document.addEventListener("mousemove", (e) => {
-  mouseGlow.style.left = `${e.clientX}px`;
-  mouseGlow.style.top = `${e.clientY}px`;
-  mouseGlow.style.opacity = 1; // Show glow when mouse moves
-});
-
-document.addEventListener("mouseleave", () => {
-  mouseGlow.style.opacity = 0; // Hide glow when mouse leaves document
-});
-
-// Blood Drip on click
+// Blood Drip Animation on Mouse Click
 document.addEventListener("click", (e) => {
-  const dripSound = document.getElementById("drip-sound");
-  if (dripSound && isSoundOn) { // Check if sound is on before playing
-    dripSound.currentTime = 0; // Rewind to start
-    dripSound.play().catch((e) => console.error("Drip sound play failed:", e));
-  }
-
   const drop = document.createElement("div");
-  drop.classList.add("blood-drop");
+  drop.className = "blood-drop";
   drop.style.left = `${e.clientX}px`;
   drop.style.top = `${e.clientY}px`;
   document.body.appendChild(drop);
+
+  if (isSoundOn) {
+    const dripSound = document.getElementById("drip-sound");
+    if (dripSound) {
+      dripSound.currentTime = 0; // Rewind to start
+      dripSound.play().catch((e) => console.error("Drip sound play failed:", e));
+    }
+  }
 
   drop.addEventListener("animationend", () => {
     drop.remove();
@@ -147,423 +144,508 @@ document.addEventListener("click", (e) => {
 });
 
 // Mist Effect on Scroll
-document.addEventListener("scroll", () => {
-  const mistOverlay = document.getElementById("mist-overlay");
-  // Calculate scroll percentage. Ensure it doesn't exceed 100% or go below 0%.
-  const scrollPercentage = Math.min(
-    1,
-    window.scrollY / (document.body.scrollHeight - window.innerHeight)
-  );
-  mistOverlay.style.height = `${scrollPercentage * 100}%`;
+const mistOverlay = document.getElementById("mist-overlay");
+
+window.addEventListener("scroll", () => {
+  const scrollPercentage = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  mistOverlay.style.height = `${scrollPercentage * 100}vh`; // Adjust as needed
+  mistOverlay.style.opacity = scrollPercentage * 0.7; // Adjust opacity
 });
 
-// Local Storage for Donors
-let registeredDonors = JSON.parse(localStorage.getItem("donors")) || [];
-let bloodInventory = JSON.parse(localStorage.getItem("bloodInventory")) || {};
+// Mouse Glow Effect
+const mouseGlow = document.getElementById("mouse-glow");
 
-const saveDonors = () => {
-  localStorage.setItem("donors", JSON.stringify(registeredDonors));
-};
+document.addEventListener("mousemove", (e) => {
+  mouseGlow.style.left = `${e.clientX}px`;
+  mouseGlow.style.top = `${e.clientY}px`;
+  mouseGlow.style.opacity = 1;
+});
 
-const saveBloodInventory = () => {
-  localStorage.setItem("bloodInventory", JSON.stringify(bloodInventory));
-};
+document.addEventListener("mouseleave", () => {
+  mouseGlow.style.opacity = 0;
+});
 
-const updateDonorList = () => {
+
+// Donor Registration and Letter Generation
+const donors = JSON.parse(localStorage.getItem("transylvaniaDonors")) || [];
+const bloodInventory = JSON.parse(localStorage.getItem("bloodInventory")) || {};
+
+function updateDonorList() {
   const donorList = document.getElementById("donor-list");
   const noDonorsMessage = document.getElementById("no-donors-message");
   donorList.innerHTML = ""; // Clear existing list
 
-  if (registeredDonors.length === 0) {
+  if (donors.length === 0) {
     noDonorsMessage.style.display = "block";
   } else {
     noDonorsMessage.style.display = "none";
-    registeredDonors.forEach((donor) => {
+    donors.forEach((donor, index) => {
       const listItem = document.createElement("li");
-      listItem.innerHTML = `<strong>${donor.name}</strong> (${donor.group})`;
+      listItem.style.cssText = `
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px dashed #550000;
+            `;
+      listItem.innerHTML = `
+                <span style="color: #f5f5f5;"><i class="fas fa-user-circle" style="color: #e60000; margin-right: 8px;"></i>${donor.name} (${donor.group})</span>
+                <button onclick="removeDonor(${index})" style="background-color: #770000; width: auto; padding: 5px 10px; margin-top: 0; font-size: 0.8em;">Remove</button>
+            `;
       donorList.appendChild(listItem);
     });
   }
-};
+}
 
-const updateBloodInventory = () => {
+function updateBloodInventory() {
   const inventorySummary = document.getElementById("inventory-summary");
   let summaryText = "";
-  let isEmpty = true;
+  let hasData = false;
 
   for (const group in bloodInventory) {
     if (bloodInventory[group] > 0) {
       summaryText += `${group}: ${bloodInventory[group]} units<br>`;
-      isEmpty = false;
+      hasData = true;
     }
   }
 
-  if (isEmpty) {
-    inventorySummary.innerHTML = "No blood data available.";
+  if (!hasData) {
+    inventorySummary.textContent = "No blood data available.";
   } else {
     inventorySummary.innerHTML = summaryText;
   }
-};
+}
 
-const clearAllDonors = () => {
-  if (confirm("Are you sure you want to clear all donor data?")) {
-    registeredDonors = [];
-    bloodInventory = {};
-    saveDonors();
-    saveBloodInventory();
-    updateDonorList();
-    updateBloodInventory();
-    alert("All local donor data has been cleared.");
-  }
-};
+function removeDonor(index) {
+  const removedDonorGroup = donors[index].group;
+  donors.splice(index, 1);
+  localStorage.setItem("transylvaniaDonors", JSON.stringify(donors));
 
-// Modified submitDonor function
-const submitDonor = () => {
-  const nameInput = document.getElementById("name");
-  const groupSelect = document.getElementById("group");
-  const outputDiv = document.getElementById("output");
-  const donationConfirmationBox = document.getElementById(
-    "donation-confirmation-box"
-  );
-  const letterSection = document.getElementById("letter"); // Get the letter section
-
-  const donorName = nameInput.value.trim();
-  const bloodGroup = groupSelect.value;
-
-  if (donorName) {
-    const newDonor = { name: donorName, group: bloodGroup };
-    registeredDonors.push(newDonor);
-    saveDonors();
-    updateDonorList();
-
-    // Update blood inventory
-    bloodInventory[bloodGroup] = (bloodInventory[bloodGroup] || 0) + 1;
-    saveBloodInventory();
-    updateBloodInventory();
-
-    // Show "YOU ARE VERY BLOODYLICIOUS" message
-    if (chimeSound && isSoundOn) {
-      chimeSound.currentTime = 0;
-      chimeSound.play().catch((e) => console.error("Chime sound play failed:", e));
+  // Decrease blood count in inventory
+  if (bloodInventory[removedDonorGroup]) {
+    bloodInventory[removedDonorGroup]--;
+    if (bloodInventory[removedDonorGroup] < 0) {
+      bloodInventory[removedDonorGroup] = 0; // Prevent negative
     }
-    donationConfirmationBox.classList.add("show");
-    setTimeout(() => {
-      donationConfirmationBox.classList.remove("show");
-    }, 4000); // Hide after 4 seconds
-
-    // Construct and display the letter with typing effect
-    const letterContent = `Dear ${donorName},\n\nWe extend our deepest gratitude for your generous contribution to the Transylvania Blood Network. Your vital essence flows through our ancient veins, nourishing the very spirit of our land. Your courage is truly admirable, and your donation ensures the continuation of life, both seen and unseen.\n\nMay your nights be long and your dreams... eternal.\n\nWith profound appreciation,\nThe Transylvania Blood Network`;
-
-    outputDiv.innerHTML = ""; // Clear previous content
-    let i = 0;
-    const typingInterval = 50; // Milliseconds per character
-
-    if (typingSound && isSoundOn) {
-      typingSound.currentTime = 0;
-      typingSound.play().catch((e) => console.error("Typing sound play failed:", e));
-    }
-
-    const typeWriter = () => {
-      if (i < letterContent.length) {
-        outputDiv.innerHTML += letterContent.charAt(i);
-        i++;
-        setTimeout(typeWriter, typingInterval);
-      } else {
-        if (typingSound) typingSound.pause(); // Stop typing sound when done
-        outputDiv.classList.remove("typing-cursor");
-      }
-    };
-    outputDiv.classList.add("typing-cursor"); // Add cursor class
-    typeWriter();
-
-    // Scroll to the letter section
-    letterSection.scrollView({ behavior: "smooth" });
-
-    nameInput.value = ""; // Clear the input field after submission
-  } else {
-    alert("Please enter your name to become a donor.");
+    localStorage.setItem("bloodInventory", JSON.stringify(bloodInventory));
   }
-};
 
-// Initialize donor list and blood inventory on page load
-document.addEventListener("DOMContentLoaded", () => {
   updateDonorList();
   updateBloodInventory();
-});
+}
 
-// Vampire Facts
+function clearAllDonors() {
+  if (confirm("Are you sure you want to clear all registered donors and blood inventory? This action cannot be undone.")) {
+    localStorage.removeItem("transylvaniaDonors");
+    localStorage.removeItem("bloodInventory");
+    donors.length = 0; // Clear the array reference
+    for (const group in bloodInventory) {
+      delete bloodInventory[group]; // Clear inventory object
+    }
+    updateDonorList();
+    updateBloodInventory();
+  }
+}
+
+// Function to simulate typing effect
+function typeWriterEffect(element, text, speed) {
+  let i = 0;
+  element.textContent = ""; // Clear existing content
+  element.classList.add("typing-cursor"); // Add typing cursor
+
+  function type() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      if (isSoundOn) {
+        // Play typing sound only if it's not already playing or has finished
+        if (typingSound.paused || typingSound.ended) {
+          typingSound.currentTime = 0; // Rewind to start
+          typingSound.play().catch((e) => console.error("Typing sound play failed:", e));
+        }
+      }
+      setTimeout(type, speed);
+    } else {
+      element.classList.remove("typing-cursor"); // Remove cursor
+      if (typingSound) typingSound.pause(); // Stop typing sound when done
+    }
+  }
+  type();
+}
+
+
+function submitDonor() {
+  const nameInput = document.getElementById("name");
+  const groupSelect = document.getElementById("group");
+  const name = nameInput.value.trim();
+  const group = groupSelect.value;
+  const outputDiv = document.getElementById("output");
+  const letterSection = document.getElementById("letter"); // Get the letter section
+
+  if (name && group) {
+    const newDonor = { name: name, group: group };
+    donors.push(newDonor);
+    localStorage.setItem("transylvaniaDonors", JSON.stringify(donors));
+
+    // Update blood inventory
+    bloodInventory[group] = (bloodInventory[group] || 0) + 1;
+    localStorage.setItem("bloodInventory", JSON.stringify(bloodInventory));
+
+    updateDonorList();
+    updateBloodInventory();
+
+    const letterContent = `Dearest ${name},
+
+The crimson moon beckons, and your generosity resonates through the ancient halls of Transylvania. Your offering of ${group} blood is a vital essence to our network, ensuring the continued vitality of those who dwell in the shadows and light.
+
+Your courage is noted, and your spirit, truly... *bloodylicious*.
+
+We await your next benevolent visit under the shroud of night.
+
+With eternal gratitude and a thirst for more,
+
+Count Vladislaus and The Transylvania Blood Network`;
+
+    typeWriterEffect(outputDiv, letterContent, 50);
+
+    // Show confirmation box
+    const confirmationBox = document.getElementById("donation-confirmation-box");
+    confirmationBox.classList.add("show");
+    setTimeout(() => {
+      confirmationBox.classList.remove("show");
+    }, 5000); // Hide after 5 seconds
+
+    // Play chime sound
+    if (isSoundOn) {
+      if (chimeSound) {
+        chimeSound.currentTime = 0;
+        chimeSound.play().catch((e) => console.error("Chime sound play failed:", e));
+      }
+    }
+
+    // Scroll to the letter section
+    letterSection.scrollIntoView({ behavior: "smooth" });
+
+    // Clear input fields after submission
+    nameInput.value = "";
+    groupSelect.value = "A+"; // Reset to default
+  } else {
+    outputDiv.textContent = "Please enter your name and select your blood group to generate your letter.";
+  }
+}
+
+// Initial load for donor list and inventory
+updateDonorList();
+updateBloodInventory();
+
+
+// Transylvanian Secrets & Cravings (Facts & Compatibility)
 const vampireFacts = [
-  "Vampires are mythical beings who subsist by feeding on the life essence (generally in the form of blood) of living creatures.",
-  "The most famous vampire is Count Dracula from Bram Stoker's 1897 novel 'Dracula'.",
-  "Vampires are often depicted as immortal, able to transform into bats or mist, and possessing superhuman strength.",
-  "Garlic, holy water, sunlight, and a wooden stake through the heart are common weaknesses of vampires.",
-  "The word 'vampire' entered the English language in 1734, after a wave of vampire hysteria in Eastern Europe.",
-  "Some folklore suggests vampires cannot cross running water or enter a home without an invitation.",
-  "The first recorded vampire stories date back to ancient Mesopotamian and Hebrew mythologies.",
-  "In some cultures, a 'vampire' could be a revenant, a deceased person returning to harm the living.",
-  "The pallid appearance of vampires in folklore might stem from observations of decaying corpses.",
+  "Vampires are often depicted as having a strong aversion to garlic.",
+  "The word 'vampire' first appeared in English in 1734.",
+  "Some folklore suggests vampires can only enter a home if invited.",
+  "Bram Stoker's Dracula was published in 1897.",
+  "In many cultures, a stake through the heart is a traditional way to kill a vampire.",
+  "Vampires are typically nocturnal creatures, avoiding sunlight.",
+  "The bat is a common animal associated with vampires, due to their nocturnal nature and blood-feeding habits (in some species).",
+  "Before the word 'vampire' became popular, creatures like the 'strigoi' (Romania) or 'upyr' (Slavic) were known.",
+  "Reflections in mirrors are said to not appear for vampires.",
+  "Vlad the Impaler, a historical figure, is often associated with the inspiration for Dracula.",
 ];
 
-const displayRandomVampireFact = () => {
+function displayRandomVampireFact() {
   const factOutput = document.getElementById("vampire-fact-output");
   const randomIndex = Math.floor(Math.random() * vampireFacts.length);
-  factOutput.textContent = vampireFacts[randomIndex];
+  const fact = vampireFacts[randomIndex];
+  factOutput.textContent = fact;
+
+  if (isSoundOn) {
+    if (chimeSound) {
+      chimeSound.currentTime = 0; // Rewind to start
+      chimeSound.play().catch((e) => console.error("Chime sound play failed:", e));
+    }
+  }
+}
+
+const bloodCravingCompatibility = {
+  "A+": "Craves sophisticated, well-balanced meals. Pairs well with a fine chianti.",
+  "A-": "Prefers rare, earthy flavors. A robust, gamey taste will satisfy.",
+  "B+": "Enjoys exotic and spicy concoctions. A hint of adventure is key.",
+  "B-": "Desires something unique and often misunderstood. A bit of bitterness can be intriguing.",
+  "AB+": "An adaptable palate, can enjoy almost anything. Perhaps a touch of metallic tang for variety.",
+  "AB-": "A mysterious craving for the unconventional. Hints of the supernatural often accompany this desire.",
+  "O+": "A universal hunger for rich, hearty sustenance. Comforting and familiar is often best.",
+  "O-": "The most ancient craving, pure and unadulterated. The essence of life itself.",
 };
 
-// Blood Craving Compatibility
-const bloodCravings = {
-  "A+": "Craves clarity and intellectual stimulation.",
-  "A-": "Desires solitude and deep contemplation.",
-  "B+": "Longs for adventure and new experiences.",
-  "B-": "Seeks independence and unconventional paths.",
-  "AB+": "A balanced hunger for knowledge and connection.",
-  "AB-": "A mysterious craving for the unknown and hidden truths.",
-  "O+": "Yearns for strength and leadership.",
-  "O-": "Pines for universal understanding and ancient power.",
-};
-
-const getBloodCraving = () => {
+function getBloodCraving() {
   const cravingGroup = document.getElementById("craving-group").value;
   const cravingOutput = document.getElementById("craving-output");
-  cravingOutput.textContent = bloodCravings[cravingGroup];
-};
+  cravingOutput.textContent = bloodCravingCompatibility[cravingGroup] || "No specific craving known for this type.";
 
-// Catch Vlad Game
+  if (isSoundOn) {
+    if (chimeSound) {
+      chimeSound.currentTime = 0; // Rewind to start
+      chimeSound.play().catch((e) => console.error("Chime sound play failed:", e));
+    }
+  }
+}
+
+// Bat Catcher Game
 const gameArea = document.getElementById("game-area");
 const scoreDisplay = document.getElementById("score-display");
 const timerDisplay = document.getElementById("timer-display");
 const gameStartButton = document.getElementById("game-start-button");
-// evilLaughSound and wolfHowlSound are already defined globally
 
 let score = 0;
 let timeLeft = 30;
-let gameTimer;
-let vladInterval;
+let gameInterval;
+let batTimeout;
 let isGameRunning = false;
 
-const vladImageSrc = "Vlad_Tepes_002.jpg"; // Make sure you have this image in your project folder
-
-const spawnVlad = () => {
+function createVlad() {
   if (!isGameRunning) return;
 
   const vlad = document.createElement("img");
-  vlad.src = vladImageSrc;
-  vlad.alt = "Vlad Tepes";
-  vlad.classList.add("game-bat");
+  vlad.src = "Vlad_Tepes_002.jpg"; // Your Vlad image
+  vlad.className = "game-bat";
   gameArea.appendChild(vlad);
 
   const maxX = gameArea.clientWidth - vlad.offsetWidth;
   const maxY = gameArea.clientHeight - vlad.offsetHeight;
 
-  // Ensure Vlad is within bounds and not too close to edges
-  let randomX = Math.random() * maxX;
-  let randomY = Math.random() * maxY;
-
-  // Add a small buffer from edges if necessary
-  randomX = Math.max(0, Math.min(randomX, maxX));
-  randomY = Math.max(0, Math.min(randomY, maxY));
+  const randomX = Math.floor(Math.random() * maxX);
+  const randomY = Math.floor(Math.random() * maxY);
 
   vlad.style.left = `${randomX}px`;
   vlad.style.top = `${randomY}px`;
 
-  vlad.onclick = () => {
-    score++;
-    scoreDisplay.textContent = `Score: ${score}`;
-    vlad.remove(); // Remove Vlad immediately after being clicked
-    if (isSoundOn && wolfHowlSound) {
-      wolfHowlSound.currentTime = 0;
-      wolfHowlSound.play().catch((e) => console.error("Wolf howl sound play failed:", e));
+  vlad.addEventListener("click", () => {
+    if (isGameRunning) {
+      score++;
+      scoreDisplay.textContent = `Score: ${score}`;
+      vlad.remove(); // Remove clicked Vlad
+      clearTimeout(batTimeout); // Clear timeout for current Vlad
+      spawnNewVlad(); // Immediately spawn a new one
     }
-  };
+  });
 
-  // Remove Vlad after a short time if not clicked
-  setTimeout(() => {
+  // Remove Vlad if not clicked within a time (makes game harder)
+  batTimeout = setTimeout(() => {
     if (vlad.parentNode === gameArea) {
       vlad.remove();
+      spawnNewVlad(); // Spawn a new one even if not clicked
     }
-  }, 1500); // Vlad stays for 1.5 seconds
-};
+  }, 1500 - (score * 10)); // Make it faster as score increases, min 500ms
+}
 
-const startGame = () => {
+function spawnNewVlad() {
+  const existingVlad = gameArea.querySelector(".game-bat");
+  if (existingVlad) {
+    existingVlad.remove();
+  }
+  createVlad();
+}
+
+function startGame() {
   score = 0;
   timeLeft = 30;
   isGameRunning = true;
-  scoreDisplay.textContent = "Score: 0";
-  timerDisplay.textContent = "Time: 30s";
-  gameArea.innerHTML = ""; // Clear any existing Vlads
-  gameStartButton.disabled = true;
+  scoreDisplay.textContent = `Score: ${score}`;
+  timerDisplay.textContent = `Time: ${timeLeft}s`;
+  gameStartButton.textContent = "Game In Progress...";
   gameStartButton.classList.add("disabled");
-  if (isSoundOn && evilLaughSound) {
-    evilLaughSound.currentTime = 0;
-    evilLaughSound.play().catch((e) => console.error("Evil laugh sound play failed:", e));
+  gameStartButton.disabled = true;
+
+  if (isSoundOn && wolfHowlSound) {
+    wolfHowlSound.currentTime = 0;
+    wolfHowlSound.play().catch((e) => console.error("Wolf howl sound play failed:", e));
   }
 
-  gameTimer = setInterval(() => {
+
+  spawnNewVlad();
+
+  gameInterval = setInterval(() => {
     timeLeft--;
     timerDisplay.textContent = `Time: ${timeLeft}s`;
+
     if (timeLeft <= 0) {
       endGame();
     }
   }, 1000);
+}
 
-  vladInterval = setInterval(spawnVlad, 800); // Spawn Vlad every 0.8 seconds
-};
-
-const endGame = () => {
-  clearInterval(gameTimer);
-  clearInterval(vladInterval);
+function endGame() {
+  clearInterval(gameInterval);
+  clearTimeout(batTimeout);
   isGameRunning = false;
-  gameStartButton.disabled = false;
+  gameArea.innerHTML = ""; // Clear any remaining Vlads
+  gameStartButton.textContent = "Start Game!";
   gameStartButton.classList.remove("disabled");
-  timerDisplay.textContent = `Time: 0s - Game Over!`;
-  alert(`Game Over! Your final score is: ${score}`);
-};
+  gameStartButton.disabled = false;
+  timerDisplay.textContent = `Game Over! Final Score: ${score}`;
+
+  if (isSoundOn && evilLaughSound) {
+    evilLaughSound.currentTime = 0;
+    evilLaughSound.play().catch((e) => console.error("Evil laugh sound play failed:", e));
+  }
+}
 
 gameStartButton.addEventListener("click", startGame);
+
+
+// Contact Form Submission
+const contactForm = document.getElementById("contact-form");
+const contactSuccessMessage = document.getElementById("contact-success-message");
+
+contactForm.addEventListener("submit", (e) => {
+  e.preventDefault(); // Prevent default form submission
+
+  const name = document.getElementById("contact-name").value;
+  const email = document.getElementById("contact-email").value;
+  const message = document.getElementById("contact-message").value;
+
+  // In a real application, you would send this data to a server
+  console.log("Contact Form Submission:");
+  console.log(`Name: ${name}`);
+  console.log(`Email: ${email}`);
+  console.log(`Message: ${message}`);
+
+  contactSuccessMessage.textContent = `Thank you, ${name}! Your raven message has been sent to the Count. He will respond in due time... or perhaps, in the dead of night.`;
+  contactSuccessMessage.style.display = "block";
+
+  if (isSoundOn && chimeSound) {
+    chimeSound.currentTime = 0;
+    chimeSound.play().catch((e) => console.error("Chime sound play failed:", e));
+  }
+
+  contactForm.reset(); // Clear the form
+  setTimeout(() => {
+    contactSuccessMessage.style.display = "none";
+  }, 7000); // Hide message after 7 seconds
+});
+
 
 // Vampire Quiz
 const quizQuestions = [
   {
-    question: "What is a traditional weakness of vampires?",
-    options: ["Sunlight", "Chocolate", "Loud noises", "Warm blankets"],
-    answer: "Sunlight",
+    question: "What is a common weakness of vampires in folklore?",
+    options: ["Sunlight", "Chocolate", "Loud noises", "Bright colors"],
+    answer: "Sunlight"
   },
   {
-    question: "Which country is most commonly associated with vampire folklore?",
-    options: ["France", "Romania", "Egypt", "Brazil"],
-    answer: "Romania",
+    question: "Which of these is NOT a traditional way to ward off a vampire?",
+    options: ["Garlic", "Holy water", "Wooden stake", "Silver bullet"],
+    answer: "Silver bullet"
   },
   {
-    question: "What animal is a vampire often depicted transforming into?",
-    options: ["Wolf", "Owl", "Bat", "Cat"],
-    answer: "Bat",
+    question: "Where is Transylvania, the setting for many vampire legends?",
+    options: ["Romania", "Germany", "Ireland", "Italy"],
+    answer: "Romania"
   },
   {
-    question: "What is the name of the famous vampire hunter?",
-    options: ["Van Helsing", "Sherlock Holmes", "James Bond", "Indiana Jones"],
-    answer: "Van Helsing",
+    question: "What animal is often associated with vampires due to its blood-feeding habits?",
+    options: ["Wolf", "Bat", "Owl", "Spider"],
+    answer: "Bat"
   },
   {
-    question: "What does a vampire typically drink?",
-    options: ["Water", "Coffee", "Blood", "Milk"],
-    answer: "Blood",
+    question: "According to some legends, vampires cannot cross running water unless...",
+    options: ["They are carried", "It's moonlight", "They have a human guide", "They are transformed"],
+    answer: "They are carried"
   },
   {
-    question: "Which of these is NOT a common way to kill a vampire in folklore?",
-    options: ["Wooden stake through the heart", "Decapitation", "Silver bullet", "Holy water"],
-    answer: "Silver bullet", // Silver bullets are for werewolves
+    question: "What does the word 'nosferatu' often refer to in vampire lore?",
+    options: ["Undead", "Bloodlust", "Shadow creature", "Night dweller"],
+    answer: "Undead"
   },
   {
-    question: "What time of day are vampires typically most powerful?",
-    options: ["Morning", "Noon", "Dusk", "Night"],
-    answer: "Night",
+    question: "Which of these is a famous vampire hunter?",
+    options: ["Van Helsing", "Sherlock Holmes", "Indiana Jones", "James Bond"],
+    answer: "Van Helsing"
   },
   {
-    question: "What food is said to repel vampires?",
-    options: ["Garlic", "Onions", "Potatoes", "Apples"],
-    answer: "Garlic",
+    question: "Vampires are typically active during which time of day?",
+    options: ["Night", "Morning", "Afternoon", "Dawn"],
+    answer: "Night"
   },
   {
-    question: "In some legends, what must a vampire be invited to do to enter a home?",
-    options: ["Sing a song", "Knock three times", "Be invited", "Bring a gift"],
-    answer: "Be invited",
+    question: "What kind of stake is traditionally used to pierce a vampire's heart?",
+    options: ["Oak", "Ash", "Maple", "Cedar"],
+    answer: "Ash"
   },
   {
-    question: "What famous historical figure is often linked to the Dracula legend?",
-    options: ["Vlad the Impaler", "Genghis Khan", "Julius Caesar", "Cleopatra"],
-    answer: "Vlad the Impaler",
-  },
+    question: "What is the primary sustenance for a vampire?",
+    options: ["Blood", "Human food", "Souls", "Sunlight"],
+    answer: "Blood"
+  }
 ];
 
 let currentQuestionIndex = 0;
-let userAnswers = Array(quizQuestions.length).fill(null); // To store user's selected answers
+let userAnswers = [];
 
 const quizContainer = document.getElementById("quiz-container");
-const quizProgress = document.getElementById("quiz-progress");
+const quizResult = document.getElementById("quiz-result");
+const resultDescription = document.getElementById("result-description");
 const prevQuestionBtn = document.getElementById("prev-question");
 const nextQuestionBtn = document.getElementById("next-question");
 const submitQuizBtn = document.getElementById("submit-quiz");
-const quizResultDiv = document.getElementById("quiz-result");
-const resultDescriptionDiv = document.getElementById("result-description");
+const quizProgress = document.getElementById("quiz-progress");
 
-const loadQuestion = () => {
+
+function loadQuestion() {
   const q = quizQuestions[currentQuestionIndex];
   quizContainer.innerHTML = `
         <div class="quiz-question">
             <p>${q.question}</p>
             <div class="quiz-options">
-                ${q.options
-                  .map(
-                    (option) => `
+                ${q.options.map((option, i) => `
                     <label>
-                        <input type="radio" name="question${currentQuestionIndex}" value="${option}"
-                            ${userAnswers[currentQuestionIndex] === option ? "checked" : ""}>
+                        <input type="radio" name="question${currentQuestionIndex}" value="${option}" ${userAnswers[currentQuestionIndex] === option ? 'checked' : ''}>
                         ${option}
                     </label>
-                `
-                  )
-                  .join("")}
+                `).join('')}
             </div>
         </div>
     `;
+  updateNavigationButtons();
+  updateQuizProgress();
+}
 
-  quizProgress.textContent = `Question ${currentQuestionIndex + 1} of ${
-    quizQuestions.length
-  }`;
+function updateNavigationButtons() {
+  prevQuestionBtn.style.display = currentQuestionIndex > 0 ? "block" : "none";
+  nextQuestionBtn.style.display = currentQuestionIndex < quizQuestions.length - 1 ? "block" : "none";
+  submitQuizBtn.style.display = currentQuestionIndex === quizQuestions.length - 1 ? "block" : "none";
+}
 
-  prevQuestionBtn.style.display = currentQuestionIndex === 0 ? "none" : "block";
-  nextQuestionBtn.style.display =
-    currentQuestionIndex === quizQuestions.length - 1 ? "none" : "block";
-  submitQuizBtn.style.display =
-    currentQuestionIndex === quizQuestions.length - 1 ? "block" : "none";
+function updateQuizProgress() {
+  quizProgress.textContent = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
+}
 
-  // Add event listeners to radio buttons to save answer immediately
-  quizContainer.querySelectorAll(`input[name="question${currentQuestionIndex}"]`).forEach(radio => {
-    radio.addEventListener('change', (e) => {
-        userAnswers[currentQuestionIndex] = e.target.value;
-    });
-  });
-};
-
-const nextQuestion = () => {
-  // Save the current answer before moving
-  const selectedOption = document.querySelector(
-    `input[name="question${currentQuestionIndex}"]:checked`
-  );
+function collectAnswer() {
+  const selectedOption = document.querySelector(`input[name="question${currentQuestionIndex}"]:checked`);
   if (selectedOption) {
     userAnswers[currentQuestionIndex] = selectedOption.value;
   }
+}
 
+nextQuestionBtn.addEventListener("click", () => {
+  collectAnswer();
   if (currentQuestionIndex < quizQuestions.length - 1) {
     currentQuestionIndex++;
     loadQuestion();
   }
-};
+});
 
-const prevQuestion = () => {
-  // Save the current answer before moving back
-  const selectedOption = document.querySelector(
-    `input[name="question${currentQuestionIndex}"]:checked`
-  );
-  if (selectedOption) {
-    userAnswers[currentQuestionIndex] = selectedOption.value;
-  }
-
+prevQuestionBtn.addEventListener("click", () => {
+  collectAnswer();
   if (currentQuestionIndex > 0) {
     currentQuestionIndex--;
     loadQuestion();
   }
-};
+});
 
-const submitQuiz = () => {
-    // Ensure the last answer is saved
-    const selectedOption = document.querySelector(
-        `input[name="question${currentQuestionIndex}"]:checked`
-    );
-    if (selectedOption) {
-        userAnswers[currentQuestionIndex] = selectedOption.value;
-    }
-
+submitQuizBtn.addEventListener("click", () => {
+  collectAnswer(); // Collect answer for the last question
   let correctAnswers = 0;
   for (let i = 0; i < quizQuestions.length; i++) {
     if (userAnswers[i] === quizQuestions[i].answer) {
@@ -572,33 +654,38 @@ const submitQuiz = () => {
   }
 
   const scorePercentage = (correctAnswers / quizQuestions.length) * 100;
-  let resultText = `You answered ${correctAnswers} out of ${quizQuestions.length} questions correctly.`;
-  let descriptionText = "";
+  quizResult.textContent = `You answered ${correctAnswers} out of ${quizQuestions.length} questions correctly! (${scorePercentage.toFixed(0)}%)`;
 
+  let description = "";
   if (scorePercentage >= 90) {
-    descriptionText = "You are a true creature of the night! A master vampire!";
+    description = "You are a true child of the night, a master of vampire lore! Count Dracula would be proud.";
+    if (isSoundOn && evilLaughSound) {
+      evilLaughSound.currentTime = 0;
+      evilLaughSound.play().catch((e) => console.error("Evil laugh sound play failed:", e));
+    }
   } else if (scorePercentage >= 70) {
-    descriptionText = "You have strong vampire tendencies. Beware the sun!";
-  } else if (scorePercentage >= 40) {
-    descriptionText =
-      "You're a human with a peculiar interest in the occult. Keep learning!";
+    description = "You possess a good understanding of vampire ways. Perhaps a distant relative of the noble bloodlines?";
+  } else if (scorePercentage >= 50) {
+    description = "You're learning the ropes of the nocturnal world. Keep exploring the shadows!";
   } else {
-    descriptionText = "You're definitely human. Perhaps too much sunlight?";
+    description = "Beware the darkness, young one. Your vampire knowledge needs much more... blood and research!";
   }
+  resultDescription.textContent = description;
 
-  quizResultDiv.textContent = resultText;
-  resultDescriptionDiv.textContent = descriptionText;
-};
+  // Hide navigation and submit buttons after quiz submission
+  prevQuestionBtn.style.display = "none";
+  nextQuestionBtn.style.display = "none";
+  submitQuizBtn.style.display = "none";
 
-// Event listeners for quiz navigation
-prevQuestionBtn.addEventListener("click", prevQuestion);
-nextQuestionBtn.addEventListener("click", nextQuestion);
-submitQuizBtn.addEventListener("click", submitQuiz);
+  if (isSoundOn && chimeSound) {
+    chimeSound.currentTime = 0;
+    chimeSound.play().catch((e) => console.error("Chime sound play failed:", e));
+  }
+});
 
-// Load the first question when the page loads
-document.addEventListener("DOMContentLoaded", loadQuestion);
+loadQuestion(); // Load the first question when the page loads
 
-// Countdown Timer
+// Transformation Countdown
 const daysSpan = document.getElementById("days");
 const hoursSpan = document.getElementById("hours");
 const minutesSpan = document.getElementById("minutes");
@@ -606,68 +693,51 @@ const secondsSpan = document.getElementById("seconds");
 const countdownMessage = document.getElementById("countdown-message");
 
 let countdownInterval;
-let targetDate; // This will be set for the actual countdown
+let targetDate; // Will be set by startDemoCountdown or a real mechanism
 
-// Demo function for countdown (for testing)
-const startDemoCountdown = () => {
-  // Set target date to 3 days from now for demonstration
-  targetDate = new Date();
-  targetDate.setDate(targetDate.getDate() + 3); // 3 days from now
-  targetDate.setHours(targetDate.getHours() + 5); // Plus 5 hours
-  targetDate.setMinutes(targetDate.getMinutes() + 10); // Plus 10 minutes
-  targetDate.setSeconds(targetDate.getSeconds() + 30); // Plus 30 seconds
-
-  countdownMessage.textContent = "Your transformation countdown has begun...";
-  if (countdownInterval) clearInterval(countdownInterval); // Clear any existing interval
-
-  countdownInterval = setInterval(updateCountdown, 1000);
-};
-
-const updateCountdown = () => {
+function updateCountdown() {
   const now = new Date().getTime();
   const distance = targetDate - now;
 
   if (distance < 0) {
     clearInterval(countdownInterval);
-    countdownMessage.textContent = "The blood moon rises! Transformation complete!";
-    countdownMessage.classList.add('countdown-finished');
+    countdownMessage.textContent = "The Blood Moon is upon us! Transformation complete!";
+    countdownMessage.classList.add("countdown-finished");
     daysSpan.textContent = "00";
     hoursSpan.textContent = "00";
     minutesSpan.textContent = "00";
     secondsSpan.textContent = "00";
+
+    if (isSoundOn && evilLaughSound) {
+      evilLaughSound.currentTime = 0;
+      evilLaughSound.play().catch((e) => console.error("Evil laugh sound play failed:", e));
+    }
     return;
   }
 
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
-    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  daysSpan.textContent = String(days).padStart(2, "0");
-  hoursSpan.textContent = String(hours).padStart(2, "0");
-  minutesSpan.textContent = String(minutes).padStart(2, "0");
-  secondsSpan.textContent = String(seconds).padStart(2, "0");
-};
+  daysSpan.textContent = String(days).padStart(2, '0');
+  hoursSpan.textContent = String(hours).padStart(2, '0');
+  minutesSpan.textContent = String(minutes).padStart(2, '0');
+  secondsSpan.textContent = String(seconds).padStart(2, '0');
 
-// Contact Form
-const contactForm = document.getElementById("contact-form");
-const contactSuccessMessage = document.getElementById("contact-success-message");
+  countdownMessage.textContent = "Register as a donor to begin your mystical transformation countdown...";
+  countdownMessage.classList.remove("countdown-finished");
+}
 
-contactForm.addEventListener("submit", (e) => {
-  e.preventDefault(); // Prevent default form submission
+function startDemoCountdown() {
+  // Set a target date, e.g., 3 days from now
+  const now = new Date();
+  targetDate = new Date(now.getTime() + (3 * 24 * 60 * 60 * 1000) + (5 * 60 * 1000)); // 3 days and 5 minutes for demo
 
-  // In a real application, you would send this data to a server
-  // For this demo, we'll just show a success message
-  contactSuccessMessage.textContent = "Your raven message has been sent!";
-  contactSuccessMessage.style.display = "block";
+  clearInterval(countdownInterval); // Clear any existing interval
+  countdownInterval = setInterval(updateCountdown, 1000);
+  updateCountdown(); // Call immediately to avoid 1-second delay
+}
 
-  // Clear the form
-  contactForm.reset();
-
-  // Hide the message after a few seconds
-  setTimeout(() => {
-    contactSuccessMessage.style.display = "none";
-  }, 5000);
-});
+// Ensure that startDemoCountdown is called on DOMContentLoaded
+// It's already called in the DOMContentLoaded listener at the top of the file.
