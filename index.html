@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Cinzel Decorative', serif;
-            background-color: black;/*schimb aici*/
+            background-color: #0d0d0d;
             color: #f5f5f5;
             overflow-x: hidden;
             position: relative;
@@ -32,6 +32,75 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
             z-index: -1;
+        }
+
+        /* NEW: Initial Welcome Overlay Styles */
+        #initial-welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Foarte întunecat */
+            z-index: 100000; /* Extrem de mare pentru a fi deasupra la tot */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #f5f5f5;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+            visibility: visible;
+        }
+
+        #initial-welcome-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Dezactivează interacțiunile când este ascuns */
+        }
+
+        #initial-welcome-overlay .welcome-image {
+            max-width: 80%;
+            max-height: 50vh; /* Ajustează după nevoie */
+            border: 3px solid #e60000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            object-fit: contain; /* Asigură că imaginea se potrivește bine */
+        }
+
+        #initial-welcome-overlay h2 {
+            color: #e60000;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+
+        #initial-welcome-overlay p {
+            font-size: 1.2em;
+            color: #ccc;
+            margin-bottom: 40px;
+            font-family: 'Dancing Script', cursive; /* Un pic mai sinistru */
+        }
+
+        #initial-welcome-overlay button {
+            background-color: #e60000;
+            color: #f5f5f5;
+            padding: 15px 30px;
+            border: 2px solid #ff3333;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.3em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        #initial-welcome-overlay button:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
         }
 
         header {
@@ -101,7 +170,8 @@
 
         input,
         select,
-        button {
+        button,
+        textarea {
             padding: 12px;
             margin-top: 10px;
             width: calc(100% - 24px);
@@ -115,7 +185,8 @@
         }
 
         input:focus,
-        select:focus {
+        select:focus,
+        textarea:focus {
             outline: none;
             border-color: #ff3333;
             box-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
@@ -147,13 +218,9 @@
         /* New styles for handwriting effect */
         #output {
             font-family: 'Dancing Script', cursive;
-            /* Apply handwriting font */
             font-size: 1.5em;
-            /* Make it larger for better readability */
             color: #ccc;
-            /* Slightly lighter color for the letter text */
             min-height: 200px;
-            /* Ensure enough space for the letter */
         }
 
         /* Typing cursor effect */
@@ -274,7 +341,6 @@
             bottom: 20px;
             left: 20px;
             background-color: #f5f5f5;
-            /* Changed to white for better contrast with red glow */
             border: none;
             border-radius: 50%;
             width: 60px;
@@ -284,14 +350,12 @@
             justify-content: center;
             align-items: center;
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-            /* Red glow for button */
             z-index: 200;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
         }
 
         #sound-toggle-button:hover {
             background-color: #e0e0e0;
-            /* Lighter grey for hover effect */
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
         }
@@ -334,7 +398,7 @@
         /* Style for the game target image (now Vlad) */
         .game-bat {
             position: absolute;
-            width: 80px; /* Increased for better visibility of Vlad */
+            width: 80px;
             height: auto;
             cursor: pointer;
             transition: transform 0.1s ease-out;
@@ -355,7 +419,6 @@
 
         #game-start-button {
             background-color: #008000;
-            /* Green for start */
             transition: background-color 0.3s ease;
         }
 
@@ -368,9 +431,66 @@
             cursor: not-allowed;
         }
 
+        /* Transition Overlay Styles (for game) */
+        #transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('dracula.jpeg');
+            background-size: cover;
+            background-position: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        /* Contact Form specific styles */
+        #contact-us form label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #e60000;
+            font-weight: bold;
+        }
+        #contact-us textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        #contact-us .success-message {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(0, 128, 0, 0.3);
+            border: 1px solid #008000;
+            border-radius: 5px;
+            color: #f5f5f5;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+
 
         /* Responsive design */
         @media (max-width: 768px) {
+            #initial-welcome-overlay .welcome-image {
+                max-width: 90%;
+                max-height: 40vh;
+                margin-bottom: 20px;
+            }
+            #initial-welcome-overlay h2 {
+                font-size: 1.8em;
+            }
+            #initial-welcome-overlay p {
+                font-size: 1em;
+                padding: 0 15px;
+            }
+            #initial-welcome-overlay button {
+                font-size: 1em;
+                padding: 12px 25px;
+            }
+
             header {
                 font-size: 24px;
                 flex-direction: column;
@@ -412,9 +532,18 @@
 </head>
 
 <body>
+    <div id="initial-welcome-overlay">
+        <img src="dracula.jpeg" alt="Dracula Welcome" class="welcome-image">
+        <h2>Welcome to the Transylvania Blood Network.</h2>
+        <p>Prepare to delve into the shadows...</p>
+        <button id="enter-site-button">Enter at Your Own Risk</button>
+    </div>
+
     <div id="bat-container"></div>
     <div id="mouse-glow"></div>
     <div class="mist-overlay" id="mist-overlay"></div>
+
+    <div id="transition-overlay"></div>
 
     <audio id="bat-sound" loop>
         <source src="Toccata-and-fugue-in-d-minor.mp3" type="audio/mp3">
@@ -434,6 +563,10 @@
         <source src="wolf-howl.mp3" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
+    <audio id="evil-laugh-sound">
+        <source src="evil-laugh-89423.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
 
 
     <header>
@@ -448,6 +581,7 @@
         <a href="#facts-cravings">Secrets</a>
         <a href="#bat-catcher-game">Catch Vlad!</a>
         <a href="#letter">Your Letter</a>
+        <a href="#contact-us">Contact</a>
         <a href="#about">About</a>
     </nav>
 
@@ -479,7 +613,7 @@
 
     <section id="registered-donors">
         <h2>Registered Donors & Blood Inventory</h2>
-        <div id="donor-list-container" style="max-height: 300px; overflow-y: auto; border: 1px solid #e60000; padding: 10px; border-radius: 5px;">
+        <div id="donor-list-container" style="max-height: 300px; overflow-y: auto; border: 1px solid #e60000; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
             <p id="no-donors-message" style="text-align: center; color: #ccc;">No donors registered yet.</p>
             <ul id="donor-list" style="list-style-type: none; padding: 0;">
                 </ul>
@@ -488,7 +622,7 @@
             <h3>Current Blood Inventory:</h3>
             <p id="inventory-summary" style="color: #f5f5f5;">No blood data available.</p>
         </div>
-        <button onclick="clearAllDonors()" style="background-color: #550000;">Clear All Donors (Local)</button>
+        <button onclick="clearAllDonors()" style="margin-top: 20px; background-color: #550000;">Clear All Donors (Local)</button>
     </section>
 
     <section id="facts-cravings">
@@ -498,7 +632,7 @@
         <button onclick="displayRandomVampireFact()">Reveal a Secret</button>
         <p id="vampire-fact-output" style="margin-top: 15px; font-style: italic; color: #ccc;">Click to uncover ancient truths.</p>
 
-        <h3>Blood Type Craving Compatibility:</h3>
+        <h3 style="margin-top: 30px;">Blood Type Craving Compatibility:</h3>
         <label for="craving-group">Select Blood Type:</label>
         <select id="craving-group">
             <option>A+</option>
@@ -529,6 +663,24 @@
     <section id="letter">
         <h2>Your Letter</h2>
         <div id="output">Fill in your data above to see your letter.</div>
+    </section>
+
+    <section id="contact-us">
+        <h2>Send a Message</h2>
+        <p>Do you have a question, a secret to share, or an eerie suggestion? Send us a raven message!</p>
+        <form id="contact-form">
+            <label for="contact-name">Your Name</label>
+            <input type="text" id="contact-name" placeholder="Enter your name..." required>
+
+            <label for="contact-email">Your Email</label>
+            <input type="email" id="contact-email" placeholder="Enter your email..." required>
+
+            <label for="contact-message">Your Message</label>
+            <textarea id="contact-message" placeholder="Type your message here..." required></textarea>
+
+            <button type="submit">Send Message</button>
+            <div id="contact-success-message" class="success-message"></div>
+        </form>
     </section>
 
     <section id="about">
@@ -656,35 +808,53 @@
             const letterTemplate = templates[Math.floor(Math.random() * templates.length)];
             const fullText = `Blood Group: ${donorData.group}\nDonor: ${donorData.name || 'Anonymous'}\n\n${letterTemplate}`;
 
-            // Clear previous typing interval if any
-            if (typingInterval) {
-                clearInterval(typingInterval);
-            }
+            // Get the overlay for the game transition
+            const transitionOverlay = document.getElementById('transition-overlay');
 
-            // Reset output and add typing cursor
-            outputDiv.innerText = '';
-            outputDiv.classList.add('typing-cursor');
+            // Show the overlay
+            transitionOverlay.style.visibility = 'visible';
+            transitionOverlay.style.opacity = 1;
 
-            let charIndex = 0;
-            const typingSound = document.getElementById('typing-sound');
-            typingSound.volume = 0.2; // Adjust typing sound volume
+            // After 1 second, start fading it out and then begin typing
+            setTimeout(() => {
+                transitionOverlay.style.opacity = 0;
+                // Hide it fully after transition completes
+                transitionOverlay.addEventListener('transitionend', function handler() {
+                    transitionOverlay.style.visibility = 'hidden';
+                    transitionOverlay.removeEventListener('transitionend', handler);
+                });
 
-            typingInterval = setInterval(() => {
-                if (charIndex < fullText.length) {
-                    outputDiv.innerText += fullText.charAt(charIndex);
-                    // Play typing sound for each character only if overall sound is enabled
-                    if (isSoundPlaying) { // Check if main sound is active
-                        typingSound.currentTime = 0; // Rewind to start for quick playback
-                        typingSound.play().catch(e => console.log("Typing sound playback failed:", e));
-                    }
-                    charIndex++;
-                } else {
+                // Clear previous typing interval if any
+                if (typingInterval) {
                     clearInterval(typingInterval);
-                    outputDiv.classList.remove('typing-cursor'); // Remove cursor after typing
-                    typingSound.pause(); // Pause typing sound
-                    typingSound.currentTime = 0; // Reset typing sound
                 }
-            }, 50); // Typing speed (milliseconds per character)
+
+                // Reset output and add typing cursor
+                outputDiv.innerText = '';
+                outputDiv.classList.add('typing-cursor');
+
+                let charIndex = 0;
+                const typingSound = document.getElementById('typing-sound');
+                typingSound.volume = 0.2; // Adjust typing sound volume
+
+                typingInterval = setInterval(() => {
+                    if (charIndex < fullText.length) {
+                        outputDiv.innerText += fullText.charAt(charIndex);
+                        // Play typing sound for each character only if overall sound is enabled
+                        if (isSoundPlaying) { // Check if main sound is active
+                            typingSound.currentTime = 0; // Rewind to start for quick playback
+                            typingSound.play().catch(e => console.log("Typing sound playback failed:", e));
+                        }
+                        charIndex++;
+                    } else {
+                        clearInterval(typingInterval);
+                        outputDiv.classList.remove('typing-cursor'); // Remove cursor after typing
+                        typingSound.pause(); // Pause typing sound
+                        typingSound.currentTime = 0; // Reset typing sound
+                    }
+                }, 50); // Typing speed (milliseconds per character)
+
+            }, 1000); // Overlay stays for 1 second before fading out
 
             // Play drip sound only if overall sound is enabled
             if (isSoundPlaying) { // Check if main sound is active
@@ -724,7 +894,16 @@
             "A true Transylvanian vampire always irons his cape before a night out. Wrinkles are simply unacceptable.",
             "The secret to eternal youth? It's not just the blood; it's avoiding direct sunlight and excessive small talk.",
             "If a vampire offers you 'a bite to eat,' always clarify if they mean food or... you.",
-            "Most vampires struggle with modern technology. They still think 'bluetooth' is a dental condition."
+            "Most vampires struggle with modern technology. They still think 'bluetooth' is a dental condition.",
+            "Some vampires claim to be distant relatives of garden gnomes, explaining their sudden urge to stand perfectly still.",
+            "A vampire once tried to open a 'blood bar' but kept misplacing the straws. Business failed.",
+            "The 'undead' part is easy. It's remembering where you left your keys for the last three centuries that's hard.",
+            "If a vampire sneezes, it's called a 'coffin cough.' Very rare, thankfully.",
+            "Vampires are surprisingly good at chess, but only when playing against themselves, in a dimly lit room, whispering strategies to the rook.",
+            "A popular vampire diet hack: 'just skip the sun.' Doctors do NOT recommend.",
+            "The 'sparkly vampire' myth was started by a rogue glitter bomb that hit a perfectly normal, brooding vampire.",
+            "Beware of vampires who claim to be 'gluten-free.' They're just trying to distract you from their real cravings.",
+            "The greatest vampire mystery isn't immortality, it's how they keep their capes so clean while flying through bat caves."
         ];
 
         function displayRandomVampireFact() {
@@ -734,14 +913,14 @@
         }
 
         const cravingCompatibility = {
-            'A+': "You might develop a sudden craving for organic kale smoothies... and the occasional moonlit nap in a dusty attic.",
-            'A-': "Expect an inexplicable desire for strong, dark coffee, preferably brewed over ancient rituals. And maybe a fear of sunlight.",
-            'B+': "You'll find yourself drawn to obscure gothic poetry, obscure art, and the occasional urge to waltz alone in an abandoned ballroom.",
-            'B-': "Prepare for a newfound appreciation for rare steak, dusty tomes, and the subtle art of not blinking. Also, a mild aversion to daylight.",
-            'AB+': "Your inner existentialist will awaken, possibly paired with a craving for deep philosophical debates and the occasional craving for sparkling water... and fear of crucifixes.",
-            'AB-': "You might feel compelled to reorganize your entire home after midnight, develop a love for bats, and a strange distaste for loud noises.",
-            'O+': "A primal urge for exploration in ancient forests might emerge, alongside an appreciation for fresh, raw ingredients. And perhaps, a new sensitivity to garlic.",
-            'O-': "You'll find yourself yearning for ancient castles, moonlit walks, and a profound understanding of shadows. Also, an uncanny ability to find lost keys."
+            'A+': "You might develop a sudden craving for organic kale smoothies... and the occasional moonlit nap in a dusty attic. Also, a strange desire to count grains of sand.",
+            'A-': "Expect an inexplicable desire for strong, dark coffee, preferably brewed over ancient rituals. And maybe a sudden urge to wear only black velvet.",
+            'B+': "You'll find yourself drawn to obscure gothic poetry, obscure art, and the occasional urge to waltz alone in an abandoned ballroom. Don't be surprised if you start collecting antique spoons.",
+            'B-': "Prepare for a newfound appreciation for rare steak, dusty tomes, and the subtle art of not blinking. You might also start talking to your reflection, only to remember you don't have one.",
+            'AB+': "Your inner existentialist will awaken, possibly paired with a craving for deep philosophical debates and the occasional craving for sparkling water... and an intense dislike for direct eye contact.",
+            'AB-': "You might feel compelled to reorganize your entire home after midnight, develop a love for bats, and a strange distaste for loud noises. Also, an uncanny ability to find lost socks.",
+            'O+': "A primal urge for exploration in ancient forests might emerge, alongside an appreciation for fresh, raw ingredients. And perhaps, a new sensitivity to the faint scent of fear.",
+            'O-': "You'll find yourself yearning for ancient castles, moonlit walks, and a profound understanding of shadows. Also, an inexplicable talent for making inanimate objects slightly wobbly."
         };
 
         function getBloodCraving() {
@@ -758,12 +937,12 @@
         const typingSound = document.getElementById('typing-sound');
         const wolfHowlSound = document.getElementById('wolf-howl-sound'); // New sound element
         const dripSound = document.getElementById('drip-sound'); // Used for bat hit sound
+        const evilLaughSound = document.getElementById('evil-laugh-sound'); // Evil Laugh Sound
 
         // JavaScript for flying background bats
         const batContainer = document.getElementById('bat-container');
         const numberOfBats = 7;
-        // IMPORTANT: This image is for the BACKGROUND BATS. We do not change it to Vlad.
-        const backgroundBatImageSrc = 'halloween-flying-bat-sticker-u889c-x450.png';
+        const backgroundBatImageSrc = 'halloween-flying-bat-sticker-u889c-x450.png'; 
 
         for (let i = 0; i < numberOfBats; i++) {
             const startY = Math.random() * window.innerHeight;
@@ -771,8 +950,7 @@
             const endY = Math.random() * window.innerHeight;
 
             const bat = document.createElement('img');
-            // Use the bat image for background bats
-            bat.src = backgroundBatImageSrc;
+            bat.src = backgroundBatImageSrc; 
             bat.classList.add('bat');
             bat.style.setProperty('--startY', startY + 'px');
             bat.style.setProperty('--midY', midY + 'px');
@@ -815,7 +993,7 @@
         });
 
         // Input Field Pulsating Border
-        document.querySelectorAll('input, select').forEach(element => {
+        document.querySelectorAll('input, select, textarea').forEach(element => {
             element.addEventListener('focus', () => {
                 element.style.boxShadow = '0 0 12px rgba(255, 51, 51, 0.8)';
             });
@@ -854,6 +1032,8 @@
                 typingSound.currentTime = 0;
                 wolfHowlSound.pause(); // Stop wolf howl
                 clearInterval(wolfHowlInterval); // Clear wolf howl interval
+                evilLaughSound.pause(); // Stop evil laugh sound
+                evilLaughSound.currentTime = 0; // Reset evil laugh sound
                 soundOffIcon.style.display = 'block';
                 soundOnIcon.style.display = 'none';
                 isSoundPlaying = false;
@@ -904,8 +1084,10 @@
         let batSpawnInterval;
         let gameActive = false;
 
-        // NEW: Image for Vlad in the game
+        // Image for Vlad in the game (normal state)
         const gameTargetImageSrc = 'Vlad_Tepes_002.jpg';
+        // Image for Vlad laughing (THIS FILE MUST EXIST IN YOUR PROJECT FOLDER!)
+        const gameTargetLaughImageSrc = 'Vlad_Tepes_laugh.jpg';
 
         function startGame() {
             if (gameActive) return; // Prevent starting multiple games
@@ -933,19 +1115,17 @@
             batSpawnInterval = setInterval(spawnTarget, 800); // Spawn a target every 0.8 seconds
         }
 
-        function spawnTarget() { // Function name is generic as it now spawns Vlad
+        function spawnTarget() {
             if (!gameActive) return;
 
             const target = document.createElement('img');
-            // Here we use the new image for Vlad
-            target.src = gameTargetImageSrc;
-            target.classList.add('game-bat'); // Keep the class for styling
+            target.src = gameTargetImageSrc; 
+            target.classList.add('game-bat'); 
 
             // Random position within game area
             const gameAreaRect = gameArea.getBoundingClientRect();
-            // Using the increased target size from CSS for calculation
-            const targetWidth = 80;
-            const targetHeight = 80; // Assuming similar height for simplicity
+            const targetWidth = 80; 
+            const targetHeight = 80; 
 
             const randomX = Math.random() * (gameAreaRect.width - targetWidth);
             const randomY = Math.random() * (gameAreaRect.height - targetHeight);
@@ -957,12 +1137,21 @@
                 if (gameActive) {
                     score++;
                     scoreDisplay.textContent = `Score: ${score}`;
-                    target.remove(); // Remove target when clicked
-                    if (isSoundPlaying) { // Play hit sound if overall sound is on
-                        dripSound.currentTime = 0;
-                        dripSound.volume = 0.6;
-                        dripSound.play().catch(e => console.log("Drip sound for hit failed:", e));
+                    
+                    // Play evil laugh sound
+                    if (isSoundPlaying) {
+                        evilLaughSound.currentTime = 0;
+                        evilLaughSound.volume = 0.7; // Adjust volume as needed
+                        evilLaughSound.play().catch(e => console.log("Evil laugh sound playback failed:", e));
                     }
+                    
+                    // Temporarily change to laughing Vlad image
+                    target.src = gameTargetLaughImageSrc;
+                    
+                    // Remove target after a short delay (after laugh animation)
+                    setTimeout(() => {
+                        target.remove();
+                    }, 200); // Short delay for the "mouth move" effect
                 }
             });
 
@@ -989,8 +1178,94 @@
 
         gameStartButton.addEventListener('click', startGame);
 
-        // Initial load: Setup, load donors, and ensure sound is off
+        // --- Contact Form Logic ---
+        const contactForm = document.getElementById('contact-form');
+        const contactSuccessMessage = document.getElementById('contact-success-message');
+
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('contact-name').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
+
+            if (name === '' || email === '' || message === '') {
+                contactSuccessMessage.style.display = 'block';
+                contactSuccessMessage.style.backgroundColor = 'rgba(255, 0, 0, 0.3)'; // Red for error
+                contactSuccessMessage.style.borderColor = '#ff0000';
+                contactSuccessMessage.innerText = 'Please fill in all fields.';
+                return;
+            }
+
+            // Basic email format validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                contactSuccessMessage.style.display = 'block';
+                contactSuccessMessage.style.backgroundColor = 'rgba(255, 0, 0, 0.3)'; // Red for error
+                contactSuccessMessage.style.borderColor = '#ff0000';
+                contactSuccessMessage.innerText = 'Please enter a valid email address.';
+                return;
+            }
+
+
+            // Display success message
+            contactSuccessMessage.style.display = 'block';
+            contactSuccessMessage.style.backgroundColor = 'rgba(0, 128, 0, 0.3)'; // Green for success
+            contactSuccessMessage.style.borderColor = '#008000';
+            contactSuccessMessage.innerHTML = `Message sent successfully! Thank you, ${name}.<br>
+                                               **Note:** In a real website, this message would be processed by a server.`;
+
+            // Clear the form
+            contactForm.reset();
+
+            // Hide the message after a few seconds
+            setTimeout(() => {
+                contactSuccessMessage.style.display = 'none';
+            }, 7000); // Hide after 7 seconds
+        });
+
+
+        // --- Random Glitch Effect Logic ---
+        function activateRandomGlitch() {
+            const body = document.body;
+            // Array of various subtle to more noticeable CSS filters
+            const glitchFilters = [
+                'invert(0.1) hue-rotate(5deg) brightness(1.1)', // Slight color shift, brighter
+                'sepia(0.5) saturate(1.5)',                     // Sepia with more color
+                'grayscale(0.8) contrast(1.2)',                 // Mostly grayscale, high contrast
+                'hue-rotate(20deg) saturate(2)',                // Stronger color shift
+                'blur(0.5px) brightness(1.1)',                  // Very slight blur
+                'contrast(1.5)',                                // Just contrast boost
+                'brightness(1.5)',                              // Just brightness boost
+                'saturate(0.5)',                                // Desaturate
+                'opacity(0.98)',                                // Slight fade, almost imperceptible
+                'none' // Sometimes no effect, for variety
+            ];
+
+            // Pick a random filter from the array
+            const randomFilter = glitchFilters[Math.floor(Math.random() * glitchFilters.length)];
+
+            // Apply the filter with a very quick transition
+            body.style.transition = 'filter 0.05s ease-out';
+            body.style.filter = randomFilter;
+
+            // Remove the filter after a very short delay to create the "glitch" effect
+            setTimeout(() => {
+                body.style.filter = 'none';
+                body.style.transition = 'none'; // Reset transition immediately for next glitch
+            }, 100); // Glitch duration: 100ms
+
+            // Schedule the next glitch at a random interval (between 15 and 30 seconds)
+            const nextGlitchDelay = 15000 + Math.random() * 15000;
+            setTimeout(activateRandomGlitch, nextGlitchDelay);
+        }
+
+
+        // Initial load: Setup, load donors, and manage welcome overlay
         document.addEventListener('DOMContentLoaded', () => {
+            const welcomeOverlay = document.getElementById('initial-welcome-overlay');
+            const enterSiteButton = document.getElementById('enter-site-button');
+
             // Load donors from local storage
             const storedDonors = localStorage.getItem('transylvaniaBloodDonors');
             if (storedDonors) {
@@ -1005,13 +1280,45 @@
                 updateDonorListAndInventory(); // Show initial "No donors" message
             }
 
-            // Ensure sound is off initially
+            // Ensure sound is off initially (it will be turned on if welcome screen plays sound)
             batSound.pause();
             typingSound.pause();
             wolfHowlSound.pause();
+            evilLaughSound.pause(); 
             soundOffIcon.style.display = 'block';
             soundOnIcon.style.display = 'none';
             isSoundPlaying = false; // Explicitly set state
+
+            // Check if the user has visited this session
+            if (sessionStorage.getItem('siteVisited')) {
+                welcomeOverlay.classList.add('hidden'); // Hide it immediately
+            } else {
+                // If not visited, show it and play the evil laugh
+                welcomeOverlay.classList.remove('hidden'); // Ensure it's visible
+                // Set isSoundPlaying to true temporarily just to allow evil laugh on first load
+                // The main sound toggle button will still be in "off" state.
+                isSoundPlaying = true; 
+                evilLaughSound.currentTime = 0;
+                evilLaughSound.volume = 1.0; // Play at full volume
+                evilLaughSound.play().catch(e => console.log("Evil laugh playback failed:", e))
+                    .finally(() => {
+                        // After playing, revert isSoundPlaying to false
+                        // so Toccata doesn't auto-start if user didn't click sound toggle
+                        isSoundPlaying = false; 
+                    });
+
+                enterSiteButton.addEventListener('click', () => {
+                    welcomeOverlay.classList.add('hidden');
+                    sessionStorage.setItem('siteVisited', 'true'); // Mark as visited
+                    if (evilLaughSound && !evilLaughSound.paused) { // Check if still playing
+                        evilLaughSound.pause();
+                        evilLaughSound.currentTime = 0;
+                    }
+                });
+            }
+
+            // Start the random glitch effect loop
+            activateRandomGlitch();
         });
     </script>
 </body>
