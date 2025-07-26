@@ -767,6 +767,7 @@
 
         function toggleBackgroundSound() {
             if (isSoundPlaying) {
+                // Turn sound OFf
                 batSound.pause();
                 batSound.currentTime = 0;
                 typingSound.pause();
@@ -776,6 +777,8 @@
                 soundOffIcon.style.display = 'block';
                 soundOnIcon.style.display = 'none';
                 isSoundPlaying = false;
+                console.log('Sound turned OFF');// Log sound off
+
             } else {
                 batSound.volume = 0.3; // Volume for the Toccata
                 batSound.play().catch(error => {
