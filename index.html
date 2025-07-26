@@ -1,896 +1,1083 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Transylvania Blood Network</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Cinzel Decorative', serif;
-            background-color: #0d0d0d;
-            color: #f5f5f5;
-            overflow-x: hidden;
-            position: relative;
-            background-image: url('https://images.unsplash.com/photo-1542848906-8809e6c38b25?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Cinzel Decorative", serif;
+        background-color: #0d0d0d;
+        color: #f5f5f5;
+        overflow-x: hidden;
+        position: relative;
+        background-image: url("https://images.unsplash.com/photo-1542848906-8809e6c38b25?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      /* Overlay to darken the background image */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: -1;
+      }
+
+      /* NEW: Initial Welcome Overlay Styles */
+      #initial-welcome-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.95); /* Foarte întunecat */
+        z-index: 100000; /* Extrem de mare pentru a fi deasupra la tot */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #f5f5f5;
+        text-align: center;
+        opacity: 1;
+        transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+        visibility: visible;
+      }
+
+      #initial-welcome-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none; /* Dezactivează interacțiunile când este ascuns */
+      }
+
+      #initial-welcome-overlay .welcome-image {
+        max-width: 80%;
+        max-height: 50vh; /* Ajustează după nevoie */
+        border: 3px solid #e60000;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        border-radius: 8px;
+        margin-bottom: 30px;
+        object-fit: contain; /* Asigură că imaginea se potrivește bine */
+      }
+
+      #initial-welcome-overlay h2 {
+        color: #e60000;
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+      }
+
+      #initial-welcome-overlay p {
+        font-size: 1.2em;
+        color: #ccc;
+        margin-bottom: 40px;
+        font-family: "Dancing Script", cursive; /* Un pic mai sinistru */
+      }
+
+      #initial-welcome-overlay button {
+        background-color: #e60000;
+        color: #f5f5f5;
+        padding: 15px 30px;
+        border: 2px solid #ff3333;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.3em;
+        font-weight: bold;
+        letter-spacing: 1px;
+        transition: background-color 0.3s ease, transform 0.2s ease,
+          box-shadow 0.3s ease;
+      }
+
+      #initial-welcome-overlay button:hover {
+        background-color: #cc0000;
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
+      }
+
+      header {
+        background-color: #1a1a1a;
+        padding: 20px;
+        text-align: center;
+        font-size: 32px;
+        color: #e60000;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Styles for logo */
+      .header-logo {
+        height: 80px;
+        width: auto;
+        margin-right: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      }
+
+      nav {
+        background-color: #1a1a1a;
+        padding: 10px;
+        text-align: center;
+        position: sticky;
+        top: 72px; /* Adjusted to be below the header */
+        z-index: 999;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        display: flex; /* Make nav items flexible */
+        justify-content: center; /* Center nav items */
+        align-items: center;
+      }
+
+      nav a {
+        color: #ccc;
+        margin: 0 15px;
+        text-decoration: none;
+        font-size: 1.1em;
+        transition: color 0.3s ease;
+      }
+
+      nav a:hover {
+        color: #e60000;
+      }
+
+      /* New: Chat Icon in Nav */
+      #nav-chat-icon {
+        color: #f5f5f5; /* Culoarea icoanei de chat */
+        font-size: 1.5em;
+        margin-left: 20px; /* Spațiu față de celelalte link-uri */
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      #nav-chat-icon:hover {
+        color: #e60000; /* Culoare la hover */
+      }
+
+      section {
+        padding: 40px;
+        max-width: 700px;
+        margin: auto;
+        line-height: 1.6;
+        background-color: rgba(26, 26, 26, 0.8);
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(230, 0, 0, 0.4);
+        margin-top: 30px;
+        position: relative;
+        z-index: 10;
+      }
+
+      h2 {
+        color: #e60000;
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 2em;
+      }
+
+      input,
+      select,
+      button,
+      textarea {
+        padding: 12px;
+        margin-top: 10px;
+        width: calc(100% - 24px);
+        background: #2a2a2a;
+        color: #f5f5f5;
+        border: 1px solid #e60000;
+        border-radius: 5px;
+        font-family: "Cinzel Decorative", serif;
+        font-size: 1em;
+        transition: background 0.3s ease, border-color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #ff3333;
+        box-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
+      }
+
+      button {
+        background-color: #e60000;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 20px;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      button:hover {
+        background-color: #cc0000;
+      }
+
+      #letter {
+        background-color: rgba(26, 26, 26, 0.8);
+        padding: 20px;
+        border: 1px dashed #e60000;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: inset 0 0 10px rgba(230, 0, 0, 0.3);
+        white-space: pre-wrap;
+      }
+
+      /* New styles for handwriting effect */
+      #output {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.5em;
+        color: #ccc;
+        min-height: 200px;
+      }
+
+      /* Typing cursor effect */
+      .typing-cursor::after {
+        content: "|";
+        display: inline-block;
+        animation: blink-caret 0.75s infinite;
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
         }
 
-        /* Overlay to darken the background image */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: -1;
+        50% {
+          border-color: #e60000;
+        }
+      }
+
+      /* Styles for background bats */
+      .bat {
+        position: fixed;
+        width: 60px;
+        height: auto;
+        pointer-events: none;
+        opacity: 0.7;
+        filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3));
+        z-index: 5;
+      }
+
+      @keyframes flyToRight {
+        0% {
+          transform: translateX(0vw) translateY(var(--startY)) scaleX(1);
+          opacity: 0.7;
         }
 
-        /* Initial Welcome Overlay Styles */
-        #initial-welcome-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            /* Very dark */
-            z-index: 100000;
-            /* Extremely high to be on top of everything */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #f5f5f5;
-            text-align: center;
-            opacity: 1;
-            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
-            visibility: visible;
+        50% {
+          transform: translateX(50vw) translateY(var(--midY)) scaleX(1);
         }
 
-        #initial-welcome-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            /* Disable interactions when hidden */
+        100% {
+          transform: translateX(100vw) translateY(var(--endY)) scaleX(1);
+          opacity: 0.7;
+        }
+      }
+
+      @keyframes flyToLeft {
+        0% {
+          transform: translateX(100vw) translateY(var(--startY)) scaleX(-1);
+          opacity: 0.7;
         }
 
+        50% {
+          transform: translateX(50vw) translateY(var(--midY)) scaleX(-1);
+        }
+
+        100% {
+          transform: translateX(0vw) translateY(var(--endY)) scaleX(-1);
+          opacity: 0.7;
+        }
+      }
+
+      /* Blood Drop Animation */
+      .blood-drop {
+        position: absolute;
+        background-color: #e60000;
+        border-radius: 50%;
+        opacity: 0.8;
+        pointer-events: none;
+        animation: drip 1s ease-out forwards;
+        filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.7));
+      }
+
+      @keyframes drip {
+        0% {
+          transform: translateY(0) scale(0.5);
+          opacity: 0.8;
+        }
+
+        100% {
+          transform: translateY(50px) scale(1);
+          opacity: 0;
+        }
+      }
+
+      /* Mist Effect on Scroll */
+      .mist-overlay {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background: linear-gradient(to top, rgba(230, 0, 0, 0.2), transparent);
+        z-index: 20;
+        pointer-events: none;
+        transition: height 0.5s ease-out;
+      }
+
+      /* Mouse Glow */
+      #mouse-glow {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        background-color: rgba(255, 0, 0, 0.1);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        filter: blur(20px);
+        z-index: 50;
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+      }
+
+      /* Sound Toggle Button */
+      #sound-toggle-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background-color: #f5f5f5;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        z-index: 200;
+        transition: background-color 0.3s ease, transform 0.2s ease,
+          box-shadow 0.3s ease;
+      }
+
+      #sound-toggle-button:hover {
+        background-color: #e0e0e0;
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+      }
+
+      /* Styles for sound button images */
+      #sound-toggle-button img {
+        width: 35px;
+        height: 35px;
+        display: block;
+        object-fit: contain;
+      }
+
+      /* Initially hide the sound-on icon - controlled by JS display property */
+      #sound-on-icon {
+        display: none;
+      }
+
+      /* Styles for the "Catch Vlad" game */
+      #bat-catcher-game {
+        background-color: rgba(26, 26, 26, 0.8);
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(230, 0, 0, 0.4);
+        margin-top: 30px;
+        padding: 20px;
+        text-align: center;
+      }
+
+      #game-area {
+        width: 100%;
+        height: 300px;
+        border: 2px dashed #e60000;
+        margin: 20px auto;
+        position: relative;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        cursor: crosshair;
+      }
+
+      /* Style for the game target image (now Vlad) */
+      .game-bat {
+        position: absolute;
+        width: 80px;
+        height: auto;
+        cursor: pointer;
+        transition: transform 0.1s ease-out;
+        filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+      }
+
+      .game-bat:hover {
+        transform: scale(1.1);
+      }
+
+      #game-info {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+        color: #f5f5f5;
+      }
+
+      #game-start-button {
+        background-color: #008000;
+        transition: background-color 0.3s ease;
+      }
+
+      #game-start-button:hover {
+        background-color: #006400;
+      }
+
+      #game-start-button.disabled {
+        background-color: #555;
+        cursor: not-allowed;
+      }
+
+      /* Transition Overlay Styles (for game) */
+      #transition-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("dracula.jpeg");
+        background-size: cover;
+        background-position: center;
+        z-index: 10000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 1.5s ease-in-out;
+      }
+
+      /* Contact Form specific styles */
+      #contact-us form label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        color: #e60000;
+        font-weight: bold;
+      }
+      #contact-us textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      #contact-us .success-message {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: rgba(0, 128, 0, 0.3);
+        border: 1px solid #008000;
+        border-radius: 5px;
+        color: #f5f5f5;
+        text-align: center;
+        font-weight: bold;
+        display: none;
+      }
+
+      /* Quiz Styles */
+      #vampire-quiz {
+        background-color: rgba(26, 26, 26, 0.8);
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(230, 0, 0, 0.4);
+        margin-top: 30px;
+        padding: 20px;
+      }
+
+      .quiz-question {
+        background-color: rgba(42, 42, 42, 0.7);
+        border: 1px solid #550000;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .quiz-question p {
+        font-size: 1.1em;
+        color: #f5f5f5;
+        margin-bottom: 15px;
+      }
+
+      .quiz-options {
+        display: grid;
+        gap: 10px;
+      }
+
+      .quiz-options label {
+        display: block;
+        background: #2a2a2a;
+        color: #ccc;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #e60000;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .quiz-options label:hover {
+        background-color: #3a0000;
+        color: #fff;
+      }
+
+      .quiz-options input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #e60000;
+      }
+
+      #submit-quiz {
+        background-color: #e60000;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 20px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        color: #f5f5f5;
+        font-family: "Cinzel Decorative", serif;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+      }
+
+      #submit-quiz:hover {
+        background-color: #cc0000;
+      }
+
+      #quiz-result {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 1.3em;
+        color: #e60000;
+        font-family: "Dancing Script", cursive;
+      }
+
+      #result-description {
+        margin-top: 10px;
+        text-align: center;
+        color: #ccc;
+        font-style: italic;
+      }
+
+      .quiz-progress {
+        color: #ccc;
+        text-align: center;
+        margin-bottom: 15px;
+        font-style: italic;
+      }
+
+      .quiz-navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+
+      .quiz-navigation button {
+        background-color: #550000;
+        color: #f5f5f5;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Cinzel Decorative", serif;
+      }
+
+      .quiz-navigation button:hover {
+        background-color: #770000;
+      }
+
+      /* Countdown Timer Styles */
+      #countdown-timer {
+        background: linear-gradient(
+          135deg,
+          rgba(26, 26, 26, 0.95),
+          rgba(42, 42, 42, 0.85)
+        );
+        border: 2px solid #e60000;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(230, 0, 0, 0.6),
+          inset 0 0 20px rgba(0, 0, 0, 0.8);
+        position: relative;
+        overflow: hidden;
+      }
+
+      #countdown-timer::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #e60000, #ff3333, #cc0000, #e60000);
+        border-radius: 15px;
+        z-index: -1;
+        animation: borderPulse 3s ease-in-out infinite;
+      }
+
+      @keyframes borderPulse {
+        0%,
+        100% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .countdown-title {
+        font-size: 1.8em;
+        color: #e60000;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(230, 0, 0, 0.8);
+        letter-spacing: 2px;
+      }
+
+      .timer-display {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+      }
+
+      .time-unit {
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid #e60000;
+        border-radius: 10px;
+        padding: 15px 10px;
+        min-width: 80px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .time-unit::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(230, 0, 0, 0.3),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      .time-number {
+        font-size: 2.5em;
+        color: #f5f5f5;
+        font-weight: bold;
+        text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        display: block;
+        line-height: 1;
+        animation: numberGlow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes numberGlow {
+        from {
+          text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+        to {
+          text-shadow: 0 0 25px rgba(255, 0, 0, 1),
+            0 0 35px rgba(255, 0, 0, 0.5);
+        }
+      }
+
+      .time-label {
+        font-size: 0.9em;
+        color: #ccc;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 5px;
+      }
+
+      .countdown-message {
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        color: #ccc;
+        font-style: italic;
+        min-height: 25px;
+      }
+
+      .countdown-finished {
+        animation: finishedPulse 1s ease-in-out infinite;
+        color: #ff3333 !important;
+        font-weight: bold;
+      }
+
+      @keyframes finishedPulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      /* Demo button to test the countdown */
+      .demo-button {
+        background: linear-gradient(135deg, #e60000, #cc0000);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        color: #f5f5f5;
+        font-family: "Cinzel Decorative", serif;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 20px;
+        width: 100%;
+      }
+
+      .demo-button:hover {
+        background: linear-gradient(135deg, #ff3333, #e60000);
+        box-shadow: 0 0 15px rgba(230, 0, 0, 0.8);
+        transform: translateY(-2px);
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
         #initial-welcome-overlay .welcome-image {
-            max-width: 80%;
-            max-height: 50vh;
-            /* Adjust as needed */
-            border: 3px solid #e60000;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
-            border-radius: 8px;
-            margin-bottom: 30px;
-            object-fit: contain;
-            /* Ensure image fits well */
+          max-width: 90%;
+          max-height: 40vh;
+          margin-bottom: 20px;
         }
-
         #initial-welcome-overlay h2 {
-            color: #e60000;
-            font-size: 2.5em;
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+          font-size: 1.8em;
         }
-
         #initial-welcome-overlay p {
-            font-size: 1.2em;
-            color: #ccc;
-            margin-bottom: 40px;
-            font-family: 'Dancing Script', cursive;
-            /* A bit more sinister */
+          font-size: 1em;
+          padding: 0 15px;
         }
-
         #initial-welcome-overlay button {
-            background-color: #e60000;
-            color: #f5f5f5;
-            padding: 15px 30px;
-            border: 2px solid #ff3333;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.3em;
-            font-weight: bold;
-            letter-spacing: 1px;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        }
-
-        #initial-welcome-overlay button:hover {
-            background-color: #cc0000;
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
+          font-size: 1em;
+          padding: 12px 25px;
         }
 
         header {
-            background-color: #1a1a1a;
-            padding: 20px;
-            text-align: center;
-            font-size: 32px;
-            color: #e60000;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 2px solid #e60000;
+          font-size: 24px;
+          flex-direction: column;
         }
 
-        /* Styles for logo */
         .header-logo {
-            height: 80px;
-            width: auto;
-            margin-right: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        }
-
-        nav {
-            background-color: #1a1a1a;
-            padding: 10px 0;
-            text-align: center;
-            position: sticky;
-            top: 120px;
-            /* Adjust based on header height */
-            z-index: 999;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            border-top: 1px solid #e60000;
-            border-bottom: 1px solid #e60000;
-        }
-
-        nav .nav-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px 25px;
-            /* Vertical and horizontal gap */
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        nav a {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 1.1em;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-            padding: 5px 10px;
-            border-bottom: 2px solid transparent;
-        }
-
-        nav a:hover {
-            color: #e60000;
-            text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
-            border-color: #e60000;
+          height: 60px;
+          margin-bottom: 10px;
+          margin-right: 0;
         }
 
         section {
-            padding: 40px;
-            max-width: 700px;
-            margin: auto;
-            line-height: 1.6;
-            background-color: rgba(26, 26, 26, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(230, 0, 0, 0.4);
-            margin-top: 30px;
-            position: relative;
-            z-index: 10;
+          padding: 20px;
+          margin: 20px auto;
         }
 
-        h2 {
-            color: #e60000;
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 2em;
+        nav a {
+          margin: 0 10px;
+          font-size: 0.9em;
         }
 
-        input,
-        select,
-        button,
-        textarea {
-            padding: 12px;
-            margin-top: 10px;
-            width: calc(100% - 24px);
-            background: #2a2a2a;
-            color: #f5f5f5;
-            border: 1px solid #e60000;
-            border-radius: 5px;
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 1em;
-            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #ff3333;
-            box-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
-        }
-
-        button {
-            background-color: #e60000;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        button:hover {
-            background-color: #cc0000;
-        }
-
-        #letter {
-            background-color: rgba(26, 26, 26, 0.8);
-            padding: 20px;
-            border: 1px dashed #e60000;
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: inset 0 0 10px rgba(230, 0, 0, 0.3);
-            white-space: pre-wrap;
-        }
-
-        /* New styles for handwriting effect */
-        #output {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5em;
-            color: #ccc;
-            min-height: 200px;
-        }
-
-        /* Typing cursor effect */
-        .typing-cursor::after {
-            content: '|';
-            display: inline-block;
-            animation: blink-caret 0.75s infinite;
-        }
-
-        @keyframes blink-caret {
-            from,
-            to {
-                border-color: transparent
-            }
-
-            50% {
-                border-color: #e60000;
-            }
-        }
-
-        /* Styles for background bats */
-        .bat {
-            position: fixed;
-            width: 60px;
-            height: auto;
-            pointer-events: none;
-            opacity: 0.7;
-            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3));
-            z-index: 5;
-        }
-
-        @keyframes flyToRight {
-            0% {
-                transform: translateX(0vw) translateY(var(--startY)) scaleX(1);
-                opacity: 0.7;
-            }
-
-            50% {
-                transform: translateX(50vw) translateY(var(--midY)) scaleX(1);
-            }
-
-            100% {
-                transform: translateX(100vw) translateY(var(--endY)) scaleX(1);
-                opacity: 0.7;
-            }
-        }
-
-        @keyframes flyToLeft {
-            0% {
-                transform: translateX(100vw) translateY(var(--startY)) scaleX(-1);
-                opacity: 0.7;
-            }
-
-            50% {
-                transform: translateX(50vw) translateY(var(--midY)) scaleX(-1);
-            }
-
-            100% {
-                transform: translateX(0vw) translateY(var(--endY)) scaleX(-1);
-                opacity: 0.7;
-            }
-        }
-
-        /* Blood Drop Animation */
-        .blood-drop {
-            position: absolute;
-            background-color: #e60000;
-            border-radius: 50%;
-            opacity: 0.8;
-            pointer-events: none;
-            animation: drip 1s ease-out forwards;
-            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.7));
-        }
-
-        @keyframes drip {
-            0% {
-                transform: translateY(0) scale(0.5);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: translateY(50px) scale(1);
-                opacity: 0;
-            }
-        }
-
-        /* Mist Effect on Scroll */
-        .mist-overlay {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 0;
-            background: linear-gradient(to top, rgba(230, 0, 0, 0.2), transparent);
-            z-index: 20;
-            pointer-events: none;
-            transition: height 0.5s ease-out;
-        }
-
-        /* Mouse Glow */
-        #mouse-glow {
-            position: fixed;
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 0, 0, 0.1);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            filter: blur(20px);
-            z-index: 50;
-            opacity: 0;
-            transition: opacity 0.5s ease-out;
-        }
-
-        /* Sound Toggle Button */
         #sound-toggle-button {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #f5f5f5;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-            z-index: 200;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+          width: 50px;
+          height: 50px;
+          bottom: 10px;
+          left: 10px;
         }
 
-        #sound-toggle-button:hover {
-            background-color: #e0e0e0;
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-        }
-
-        /* Styles for sound button images */
         #sound-toggle-button img {
-            width: 35px;
-            height: 35px;
-            display: block;
-            object-fit: contain;
-        }
-
-        /* Initially hide the sound-on icon - controlled by JS display property */
-        #sound-on-icon {
-            display: none;
-        }
-
-        /* Styles for the "Catch Vlad" game */
-        #bat-catcher-game {
-            background-color: rgba(26, 26, 26, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(230, 0, 0, 0.4);
-            margin-top: 30px;
-            padding: 20px;
-            text-align: center;
-            display: none;
-            /* Hidden by default */
+          width: 28px;
+          height: 28px;
         }
 
         #game-area {
-            width: 100%;
-            height: 300px;
-            border: 2px dashed #e60000;
-            margin: 20px auto;
-            position: relative;
-            overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 5px;
-            cursor: crosshair;
+          height: 200px;
         }
 
-        /* Style for the game target image (now Vlad) */
-        .game-bat {
-            position: absolute;
-            width: 80px;
-            height: auto;
-            cursor: pointer;
-            transition: transform 0.1s ease-out;
-            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+        #vampire-quiz {
+          padding: 20px;
         }
 
-        .game-bat:hover {
-            transform: scale(1.1);
-        }
-
-        #game-info {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-            color: #f5f5f5;
-        }
-
-        #game-start-button {
-            background-color: #008000;
-            transition: background-color 0.3s ease;
-        }
-
-        #game-start-button:hover {
-            background-color: #006400;
-        }
-
-        #game-start-button.disabled {
-            background-color: #555;
-            cursor: not-allowed;
-        }
-
-        /* Transition Overlay Styles (for game) */
-        #transition-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('WhatsApp Image 2025-07-22 at 21.55.36_cbbe97fb.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: 10000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 1.5s ease-in-out;
-        }
-
-        /* Contact Form specific styles */
-        #contact-us form label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            color: #e60000;
-            font-weight: bold;
-        }
-
-        #contact-us textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        #contact-us .success-message {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: rgba(0, 128, 0, 0.3);
-            border: 1px solid #008000;
-            border-radius: 5px;
-            color: #f5f5f5;
-            text-align: center;
-            font-weight: bold;
-            display: none;
-        }
-
-        /* Archive of Dark Dreams Styles */
-        #arhiva-viselor input[type="text"] {
-            margin-bottom: 15px;
-        }
-
-        #arhiva-viselor #dream-output {
-            background-color: rgba(42, 42, 42, 0.8);
-            border: 1px dashed #e60000;
-            padding: 20px;
-            min-height: 100px;
-            border-radius: 5px;
-            text-align: center;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.4em;
-            color: #ffcccb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: inset 0 0 10px rgba(230, 0, 0, 0.3);
-        }
-
-        /* Countdown Timer Styles */
-        #countdown-timer {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(42, 42, 42, 0.85));
-            border: 2px solid #e60000;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            box-shadow:
-                0 0 30px rgba(230, 0, 0, 0.6),
-                inset 0 0 20px rgba(0, 0, 0, 0.8);
-            position: relative;
-            overflow: hidden;
-        }
-
-        #countdown-timer::before {
-            content: "";
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #e60000, #ff3333, #cc0000, #e60000);
-            border-radius: 15px;
-            z-index: -1;
-            animation: borderPulse 3s ease-in-out infinite;
-        }
-
-        @keyframes borderPulse {
-            0%, 100% {
-                opacity: 0.7;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
-        .countdown-title {
-            font-size: 1.8em;
-            color: #e60000;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(230, 0, 0, 0.8);
-            letter-spacing: 2px;
-        }
-
+        /* Countdown responsive styles */
         .timer-display {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-            flex-wrap: wrap;
+          gap: 10px;
         }
 
         .time-unit {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #e60000;
-            border-radius: 10px;
-            padding: 15px 10px;
-            min-width: 80px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .time-unit::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(230, 0, 0, 0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                left: -100%;
-            }
-            100% {
-                left: 100%;
-            }
+          min-width: 70px;
+          padding: 10px 5px;
         }
 
         .time-number {
-            font-size: 2.5em;
-            color: #f5f5f5;
-            font-weight: bold;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
-            display: block;
-            line-height: 1;
-            animation: numberGlow 2s ease-in-out infinite alternate;
+          font-size: 2em;
         }
 
-        @keyframes numberGlow {
-            from {
-                text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
-            }
-            to {
-                text-shadow: 0 0 25px rgba(255, 0, 0, 1), 0 0 35px rgba(255, 0, 0, 0.5);
-            }
+        .countdown-title {
+          font-size: 1.5em;
         }
 
-        .time-label {
-            font-size: 0.9em;
-            color: #ccc;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
+        /* Chat Window Responsive */
+        #global-chat-window {
+          width: 90%;
+          right: 5%;
+          bottom: 20px; /* Adjust if sound button interferes */
+          height: 70vh; /* Make it taller on smaller screens */
+          max-height: 500px;
         }
 
-        .countdown-message {
-            margin-top: 20px;
-            font-size: 1.2em;
-            color: #ccc;
-            font-style: italic;
-            min-height: 25px;
+        #global-chat-window .chat-body {
+          padding: 10px;
         }
 
-        .countdown-finished {
-            animation: finishedPulse 1s ease-in-out infinite;
-            color: #ff3333 !important;
-            font-weight: bold;
+        #global-chat-window #chat-input {
+          padding: 8px;
         }
 
-        @keyframes finishedPulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
+        #global-chat-window #send-message-button {
+          padding: 8px 12px;
         }
+      }
 
-        /* Demo button to test the countdown */
-        .demo-button {
-            background: linear-gradient(135deg, #e60000, #cc0000);
-            border: none;
-            border-radius: 8px;
-            padding: 12px 24px;
-            color: #f5f5f5;
-            font-family: 'Cinzel Decorative', serif;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 20px;
-            width: 100%;
-        }
+      /* NEW: Global Chat Window Styles */
+      #global-chat-window {
+        position: fixed;
+        bottom: 25px; /* Adjust based on sound button and general layout */
+        right: 25px;
+        width: 380px;
+        height: 500px;
+        background-color: rgba(26, 26, 26, 0.95);
+        border: 2px solid #e60000;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        z-index: 10000; /* Higher than other elements, but below initial overlay */
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        overflow: hidden;
+      }
 
-        .demo-button:hover {
-            background: linear-gradient(135deg, #ff3333, #e60000);
-            box-shadow: 0 0 15px rgba(230, 0, 0, 0.8);
-            transform: translateY(-2px);
-        }
+      #global-chat-window.active {
+        display: flex; /* Show when active */
+      }
 
-        /* --- Vampire Quiz Styles --- */
-        #vampire-quiz {
-            background-color: rgba(26, 26, 26, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(230, 0, 0, 0.4);
-            margin-top: 30px;
-            padding: 30px;
-            text-align: center;
-        }
+      .chat-header {
+        background-color: #e60000;
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.2em;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
 
-        #vampire-quiz h2 {
-            margin-bottom: 20px;
-            font-size: 2.2em;
-        }
+      .chat-header h3 {
+        margin: 0;
+        font-size: 1.1em;
+      }
 
-        #quiz-container {
-            margin-top: 20px;
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+      .close-chat {
+        cursor: pointer;
+        font-size: 1.5em;
+        font-weight: bold;
+        transition: color 0.2s ease;
+      }
 
-        .quiz-question p {
-            font-size: 1.4em;
-            color: #f5f5f5;
-            margin-bottom: 25px;
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-            line-height: 1.4;
-        }
+      .close-chat:hover {
+        color: #f0f0f0;
+      }
 
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 80%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
+      .chat-body {
+        flex-grow: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background-color: #1a1a1a;
+        border-bottom: 1px solid #550000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Space between messages */
+      }
 
-        .quiz-options label {
-            background-color: rgba(42, 42, 42, 0.9);
-            border: 1px solid #e60000;
-            border-radius: 5px;
-            padding: 12px 15px;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            font-size: 1.1em;
-            color: #ccc;
-        }
+      .chat-message {
+        background-color: #333;
+        padding: 10px 15px;
+        border-radius: 15px;
+        max-width: 85%;
+        word-wrap: break-word;
+        font-size: 0.95em;
+        line-height: 1.4;
+        color: #f5f5f5;
+        font-family: Arial, sans-serif; /* Simpler font for chat messages */
+      }
 
-        .quiz-options label:hover {
-            background-color: rgba(55, 55, 55, 0.9);
-            border-color: #ff3333;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-            transform: translateY(-2px);
-        }
+      .chat-message.self {
+        background-color: #0056b3; /* Your messages */
+        align-self: flex-end; /* Align to right */
+        border-bottom-right-radius: 5px;
+      }
 
-        .quiz-options input[type="radio"] {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #e60000;
-            border-radius: 50%;
-            margin-right: 15px;
-            position: relative;
-            outline: none;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
+      .chat-message.other {
+        background-color: #550000; /* Other users' messages */
+        align-self: flex-start; /* Align to left */
+        border-bottom-left-radius: 5px;
+      }
 
-        .quiz-options input[type="radio"]:checked {
-            background-color: #e60000;
-            border-color: #ff3333;
-            box-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
-        }
+      .chat-message strong {
+        color: #e60000;
+        margin-right: 5px;
+      }
 
-        .quiz-options input[type="radio"]:checked::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background-color: #f5f5f5;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+      .chat-message .blood-group {
+        font-size: 0.8em;
+        background-color: #ff3333;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-left: 5px;
+        vertical-align: middle;
+      }
 
-        #quiz-navigation {
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-        }
+      .chat-footer {
+        display: flex;
+        padding: 10px 15px;
+        border-top: 1px solid #550000;
+        background-color: #1a1a1a;
+      }
 
-        #quiz-navigation button {
-            flex: 1;
-            padding: 12px 20px;
-            font-size: 1.1em;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            background-color: #e60000;
-            border: 2px solid #ff3333;
-            color: #f5f5f5;
-        }
+      #chat-message-input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #e60000;
+        border-radius: 20px;
+        background-color: #2a2a2a;
+        color: #f5f5f5;
+        margin-right: 10px;
+        font-family: Arial, sans-serif;
+        font-size: 0.9em;
+      }
 
-        #quiz-navigation button:hover:not(:disabled) {
-            background-color: #cc0000;
-            transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
-        }
+      #send-message-button {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: "Cinzel Decorative", serif;
+        font-size: 0.9em;
+        transition: background-color 0.3s ease;
+        width: auto; /* Override general button width */
+        margin-top: 0; /* Override general button margin */
+      }
 
-        #quiz-navigation button:disabled {
-            background-color: #555;
-            border-color: #777;
-            cursor: not-allowed;
-            opacity: 0.7;
-            box-shadow: none;
-        }
+      #send-message-button:hover {
+        background-color: #218838;
+      }
 
-        #quiz-progress {
-            margin-top: 20px;
-            font-size: 1.1em;
-            color: #ccc;
-            font-style: italic;
-        }
+      /* Username input for chat */
+      #chat-username-input-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 100001; /* Higher than chat window */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: white;
+      }
 
-        #quiz-result-container {
-            margin-top: 30px;
-            padding: 25px;
-            background-color: rgba(42, 42, 42, 0.9);
-            border: 2px solid #e60000;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-            display: none;
-            /* Hidden by default */
-        }
+      #chat-username-input-box {
+        background-color: rgba(26, 26, 26, 0.95);
+        border: 2px solid #e60000;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
 
-        #quiz-result {
-            font-size: 2.5em;
-            color: #ff3333;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.9);
-            margin-bottom: 15px;
-        }
+      #chat-username-input-box label {
+        font-size: 1.2em;
+        color: #e60000;
+        margin-bottom: 10px;
+      }
 
-        #result-description {
-            font-size: 1.2em;
-            color: #f5f5f5;
-            line-height: 1.5;
-            font-family: 'Dancing Script', cursive;
-        }
+      #chat-username-input-box input[type="text"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #e60000;
+        background-color: #333;
+        color: #f5f5f5;
+      }
 
-        /* Responsive design */
-        @media (max-width: 768px) {
-            section {
-                padding: 20px;
-                margin: 20px auto;
-            }
-            .timer-display {
-                gap: 10px;
-            }
-            .time-unit {
-                min-width: 70px;
-                padding: 10px 5px;
-            }
-            .time-number {
-                font-size: 2em;
-            }
-            .countdown-title {
-                font-size: 1.5em;
-            }
-            #vampire-quiz h2 {
-                font-size: 1.8em;
-            }
-            .quiz-question p {
-                font-size: 1.2em;
-            }
-            .quiz-options label {
-                font-size: 1em;
-                padding: 10px;
-            }
-            .quiz-options input[type="radio"] {
-                width: 18px;
-                height: 18px;
-                margin-right: 10px;
-            }
-            #quiz-result {
-                font-size: 2em;
-            }
-            #result-description {
-                font-size: 1em;
-            }
+      #chat-username-input-box button {
+        background-color: #e60000;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Cinzel Decorative", serif;
+        font-size: 1em;
+        width: 100%;
+      }
 
-            nav .nav-container {
-                gap: 10px 15px;
-                /* Smaller gaps for smaller screens */
-            }
-            nav a {
-                font-size: 1em;
-                padding: 3px 8px;
-            }
-        }
+      #chat-username-input-box button:hover {
+        background-color: #cc0000;
+      }
     </style>
 </head>
 
 <body>
-
     <div id="initial-welcome-overlay">
-        <img src="WhatsApp Image 2025-07-22 at 21.55.36_cbbe97fb.jpg" alt="Dracula Welcome" class="welcome-image">
+        <img src="dracula.jpeg" alt="Dracula Welcome" class="welcome-image" />
         <h2>Welcome to the Transylvania Blood Network.</h2>
         <p>Prepare to delve into the shadows...</p>
         <button id="enter-site-button">Enter at Your Own Risk</button>
@@ -903,72 +1090,66 @@
     <div id="transition-overlay"></div>
 
     <audio id="bat-sound" loop>
-        <source src="Toccata-and-fugue-in-d-minor.mp3" type="audio/mp3">
+        <source src="Toccata-and-fugue-in-d-minor.mp3" type="audio/mp3" />
         Your browser does not support the audio element.
     </audio>
     <audio id="drip-sound">
-        <source src="water-drip-72357.mp3" type="audio/mp3">
+        <source src="water-drip-72357.mp3" type="audio/mp3" />
     </audio>
     <audio id="chime-sound">
-        <source src="spooky-chimes-359877.mp3" type="audio/mp3">
+        <source src="spooky-chimes-359877.mp3" type="audio/mp3" />
     </audio>
     <audio id="typing-sound">
-        <source src="typewriter-100-88009.mp3" type="audio/mp3">
+        <source src="typewriter-100-88009.mp3" type="audio/mp3" />
         Your browser does not support the audio element.
     </audio>
     <audio id="wolf-howl-sound">
-        <source src="wolf-howl.mp3" type="audio/mp3">
+        <source src="wolf-howl.mp3" type="audio/mp3" />
         Your browser does not support the audio element.
     </audio>
     <audio id="evil-laugh-sound">
-        <source src="evil-laugh-89423.mp3" type="audio/mp3">
+        <source src="evil-laugh-89423.mp3" type="audio/mp3" />
         Your browser does not support the audio element.
     </audio>
 
-    <audio id="wind-chime-sound">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
-        </audio>
-    <audio id="creak-sound">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mp3">
-        </audio>
-    <audio id="distant-howl-sound">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mp3">
-        </audio>
-
-
     <header>
-        <img src="blood-donors-needed-halloween-dracula-volunteer-light-nikita-goel.jpg"
-            alt="Transylvania Blood Network Logo" class="header-logo">
+        <img
+            src="blood-donors-needed-halloween-dracula-volunteer-light-nikita-goel.jpg"
+            alt="Transylvania Blood Network Logo"
+            class="header-logo"
+        />
         🩸 Transylvania Blood Network
     </header>
 
     <nav>
-        <div class="nav-container">
-            <a href="#home">Home</a>
-            <a href="#donate">Donate</a>
-            <a href="#registered-donors">Donors</a>
-            <a href="#facts-cravings">Secrets</a>
-            <a href="#arhiva-viselor">Dreams</a>
-            <a href="#countdown">Countdown</a>
-            <a href="#bat-catcher-game">Catch Vlad!</a>
-            <a href="#vampire-quiz">Vampire Quiz</a>
-            <a href="#letter">Your Letter</a>
-            <a href="#contact-us">Contact</a>
-            <a href="#about">About</a>
-        </div>
+        <a href="#home">Home</a>
+        <a href="#donate">Donate</a>
+        <a href="#registered-donors">Donors</a>
+        <a href="#facts-cravings">Secrets</a>
+        <a href="#bat-catcher-game">Catch Vlad!</a>
+        <a href="#vampire-quiz">Vampire Quiz</a>
+        <a href="#countdown-section">Transformation</a>
+        <a href="#letter">Your Letter</a>
+        <a href="#contact-us">Contact</a>
+        <a href="#about">About</a>
+        <a href="#" id="nav-chat-icon" title="Open Chat">
+            <i class="fas fa-comments"></i>
+        </a>
     </nav>
 
     <section id="home">
         <h2>Welcome</h2>
-        <p>Transylvania Blood Network connects generous donors with those who need them most. But more than blood, we
-            deliver humanity,
-            wrapped in a veil of ancient mystery. Every pulse, a story. Every drop, a destiny.</p>
+        <p>
+            Transylvania Blood Network connects generous donors with those who need
+            them most. But more than blood, we deliver humanity, wrapped in a veil
+            of ancient mystery. Every pulse, a story. Every drop, a destiny.
+        </p>
     </section>
 
     <section id="donate">
         <h2>Become a Donor</h2>
         <label for="name">Your Name</label>
-        <input type="text" id="name" placeholder="Enter your name...">
+        <input type="text" id="name" placeholder="Enter your name..." />
 
         <label for="group">Blood Group</label>
         <select id="group">
@@ -987,19 +1168,42 @@
 
     <section id="registered-donors">
         <h2>Registered Donors & Blood Inventory</h2>
-        <div id="donor-list-container"
-            style="max-height: 300px; overflow-y: auto; border: 1px solid #e60000; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-            <p id="no-donors-message" style="text-align: center; color: #ccc;">No donors registered yet.</p>
-            <ul id="donor-list" style="list-style-type: none; padding: 0;">
-                </ul>
+        <div
+            id="donor-list-container"
+            style="
+                max-height: 300px;
+                overflow-y: auto;
+                border: 1px solid #e60000;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 20px;
+            "
+        >
+            <p id="no-donors-message" style="text-align: center; color: #ccc">
+                No donors registered yet.
+            </p>
+            <ul id="donor-list" style="list-style-type: none; padding: 0"></ul>
         </div>
-        <div id="blood-inventory"
-            style="background-color: rgba(42, 42, 42, 0.8); padding: 15px; border-radius: 5px; border: 1px solid #e60000;">
+        <div
+            id="blood-inventory"
+            style="
+                background-color: rgba(42, 42, 42, 0.8);
+                padding: 15px;
+                border-radius: 5px;
+                border: 1px solid #e60000;
+            "
+        >
             <h3>Current Blood Inventory:</h3>
-            <p id="inventory-summary" style="color: #f5f5f5;">No blood data available.</p>
+            <p id="inventory-summary" style="color: #f5f5f5">
+                No blood data available.
+            </p>
         </div>
-        <button onclick="clearAllDonors()" style="margin-top: 20px; background-color: #550000;">Clear All Donors
-            (Local)</button>
+        <button
+            onclick="clearAllDonors()"
+            style="margin-top: 20px; background-color: #550000"
+        >
+            Clear All Donors (Local)
+        </button>
     </section>
 
     <section id="facts-cravings">
@@ -1007,10 +1211,14 @@
 
         <h3>Random Vampire Fact:</h3>
         <button onclick="displayRandomVampireFact()">Reveal a Secret</button>
-        <p id="vampire-fact-output" style="margin-top: 15px; font-style: italic; color: #ccc;">Click to uncover ancient
-            truths.</p>
+        <p
+            id="vampire-fact-output"
+            style="margin-top: 15px; font-style: italic; color: #ccc"
+        >
+            Click to uncover ancient truths.
+        </p>
 
-        <h3 style="margin-top: 30px;">Blood Type Craving Compatibility:</h3>
+        <h3 style="margin-top: 30px">Blood Type Craving Compatibility:</h3>
         <label for="craving-group">Select Blood Type:</label>
         <select id="craving-group">
             <option>A+</option>
@@ -1023,21 +1231,45 @@
             <option>O-</option>
         </select>
         <button onclick="getBloodCraving()">Discover Cravings</button>
-        <p id="craving-output" style="margin-top: 15px; font-style: italic; color: #ccc;">What will your blood crave
-            tonight?</p>
+        <p
+            id="craving-output"
+            style="margin-top: 15px; font-style: italic; color: #ccc"
+        >
+            What will your blood crave tonight?
+        </p>
     </section>
 
-    <section id="arhiva-viselor">
-        <h2>Archive of Dark Dreams</h2>
-        <p>Enter a word or phrase from your dream, and our ancient archives will reveal a fragment of its obscure
-            meaning.</p>
-        <input type="text" id="dream-input" placeholder="Ex: 'shadow', 'castle', 'laugh'">
-        <button onclick="generateDreamFragment()">Discover Fragment</button>
-        <div id="dream-output">Waiting for you to write your dream...</div>
+    <section id="bat-catcher-game">
+        <h2>Catch Vlad!</h2>
+        <p>
+            Click on Vlad Tepes as fast as you can to score points before time runs
+            out!
+        </p>
+        <div id="game-info">
+            <span id="score-display">Score: 0</span>
+            <span id="timer-display">Time: 30s</span>
+        </div>
+        <div id="game-area"></div>
+        <button id="game-start-button">Start Game!</button>
     </section>
 
-    <section id="countdown">
-        <h2>Midnight Countdown</h2>
+    <section id="vampire-quiz">
+        <h2>How Much Vampire Are You?</h2>
+        <p class="quiz-progress" id="quiz-progress">Question 1 of 10</p>
+        <div id="quiz-container"></div>
+        <div class="quiz-navigation" id="quiz-navigation">
+            <button id="prev-question" style="display: none">← Previous</button>
+            <button id="next-question">Next →</button>
+        </div>
+        <button id="submit-quiz" style="display: none">
+            Reveal Your True Nature
+        </button>
+        <div id="quiz-result"></div>
+        <div id="result-description"></div>
+    </section>
+
+    <section id="countdown-section">
+        <h2>Transformation Countdown</h2>
         <div id="countdown-timer">
             <div class="countdown-title">⏰ Time Until Next Blood Moon</div>
 
@@ -1059,48 +1291,16 @@
                     <div class="time-label">Seconds</div>
                 </div>
             </div>
+
             <div class="countdown-message" id="countdown-message">
                 Register as a donor to begin your mystical transformation countdown...
             </div>
+
             <button class="demo-button" onclick="startDemoCountdown()">
                 🩸 Become a Donor (Demo)
             </button>
         </div>
     </section>
-
-
-    <section id="bat-catcher-game">
-        <h2>Catch Vlad!</h2>
-        <p>Click on Vlad Tepes as fast as you can to score points before time runs out!</p>
-        <div id="game-info">
-            <span id="score-display">Score: 0</span>
-            <span id="timer-display">Time: 30s</span>
-        </div>
-        <div id="game-area">
-            </div>
-        <button id="game-start-button">Start Game!</button>
-    </section>
-
-    <section id="vampire-quiz">
-        <h2>The Vampire Test: How Undead Are You?</h2>
-        <p>Answer these questions to uncover your true nocturnal nature. Be honest, the shadows are watching!</p>
-
-        <div id="quiz-container">
-            </div>
-
-        <div id="quiz-navigation">
-            <button id="prev-question">Previous</button>
-            <button id="next-question">Next</button>
-            <button id="submit-quiz" style="display: none;">Submit Test</button>
-        </div>
-        <p id="quiz-progress">Question 1 of 10</p>
-
-        <div id="quiz-result-container">
-            <p id="quiz-result"></p>
-            <p id="result-description"></p>
-        </div>
-    </section>
-
 
     <section id="letter">
         <h2>Your Letter</h2>
@@ -1109,16 +1309,33 @@
 
     <section id="contact-us">
         <h2>Send a Message</h2>
-        <p>Do you have a question, a secret to share, or an eerie suggestion? Send us a raven message!</p>
+        <p>
+            Do you have a question, a secret to share, or an eerie suggestion? Send
+            us a raven message!
+        </p>
         <form id="contact-form">
             <label for="contact-name">Your Name</label>
-            <input type="text" id="contact-name" placeholder="Enter your name..." required>
+            <input
+                type="text"
+                id="contact-name"
+                placeholder="Enter your name..."
+                required
+            />
 
             <label for="contact-email">Your Email</label>
-            <input type="email" id="contact-email" placeholder="Enter your email..." required>
+            <input
+                type="email"
+                id="contact-email"
+                placeholder="Enter your email..."
+                required
+            />
 
             <label for="contact-message">Your Message</label>
-            <textarea id="contact-message" placeholder="Type your message here..." required></textarea>
+            <textarea
+                id="contact-message"
+                placeholder="Type your message here..."
+                required
+            ></textarea>
 
             <button type="submit">Send Message</button>
             <div id="contact-success-message" class="success-message"></div>
@@ -1127,15 +1344,51 @@
 
     <section id="about">
         <h2>About</h2>
-        <p>This web app was created in a 48h hackathon by a team of beginner developers from Romania. Inspired by our
-            culture and humanity, we believe every drop tells a story. And perhaps, awakens something more primal within
-            us all.</p>
+        <p>
+            This web app was created in a 48h hackathon by a team of beginner
+            developers from Romania. Inspired by our culture and humanity, we
+            believe every drop tells a story. And perhaps, awakens something more
+            primal within us all.
+        </p>
     </section>
 
     <button id="sound-toggle-button" aria-label="Toggle Sound">
-        <img id="sound-off-icon" src="haut-parleur-rouge-et-icone-sonore.png" alt="Sound Off">
-        <img id="sound-on-icon" src="icone-du-son-si-difuzor-rosu.png" alt="Sound On">
+        <img
+            id="sound-off-icon"
+            src="haut-parleur-rouge-et-icone-sonore.png"
+            alt="Sound Off"
+        />
+        <img
+            id="sound-on-icon"
+            src="icone-du-son-si-difuzor-rosu.png"
+            alt="Sound On"
+        />
     </button>
+
+    <div id="global-chat-window">
+        <div class="chat-header">
+            <h3>Bloodline Chat</h3>
+            <span class="close-chat">&times;</span>
+        </div>
+        <div class="chat-body" id="chat-messages-container">
+            </div>
+        <div class="chat-footer">
+            <input
+                type="text"
+                id="chat-message-input"
+                placeholder="Type your message..."
+            />
+            <button id="send-message-button">Send</button>
+        </div>
+    </div>
+
+    <div id="chat-username-input-overlay" style="display: none;">
+        <div id="chat-username-input-box">
+            <label for="chat-username-setup">Enter your chat name:</label>
+            <input type="text" id="chat-username-setup" placeholder="Your Name" />
+            <button id="set-chat-username-button">Start Chatting</button>
+        </div>
+    </div>
 
     <script>
         const templates = [
@@ -1151,1130 +1404,882 @@
             "Greetings,\\n\\nYour donation has significantly improved my nightly levitation practice. I can now float at least two inches higher! Expect an invitation to our next 'Midnight Picnic for the Peculiar'.\\n\\n— The Nocturnal Neighbor.",
             "A word of caution, dear donor: you might develop a sudden fondness for rare steak, avoiding garlic, or finding dusty corners strangely appealing. It's just... the transfusion. Nothing to worry about. Probably.\\n\\n— Sincerely, The Transylvanian Blood Bank (definitely human).",
             "Recipient,\\n\\nThe transfusion went splendidly! My last craving for ancient dust has subsided, replaced by an inexplicable desire for strong, dark coffee. Coincidence? Or the true power of O-negative?\\n\\n— Anonymously Yours (but mostly Nocturnal).",
-            "This blood… it sings! Or perhaps that's just the ancient echoes within these castle walls. Anyway, thank you. I now feel empowered to finally learn to play the pipe organ. Loudly. All night.\\n\\n— Your New, Energetic Friend."
+            "This blood… it sings! Or perhaps that's just the ancient echoes within these castle walls. Anyway, thank you. I now feel empowered to finally learn to play the pipe organ. Loudly. All night.\\n\\n— Your New, Energetic Friend.",
         ];
 
         let typingInterval; // To hold the interval for typing effect
 
-        // --- NEW DONOR MANAGEMENT LOGIC ---
+        // --- Core Site Functionality ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const enterSiteButton = document.getElementById("enter-site-button");
+            const initialWelcomeOverlay = document.getElementById(
+                "initial-welcome-overlay"
+            );
+            const batSound = document.getElementById("bat-sound");
+            const dripSound = document.getElementById("drip-sound");
+            const chimeSound = document.getElementById("chime-sound");
+            const typingSound = document.getElementById("typing-sound");
+            const wolfHowlSound = document.getElementById("wolf-howl-sound");
+            const evilLaughSound = document.getElementById("evil-laugh-sound");
 
-        // Global array to store donors
-        let donors = [];
+            // Sound Toggle
+            const soundToggleButton = document.getElementById("sound-toggle-button");
+            const soundOffIcon = document.getElementById("sound-off-icon");
+            const soundOnIcon = document.getElementById("sound-on-icon");
+            let isSoundOn = false; // Initial state
 
-        // Function to update the donor list and inventory display
-        function updateDonorListAndInventory() {
-            const donorListUl = document.getElementById('donor-list');
-            const noDonorsMessage = document.getElementById('no-donors-message');
-            const inventorySummary = document.getElementById('inventory-summary');
-
-            donorListUl.innerHTML = ''; // Clear existing list
-            const bloodCounts = {}; // To store counts of each blood group
-
-            if (donors.length === 0) {
-                noDonorsMessage.style.display = 'block';
+            // Check localStorage for sound preference
+            const savedSoundPreference = localStorage.getItem('isSoundOn');
+            if (savedSoundPreference === 'true') {
+                isSoundOn = true;
+                soundOnIcon.style.display = 'block';
+                soundOffIcon.style.display = 'none';
             } else {
-                noDonorsMessage.style.display = 'none';
-                donors.forEach(donor => {
-                    const listItem = document.createElement('li');
-                    listItem.style.marginBottom = '8px';
-                    listItem.style.borderBottom = '1px dotted #550000';
-                    listItem.style.paddingBottom = '5px';
-                    listItem.innerHTML = `<strong>${donor.name}</strong> (${donor.group}) - Donated on ${donor.date}`;
-                    donorListUl.appendChild(listItem);
-
-                    // Count blood types for inventory
-                    bloodCounts[donor.group] = (bloodCounts[donor.group] || 0) + 1;
-                });
+                isSoundOn = false;
+                soundOnIcon.style.display = 'none';
+                soundOffIcon.style.display = 'block';
             }
 
-            // Update inventory summary
-            let summaryText = 'No blood data available.';
-            if (Object.keys(bloodCounts).length > 0) {
-                summaryText = Object.entries(bloodCounts)
-                    .map(([group, count]) => `${group}: ${count} unit${count > 1 ? 's' : ''}`)
-                    .join(', ');
-            }
-            inventorySummary.innerText = summaryText;
-        }
 
-        // Function to clear all locally stored donors
-        function clearAllDonors() {
-            if (confirm("Are you sure you want to clear all registered donors from your local browser storage? This action cannot be undone.")) {
-                localStorage.removeItem('transylvaniaBloodDonors');
-                donors = []; // Clear the in-memory array
-                updateDonorListAndInventory(); // Update UI
-                alert("All donor data cleared!");
-                // Hide the game section when donors are cleared
-                document.getElementById('bat-catcher-game').style.display = 'none';
-            }
-        }
+            enterSiteButton.addEventListener("click", () => {
+                initialWelcomeOverlay.classList.add("hidden");
+                // Play main background music if sound is enabled
+                if (isSoundOn) {
+                    batSound.play().catch(e => console.log("Audio play prevented:", e));
+                }
+            });
 
-        // New function to submit donor data and then generate the letter
-        function submitDonor() {
-            const nameInput = document.getElementById('name');
-            const groupSelect = document.getElementById('group');
-
-            const name = nameInput.value.trim();
-            const group = groupSelect.value;
-
-            if (!name) {
-                alert("Please enter your name to register as a donor.");
-                return;
-            }
-
-            const newDonor = {
-                name: name,
-                group: group,
-                date: new Date().toLocaleDateString('en-GB') // Format date consistently (e.g., 26/07/2025)
-            };
-
-            donors.push(newDonor);
-            localStorage.setItem('transylvaniaBloodDonors', JSON.stringify(donors));
-
-            // Clear form fields
-            nameInput.value = '';
-            groupSelect.value = 'A+'; // Reset to default or first option
-
-            // Update UI components (donor list and inventory)
-            updateDonorListAndInventory();
-
-            // Now, call the function to generate and display the letter for this new donor
-            generateLetterForDonor(newDonor);
-
-            // Scroll to the letter section
-            document.getElementById('letter').scrollIntoView({ behavior: 'smooth' });
-
-            // Automatically start the countdown for the new donor
-            startTwoMonthCountdown(newDonor.name);
-
-            // Show the game section after donation
-            document.getElementById('bat-catcher-game').style.display = 'block';
-        }
+            soundToggleButton.addEventListener("click", () => {
+                isSoundOn = !isSoundOn;
+                if (isSoundOn) {
+                    soundOnIcon.style.display = "block";
+                    soundOffIcon.style.display = "none";
+                    batSound.play().catch(e => console.log("Audio play prevented:", e));
+                } else {
+                    soundOnIcon.style.display = "none";
+                    soundOffIcon.style.display = "block";
+                    batSound.pause();
+                    batSound.currentTime = 0; // Reset audio
+                }
+                localStorage.setItem('isSoundOn', isSoundOn); // Save preference
+            });
 
 
-        // Modified function to generate the letter (now accepts donorData as argument)
-        function generateLetterForDonor(donorData) {
-            const outputDiv = document.getElementById('output');
-            const letterTemplate = templates[Math.floor(Math.random() * templates.length)];
-            const fullText = `Blood Group: ${donorData.group}\nDonor: ${donorData.name || 'Anonymous'}\n\n${letterTemplate}`;
+            // Typing effect for the letter
+            const outputDiv = document.getElementById("output");
+            const typeText = (element, text, delay = 50) => {
+                let i = 0;
+                element.innerHTML = ""; // Clear previous content
+                element.classList.add("typing-cursor");
 
-            // Get the overlay for the game transition
-            const transitionOverlay = document.getElementById('transition-overlay');
-
-            // Show the overlay
-            transitionOverlay.style.visibility = 'visible';
-            transitionOverlay.style.opacity = 1;
-
-            // After 1 second, start fading it out and then begin typing
-            setTimeout(() => {
-                transitionOverlay.style.opacity = 0;
-                // Hide it fully after transition completes
-                transitionOverlay.addEventListener('transitionend', function handler() {
-                    transitionOverlay.style.visibility = 'hidden';
-                    transitionOverlay.removeEventListener('transitionend', handler);
-                });
-
-                // Clear previous typing interval if any
                 if (typingInterval) {
                     clearInterval(typingInterval);
                 }
-
-                // Reset output and add typing cursor
-                outputDiv.innerText = '';
-                outputDiv.classList.add('typing-cursor');
-
-                let charIndex = 0;
-                const typingSound = document.getElementById('typing-sound');
-                typingSound.volume = 0.2; // Adjust typing sound volume
+                if (isSoundOn) {
+                    typingSound.play();
+                }
 
                 typingInterval = setInterval(() => {
-                    if (charIndex < fullText.length) {
-                        outputDiv.innerText += fullText.charAt(charIndex);
-                        // Play typing sound for each character only if overall sound is enabled
-                        if (isSoundPlaying) { // Check if main sound is active
-                            typingSound.currentTime = 0; // Rewind to start for quick playback
-                            typingSound.play().catch(e => console.log("Typing sound playback failed:", e));
-                        }
-                        charIndex++;
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
                     } else {
                         clearInterval(typingInterval);
-                        outputDiv.classList.remove('typing-cursor'); // Remove cursor after typing
-                        typingSound.pause(); // Pause typing sound
-                        typingSound.currentTime = 0; // Reset typing sound
+                        element.classList.remove("typing-cursor");
+                        if (isSoundOn) {
+                            typingSound.pause();
+                            typingSound.currentTime = 0;
+                        }
                     }
-                }, 50); // Typing speed (milliseconds per character)
+                }, delay);
+            };
 
-            }, 1000); // Overlay stays for 1 second before fading out
+            // Bats flying in background
+            const batContainer = document.getElementById("bat-container");
+            const createBat = () => {
+                const bat = document.createElement("img");
+                bat.src = "bat.gif"; // Assuming you have a bat.gif
+                bat.classList.add("bat");
+                bat.style.position = "absolute";
+                const startY = Math.random() * (window.innerHeight * 0.8);
+                const midY = Math.random() * (window.innerHeight * 0.8);
+                const endY = Math.random() * (window.innerHeight * 0.8);
+                const duration = 10 + Math.random() * 10; // 10-20 seconds
 
-            // Play drip sound only if overall sound is enabled
-            if (isSoundPlaying) { // Check if main sound is active
-                const dripSound = document.getElementById('drip-sound');
-                dripSound.currentTime = 0; // Rewind to start
-                dripSound.play().catch(e => console.log("Drip sound playback failed:", e));
-            }
+                bat.style.setProperty("--startY", `${startY}px`);
+                bat.style.setProperty("--midY", `${midY}px`);
+                bat.style.setProperty("--endY", `${endY}px`);
 
-            // Generate blood drops (existing logic)
-            const button = document.querySelector('#donate button'); // Refers to the "Generate Letter" button
-            const buttonRect = button.getBoundingClientRect();
+                if (Math.random() > 0.5) {
+                    // Fly right to left
+                    bat.style.left = "100vw";
+                    bat.style.animation = `flyToLeft ${duration}s linear infinite`;
+                    bat.style.transform = "scaleX(-1)"; // Flip bat horizontally
+                } else {
+                    // Fly left to right
+                    bat.style.left = "-10vw";
+                    bat.style.animation = `flyToRight ${duration}s linear infinite`;
+                }
+
+                bat.style.top = `${startY}px`;
+                batContainer.appendChild(bat);
+
+                // Remove bat after animation to prevent accumulation
+                setTimeout(() => {
+                    bat.remove();
+                }, duration * 1000);
+            };
+
+            // Create a few bats initially
             for (let i = 0; i < 5; i++) {
-                const drop = document.createElement('div');
-                drop.classList.add('blood-drop');
-                drop.style.width = `${10 + Math.random() * 10}px`;
-                drop.style.height = drop.style.width;
-                drop.style.left = `${buttonRect.left + buttonRect.width / 2 + (Math.random() - 0.5) * 50}px`;
-                drop.style.top = `${buttonRect.bottom - 10}px`;
+                setTimeout(createBat, Math.random() * 5000);
+            }
+            // Create new bats periodically
+            setInterval(createBat, 5000); // New bat every 5 seconds
+
+            // Mist effect on scroll
+            const mistOverlay = document.getElementById("mist-overlay");
+            window.addEventListener("scroll", () => {
+                const scrollPercentage =
+                    window.scrollY / (document.body.scrollHeight - window.innerHeight);
+                const maxHeight = 300; // Max height of the mist
+                mistOverlay.style.height = `${scrollPercentage * maxHeight}px`;
+            });
+
+            // Mouse glow effect
+            const mouseGlow = document.getElementById("mouse-glow");
+            let mouseTimeout;
+            document.addEventListener("mousemove", (e) => {
+                mouseGlow.style.left = `${e.clientX}px`;
+                mouseGlow.style.top = `${e.clientY}px`;
+                mouseGlow.style.opacity = "1"; // Show glow on mouse move
+
+                clearTimeout(mouseTimeout);
+                mouseTimeout = setTimeout(() => {
+                    mouseGlow.style.opacity = "0"; // Fade out after inactivity
+                }, 100);
+            });
+
+            // Blood Drip on Click
+            document.addEventListener("click", (e) => {
+                const drop = document.createElement("div");
+                drop.classList.add("blood-drop");
+                drop.style.width = drop.style.height = `${10 + Math.random() * 10}px`;
+                drop.style.left = `${e.clientX}px`;
+                drop.style.top = `${e.clientY}px`;
                 document.body.appendChild(drop);
 
-                // Remove after animation
-                drop.addEventListener('animationend', () => {
+                if (isSoundOn) {
+                    dripSound.currentTime = 0; // Reset sound for quick successive clicks
+                    dripSound.play();
+                }
+
+                drop.addEventListener("animationend", () => {
                     drop.remove();
                 });
-            }
-        }
-
-        // --- FUNNY/WEIRD JAVASCRIPT LOGIC ---
-
-        const vampireFacts = [
-            "Did you know: Vampires prefer their coffee O-negative, with a splash of existential dread.",
-            "A vampire's favorite pastime is reorganizing their crypt by moonlight.",
-            "Garlic breath is a myth; it's just that most vampires hate strong odors, like freshly brewed coffee or extreme politeness.",
-            "The oldest known vampire was actually allergic to blood. He survived on a diet of ancient dust bunnies and awkward silences.",
-            "Vampires are notoriously bad at hide-and-seek. They always forget they don't have a reflection.",
-            "Contrary to popular belief, vampires are excellent bakers. Their favorite treat? Red velvet cake, naturally.",
-            "A true Transylvanian vampire always irons his cape before a night out. Wrinkles are simply unacceptable.",
-            "The secret to eternal youth? It's not just the blood; it's avoiding direct sunlight and excessive small talk.",
-            "If a vampire offers you 'a bite to eat,' always clarify if they mean food or... you.",
-            "Most vampires struggle with modern technology. They still think 'bluetooth' is a dental condition.",
-            "Some vampires claim to be distant relatives of garden gnomes, explaining their sudden urge to stand perfectly still.",
-            "A vampire once tried to open a 'blood bar' but kept misplacing the straws. Business failed.",
-            "The 'undead' part is easy. It's remembering where you left your keys for the last three centuries that's hard.",
-            "If a vampire sneezes, it's called a 'coffin cough.' Very rare, thankfully.",
-            "Vampires are surprisingly good at chess, but only when playing against themselves, in a dimly lit room, whispering strategies to the rook.",
-            "A popular vampire diet hack: 'just skip the sun.' Doctors do NOT recommend.",
-            "The 'sparkly vampire' myth was started by a rogue glitter bomb that hit a perfectly normal, brooding vampire.",
-            "Beware of vampires who claim to be 'gluten-free.' They're just trying to distract you from their real cravings.",
-            "The greatest vampire mystery isn't immortality, it's how they keep their capes so clean while flying through bat caves."
-        ];
-
-        function displayRandomVampireFact() {
-            const factOutput = document.getElementById('vampire-fact-output');
-            const randomFact = vampireFacts[Math.floor(Math.random() * vampireFacts.length)];
-            factOutput.innerText = randomFact;
-        }
-
-        const cravingCompatibility = {
-            'A+': "You might develop a sudden craving for organic kale smoothies... and the occasional moonlit nap in a dusty attic. Also, a strange desire to count grains of sand.",
-            'A-': "Expect an inexplicable desire for strong, dark coffee, preferably brewed over ancient rituals. And maybe a sudden urge to wear only black velvet.",
-            'B+': "You'll find yourself drawn to obscure gothic poetry, obscure art, and the occasional urge to waltz alone in an abandoned ballroom. Don't be surprised if you start collecting antique spoons.",
-            'B-': "Prepare for a newfound appreciation for rare steak, dusty tomes, and the subtle art of not blinking. You might also start talking to your reflection, only to remember you don't have one.",
-            'AB+': "Your inner existentialist will awaken, possibly paired with a craving for deep philosophical debates and the occasional craving for sparkling water... and an intense dislike for direct eye contact.",
-            'AB-': "You might feel compelled to reorganize your entire home after midnight, develop a love for bats, and a strange distaste for loud noises. Also, an uncanny ability to find lost socks.",
-            'O+': "A primal urge for exploration in ancient forests might emerge, alongside an appreciation for fresh, raw ingredients. And perhaps, a new sensitivity to the faint scent of fear.",
-            'O-': "You'll find yourself yearning for ancient castles, moonlit walks, and a profound understanding of shadows. Also, an inexplicable talent for making inanimate objects slightly wobbly."
-        };
-
-        function getBloodCraving() {
-            const cravingGroupSelect = document.getElementById('craving-group');
-            const cravingOutput = document.getElementById('craving-output');
-            const selectedGroup = cravingGroupSelect.value;
-            cravingOutput.innerText = cravingCompatibility[selectedGroup] || "No unique cravings detected for this type... yet.";
-        }
-
-        // --- Archive of Dark Dreams Logic ---
-        const dreamFragments = {
-            start: [
-                "A shadow stretches, whispering...",
-                "Under a pale moon, a dream...",
-                "The ancient forest murmurs secrets...",
-                "An echo from a forgotten time...",
-                "Through dense fog, a shape appears...",
-                "A chill penetrates the bones, bringing...",
-                "A distant sound, almost lost...",
-                "From the depths of the subconscious, an image...",
-                "When dawn delays, a revelation..."
-            ],
-            middle: [
-                "with the smell of freshly turned earth.",
-                "and eyes gaze from the darkness.",
-                "where time stands still.",
-                "with memories of blood and stone.",
-                "and promises a cold eternity.",
-                "as the heart's hammer beats an ancient rhythm.",
-                "a black presence, almost tangible.",
-                "and a taste of iron on the tongue.",
-                "deep within a forgotten castle."
-            ],
-            end: [
-                "Are you ready?",
-                "Destiny awaits you.",
-                "Don't turn back.",
-                "Only this much remains.",
-                "Now, you will understand.",
-                "Sleep calls you back.",
-                "What could it mean?",
-                "The truth is hidden.",
-                "The old calls to you."
-            ]
-        };
-
-        function generateDreamFragment() {
-            const dreamInput = document.getElementById('dream-input');
-            const dreamOutput = document.getElementById('dream-output');
-            const inputWord = dreamInput.value.trim().toLowerCase();
-
-            let fragment = "";
-            let specificFound = false;
-
-            // Try to find a specific fragment based on the input word
-            if (inputWord.includes('castle')) {
-                fragment = "Ancient towers rise to the sky, carrying echoes of long-past balls and secrets buried deep beneath cold stone.";
-                specificFound = true;
-            } else if (inputWord.includes('blood')) {
-                fragment = "A red stain on a white petal, a silent promise of life and a reminder of ephemeral existence. Do you feel your heart beat faster?";
-                specificFound = true;
-            } else if (inputWord.includes('shadow')) {
-                fragment = "A silent presence follows you from the dark corners, an old friend or an unseen threat. Do not turn your back.";
-                specificFound = true;
-            } else if (inputWord.includes('night')) {
-                fragment = "The depths of the night call to you, a veil of mystery settles over the world. What secrets can you discover under the cold stars?";
-                specificFound = true;
-            } else if (inputWord.includes('laugh')) {
-                fragment = "A faint laugh, an echo from underground galleries, haunts you. Is it joy or a warning? Only you can decipher it.";
-                specificFound = true;
-            }
-
-            // If no specific fragment, generate a random one
-            if (!specificFound) {
-                const start = dreamFragments.start[Math.floor(Math.random() * dreamFragments.start.length)];
-                const middle = dreamFragments.middle[Math.floor(Math.random() * dreamFragments.middle.length)];
-                const end = dreamFragments.end[Math.floor(Math.random() * dreamFragments.end.length)];
-                fragment = `${start} ${middle} ${end}`;
-            }
-
-            dreamOutput.innerText = fragment;
-        }
-
-
-        // --- EXISTING JAVASCRIPT LOGIC (rearranged and integrated) ---
-
-        const batSound = document.getElementById('bat-sound');
-        const typingSound = document.getElementById('typing-sound');
-        const wolfHowlSound = document.getElementById('wolf-howl-sound');
-        const dripSound = document.getElementById('drip-sound');
-        const evilLaughSound = document.getElementById('evil-laugh-sound');
-
-        // NEW: Dynamic ambient sounds
-        const windChimeSound = document.getElementById('wind-chime-sound');
-        const creakSound = document.getElementById('creak-sound');
-        const distantHowlSound = document.getElementById('distant-howl-sound');
-
-
-        // JavaScript for flying background bats
-        const batContainer = document.getElementById('bat-container');
-        const numberOfBats = 7;
-        const backgroundBatImageSrc = 'halloween-flying-bat-sticker-u889c-x450.png';
-
-        for (let i = 0; i < numberOfBats; i++) {
-            const startY = Math.random() * window.innerHeight;
-            const midY = Math.random() * window.innerHeight;
-            const endY = Math.random() * window.innerHeight;
-
-            const bat = document.createElement('img');
-            bat.src = backgroundBatImageSrc;
-            bat.classList.add('bat');
-            bat.style.setProperty('--startY', startY + 'px');
-            bat.style.setProperty('--midY', midY + 'px');
-            bat.style.setProperty('--endY', endY + 'px');
-
-            const animationDuration = 15 + Math.random() * 10;
-            const animationDelay = Math.random() * 10;
-            bat.style.animationDuration = animationDuration + 's';
-            bat.style.animationDelay = animationDelay + 's';
-            bat.style.animationIterationCount = 'infinite';
-
-            if (Math.random() < 0.5) {
-                bat.style.animationName = 'flyToRight';
-            } else {
-                bat.style.animationName = 'flyToLeft';
-            }
-            batContainer.appendChild(bat);
-        }
-
-        // Mist Effect on Scroll
-        const mistOverlay = document.getElementById('mist-overlay');
-        window.addEventListener('scroll', () => {
-            const scrollPercentage = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-            mistOverlay.style.height = `${scrollPercentage * 100}vh`;
-        });
-
-        // Mouse Glow Effect
-        const mouseGlow = document.getElementById('mouse-glow');
-        let mouseMoveTimeout;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseGlow.style.left = `${e.clientX}px`;
-            mouseGlow.style.top = `${e.clientY}px`;
-            mouseGlow.style.opacity = 1;
-
-            clearTimeout(mouseMoveTimeout);
-            mouseMoveTimeout = setTimeout(() => {
-                mouseGlow.style.opacity = 0;
-            }, 500);
-        });
-
-        // Input Field Pulsating Border
-        document.querySelectorAll('input, select, textarea').forEach(element => {
-            element.addEventListener('focus', () => {
-                element.style.boxShadow = '0 0 12px rgba(255, 51, 51, 0.8)';
-            });
-            element.addEventListener('blur', () => {
-                element.style.boxShadow = '';
-            });
-        });
-
-        // Navigation link hover sound
-        const navLinks = document.querySelectorAll('nav a');
-        const chimeSound = document.getElementById('chime-sound');
-
-        navLinks.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                // Play chime sound only if main sound is active
-                if (isSoundPlaying) {
-                    chimeSound.currentTime = 0;
-                    chimeSound.volume = 0.5;
-                    chimeSound.play().catch(e => console.log("Chime sound playback failed:", e));
-                }
-            });
-        });
-
-        // Sound Toggle Button Logic
-        const soundToggleButton = document.getElementById('sound-toggle-button');
-        const soundOffIcon = document.getElementById('sound-off-icon');
-        const soundOnIcon = document.getElementById('sound-on-icon');
-        let isSoundPlaying = false; // Initial state: sound is off
-        let wolfHowlInterval; // To control the wolf howl sound
-        let ambientSoundInterval; // interval for general ambient sounds
-
-        function toggleBackgroundSound() {
-            if (isSoundPlaying) {
-                batSound.pause();
-                batSound.currentTime = 0;
-                typingSound.pause();
-                typingSound.currentTime = 0;
-                wolfHowlSound.pause(); // Stop wolf howl
-                clearInterval(wolfHowlInterval); // Clear wolf howl interval
-                evilLaughSound.pause(); // Stop evil laugh sound
-                evilLaughSound.currentTime = 0; // Reset evil laugh sound
-
-                // Stop ambient sounds
-                windChimeSound.pause();
-                windChimeSound.currentTime = 0;
-                creakSound.pause();
-                creakSound.currentTime = 0;
-                distantHowlSound.pause();
-                distantHowlSound.currentTime = 0;
-                clearInterval(ambientSoundInterval);
-
-
-                soundOffIcon.style.display = 'block';
-                soundOnIcon.style.display = 'none';
-                isSoundPlaying = false;
-                console.log("Sound is now OFF.");
-            } else {
-                batSound.volume = 0.3; // Volume for the Toccata
-                batSound.play().then(() => {
-                    console.log("Toccata started playing.");
-                }).catch(error => {
-                    console.error("Error playing Toccata sound (likely blocked by autoplay):", error);
-                    alert("Your browser blocked automatic sound playback. Please click the sound button to enable it manually.");
-                });
-                soundOffIcon.style.display = 'none';
-                soundOnIcon.style.display = 'block';
-                isSoundPlaying = true;
-                startWolfHowlTimer(); // Start wolf howl timer
-                startAmbientSounds(); // Start ambient sounds
-                console.log("Sound is now ON.");
-            }
-        }
-
-        // Function to play wolf howl randomly
-        function startWolfHowlTimer() {
-            if (wolfHowlInterval) {
-                clearInterval(wolfHowlInterval); // Clear any existing interval
-            }
-            wolfHowlInterval = setInterval(() => {
-                if (isSoundPlaying && Math.random() < 0.3) { // 30% chance to howl
-                    wolfHowlSound.currentTime = 0;
-                    wolfHowlSound.volume = 0.4;
-                    wolfHowlSound.play().catch(e => console.log("Wolf howl playback failed:", e));
-                }
-            }, 15000 + Math.random() * 15000); // Howl every 15-30 seconds
-        }
-
-        // Function to play random ambient sounds
-        function startAmbientSounds() {
-            if (ambientSoundInterval) {
-                clearInterval(ambientSoundInterval);
-            }
-            const ambientSounds = [windChimeSound, creakSound, distantHowlSound]; // Add more sounds here
-            ambientSoundInterval = setInterval(() => {
-                if (isSoundPlaying) {
-                    const soundToPlay = ambientSounds[Math.floor(Math.random() * ambientSounds.length)];
-                    if (soundToPlay.paused) { // Only play if not already playing
-                        soundToPlay.currentTime = 0;
-                        soundToPlay.volume = 0.2 + Math.random() * 0.3; // Random volume between 0.2 and 0.5
-                        soundToPlay.play().catch(e => console.log("Ambient sound playback failed:", e));
-                    }
-                }
-            }, 10000 + Math.random() * 20000); // Play ambient sound every 10-30 seconds
-        }
-
-
-        // Attach event listener to the button
-        soundToggleButton.addEventListener('click', toggleBackgroundSound);
-
-        // --- CATCH VLAD GAME LOGIC ---
-        const gameArea = document.getElementById('game-area');
-        const scoreDisplay = document.getElementById('score-display');
-        const timerDisplay = document.getElementById('timer-display');
-        const gameStartButton = document.getElementById('game-start-button');
-        const batCatcherGameSection = document.getElementById('bat-catcher-game');
-
-        let score = 0;
-        let timeLeft = 30; // Game duration in seconds
-        let gameTimer;
-        let batSpawnInterval;
-        let gameActive = false;
-
-        // Image for Vlad in the game (normal state)
-        const gameTargetImageSrc = 'Vlad_Tepes_002.jpg';
-        // Image for Vlad laughing (THIS FILE MUST EXIST IN YOUR PROJECT FOLDER!)
-        const gameTargetLaughImageSrc = 'Vlad_Tepes_laugh.jpg';
-
-        function startGame() {
-            if (gameActive) return; // Prevent starting multiple games
-
-            gameActive = true;
-            score = 0;
-            timeLeft = 30;
-            scoreDisplay.textContent = `Score: ${score}`;
-            timerDisplay.textContent = `Time: ${timeLeft}s`;
-            gameArea.innerHTML = ''; // Clear any leftover targets
-            gameStartButton.textContent = 'Game in Progress...';
-            gameStartButton.classList.add('disabled');
-            gameStartButton.disabled = true;
-
-            // Start game timer
-            gameTimer = setInterval(() => {
-                timeLeft--;
-                timerDisplay.textContent = `Time: ${timeLeft}s`;
-                if (timeLeft <= 0) {
-                    endGame();
-                }
-            }, 1000);
-
-            // Start spawning targets (Vlad)
-            batSpawnInterval = setInterval(spawnTarget, 800); // Spawn a target every 0.8 seconds
-        }
-
-        function spawnTarget() {
-            if (!gameActive) return;
-
-            const target = document.createElement('img');
-            target.src = gameTargetImageSrc;
-            target.classList.add('game-bat');
-
-            // Random position within game area
-            const gameAreaRect = gameArea.getBoundingClientRect();
-            const targetWidth = 80;
-            const targetHeight = 80;
-
-            const randomX = Math.random() * (gameAreaRect.width - targetWidth);
-            const randomY = Math.random() * (gameAreaRect.height - targetHeight);
-
-            target.style.left = `${randomX}px`;
-            target.style.top = `${randomY}px`;
-
-            target.addEventListener('click', () => {
-                if (gameActive) {
-                    score++;
-                    scoreDisplay.textContent = `Score: ${score}`;
-
-                    // Play evil laugh sound
-                    if (isSoundPlaying) {
-                        evilLaughSound.currentTime = 0;
-                        evilLaughSound.volume = 0.7; // Adjust volume as needed
-                        evilLaughSound.play().catch(e => console.log("Evil laugh sound playback failed:", e));
-                    }
-
-                    // Temporarily change to laughing Vlad image
-                    target.src = gameTargetLaughImageSrc;
-
-                    // Remove target after a short delay (after laugh animation)
-                    setTimeout(() => {
-                        target.remove();
-                    }, 200); // Short delay for the "mouth move" effect
-                }
             });
 
-            gameArea.appendChild(target);
+            // --- Contact Form ---
+            const contactForm = document.getElementById("contact-form");
+            const contactSuccessMessage = document.getElementById(
+                "contact-success-message"
+            );
 
-            // Remove target after a short time if not clicked (to prevent clutter)
-            setTimeout(() => {
-                if (target.parentNode === gameArea) { // Check if it's still in the game area
-                    target.remove();
+            contactForm.addEventListener("submit", (event) => {
+                event.preventDefault(); // Prevent default form submission
+
+                contactSuccessMessage.textContent = "Raven message sent! We'll be in touch... eventually.";
+                contactSuccessMessage.style.display = "block"; // Show message
+                if (isSoundOn) {
+                    chimeSound.play(); // Play a success sound
                 }
-            }, 2000); // Target disappears after 2 seconds if not clicked
-        }
+                contactForm.reset(); // Clear the form
 
-        function endGame() {
-            gameActive = false;
-            clearInterval(gameTimer);
-            clearInterval(batSpawnInterval);
-            gameArea.innerHTML = ''; // Clear all targets
-            gameStartButton.textContent = 'Play Again?';
-            gameStartButton.classList.remove('disabled');
-            gameStartButton.disabled = false;
-            alert(`Game Over! Your final score is: ${score}`);
-        }
+                setTimeout(() => {
+                    contactSuccessMessage.style.display = "none";
+                }, 5000); // Hide message after 5 seconds
+            });
 
-        gameStartButton.addEventListener('click', startGame);
-
-        // --- Contact Form Logic ---
-        const contactForm = document.getElementById('contact-form');
-        const contactSuccessMessage = document.getElementById('contact-success-message');
-
-        contactForm.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent default form submission
-
-            const name = document.getElementById('contact-name').value.trim();
-            const email = document.getElementById('contact-email').value.trim();
-            const message = document.getElementById('contact-message').value.trim();
-
-            if (name === '' || email === '' || message === '') {
-                contactSuccessMessage.style.display = 'block';
-                contactSuccessMessage.style.backgroundColor = 'rgba(255, 0, 0, 0.3)'; // Red for error
-                contactSuccessMessage.style.borderColor = '#ff0000';
-                contactSuccessMessage.innerText = 'Please fill in all fields.';
-                return;
-            }
-
-            // Basic email format validation
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                contactSuccessMessage.style.display = 'block';
-                contactSuccessMessage.style.backgroundColor = 'rgba(255, 0, 0, 0.3)'; // Red for error
-                contactSuccessMessage.style.borderColor = '#ff0000';
-                contactSuccessMessage.innerText = 'Please enter a valid email address.';
-                return;
-            }
-
-
-            // Display success message
-            contactSuccessMessage.style.display = 'block';
-            contactSuccessMessage.style.backgroundColor = 'rgba(0, 128, 0, 0.3)'; // Green for success
-            contactSuccessMessage.style.borderColor = '#008000';
-            contactSuccessMessage.innerHTML = `Message sent successfully! Thank you, ${name}.<br>
-                                               **Note:** In a real website, this message would be processed by a server.`;
-
-            // Clear the form
-            contactForm.reset();
-
-            // Hide the message after a few seconds
-            setTimeout(() => {
-                contactSuccessMessage.style.display = 'none';
-            }, 7000); // Hide after 7 seconds
-        });
-
-
-        // --- Random Glitch Effect Logic ---
-        function activateRandomGlitch() {
-            const body = document.body;
-            // Array of various subtle to more noticeable CSS filters
-            const glitchFilters = [
-                'invert(0.1) hue-rotate(5deg) brightness(1.1)', // Slight color shift, brighter
-                'sepia(0.5) saturate(1.5)', // Sepia with more color
-                'grayscale(0.8) contrast(1.2)', // Mostly grayscale, high contrast
-                'hue-rotate(20deg) saturate(2)', // Stronger color shift
-                'blur(0.5px) brightness(1.1)', // Very slight blur
-                'contrast(1.5)', // Just contrast boost
-                'brightness(1.5)', // Just brightness boost
-                'saturate(0.5)', // Desaturate
-                'opacity(0.98)', // Slight fade, almost imperceptible
-                'none' // Sometimes no effect, for variety
+            // --- Vampire Quiz ---
+            const quizQuestions = [
+                {
+                    question: "When do you feel most energetic?",
+                    options: [
+                        "A) During the day, under the sun.",
+                        "B) At dusk, as shadows lengthen.",
+                        "C) In the dead of night.",
+                        "D) Whenever there's good coffee.",
+                    ],
+                    vampireScore: [0, 1, 2, 0],
+                },
+                {
+                    question: "What's your preferred diet?",
+                    options: [
+                        "A) A balanced diet with lots of garlic.",
+                        "B) Mostly proteins, well-done.",
+                        "C) Rare steak, or anything that drips.",
+                        "D) Anything a human would eat, mostly.",
+                    ],
+                    vampireScore: [0, 0, 2, 1],
+                },
+                {
+                    question: "How do you react to sunlight?",
+                    options: [
+                        "A) Love it, can't get enough!",
+                        "B) I prefer shade, but it's tolerable.",
+                        "C) It irritates my skin and eyes; I avoid it.",
+                        "D) I get a bit sleepy in direct sun.",
+                    ],
+                    vampireScore: [0, 1, 2, 0],
+                },
+                {
+                    question: "What's your ideal living situation?",
+                    options: [
+                        "A) A sunny cottage with a garden.",
+                        "B) A cozy home, good curtains are a must.",
+                        "C) A secluded castle or ancient crypt.",
+                        "D) Anywhere comfortable, really.",
+                    ],
+                    vampireScore: [0, 1, 2, 0],
+                },
+                {
+                    question: "Your favorite animal is...",
+                    options: [
+                        "A) A golden retriever.",
+                        "B) A cat.",
+                        "C) A bat or a wolf.",
+                        "D) A houseplant (low maintenance).",
+                    ],
+                    vampireScore: [0, 0, 2, 0],
+                },
+                {
+                    question: "What type of fashion appeals to you most?",
+                    options: [
+                        "A) Bright and cheerful.",
+                        "B) Comfortable and practical.",
+                        "C) Elegant, dark, and timeless.",
+                        "D) Whatever's trending.",
+                    ],
+                    vampireScore: [0, 0, 2, 0],
+                },
+                {
+                    question: "How do you handle mirrors?",
+                    options: [
+                        "A) Perfectly normal, I check my outfit.",
+                        "B) I use them, but don't obsess.",
+                        "C) I avoid them; they never quite capture my... essence.",
+                        "D) They're fine, but selfies are better.",
+                    ],
+                    vampireScore: [0, 0, 2, 0],
+                },
+                {
+                    question: "Your social life consists of...",
+                    options: [
+                        "A) Lots of daytime gatherings.",
+                        "B) Evening dinners with friends.",
+                        "C) Exclusive nocturnal gatherings, by invitation only.",
+                        "D) Binge-watching shows alone.",
+                    ],
+                    vampireScore: [0, 1, 2, 0],
+                },
+                {
+                    question: "If you heard a wolf howl, you would...",
+                    options: [
+                        "A) Be slightly scared.",
+                        "B) Be curious.",
+                        "C) Feel a deep, primal connection.",
+                        "D) Check if it's on TV.",
+                    ],
+                    vampireScore: [0, 1, 2, 0],
+                },
+                {
+                    question: "What's your biggest fear?",
+                    options: [
+                        "A) Public speaking.",
+                        "B) Spiders.",
+                        "C) Wooden stakes and silver.",
+                        "D) Running out of Wi-Fi.",
+                    ],
+                    vampireScore: [0, 0, 2, 0],
+                },
             ];
 
-            // Pick a random filter from the array
-            const randomFilter = glitchFilters[Math.floor(Math.random() * glitchFilters.length)];
+            let currentQuestionIndex = 0;
+            let totalVampireScore = 0;
+            let quizAnswers = new Array(quizQuestions.length).fill(null); // To store selected answers
 
-            // Apply the filter with a very quick transition
-            body.style.transition = 'filter 0.05s ease-out';
-            body.style.filter = randomFilter;
+            const quizContainer = document.getElementById("quiz-container");
+            const quizProgress = document.getElementById("quiz-progress");
+            const prevQuestionButton = document.getElementById("prev-question");
+            const nextQuestionButton = document.getElementById("next-question");
+            const submitQuizButton = document.getElementById("submit-quiz");
+            const quizResultDiv = document.getElementById("quiz-result");
+            const resultDescriptionDiv = document.getElementById("result-description");
 
-            // Remove the filter after a very short delay to create the "glitch" effect
-            setTimeout(() => {
-                body.style.filter = 'none';
-                body.style.transition = 'none'; // Reset transition immediately for next glitch
-            }, 100); // Glitch duration: 100ms
+            const renderQuestion = () => {
+                if (currentQuestionIndex < quizQuestions.length) {
+                    const q = quizQuestions[currentQuestionIndex];
+                    let questionHtml = `<div class="quiz-question">
+                                        <p>${
+                                            currentQuestionIndex + 1
+                                        }. ${q.question}</p>
+                                        <div class="quiz-options">`;
+                    q.options.forEach((option, index) => {
+                        const uniqueId = `q${currentQuestionIndex}-opt${index}`;
+                        const isChecked =
+                            quizAnswers[currentQuestionIndex] === index ? "checked" : "";
+                        questionHtml += `
+                            <label for="${uniqueId}">
+                                <input type="radio" id="${uniqueId}" name="question${currentQuestionIndex}" value="${index}" ${isChecked}>
+                                ${option}
+                            </label>
+                        `;
+                    });
+                    questionHtml += `</div></div>`;
+                    quizContainer.innerHTML = questionHtml;
+                    quizProgress.textContent = `Question ${
+                        currentQuestionIndex + 1
+                    } of ${quizQuestions.length}`;
 
-            // Schedule the next glitch at a random interval (between 15 and 30 seconds)
-            const nextGlitchDelay = 15000 + Math.random() * 15000;
-            setTimeout(activateRandomGlitch, nextGlitchDelay);
-        }
+                    // Add event listeners for radio buttons
+                    document
+                        .querySelectorAll(
+                            `input[name="question${currentQuestionIndex}"]`
+                        )
+                        .forEach((radio) => {
+                            radio.addEventListener("change", (event) => {
+                                quizAnswers[currentQuestionIndex] = parseInt(
+                                    event.target.value
+                                );
+                                // Enable next button if an answer is selected
+                                if (quizAnswers[currentQuestionIndex] !== null) {
+                                    nextQuestionButton.disabled = false;
+                                }
+                            });
+                        });
 
-        // --- COUNTDOWN TIMER LOGIC ---
-        let countdownInterval;
-        let targetTime = null;
-        let isCountdownActive = false;
-        // isSoundPlaying is already global, no need to redeclare here.
+                    // Update navigation button visibility and disabled state
+                    prevQuestionButton.style.display =
+                        currentQuestionIndex > 0 ? "inline-block" : "none";
+                    nextQuestionButton.style.display = "inline-block";
+                    submitQuizButton.style.display = "none"; // Hide submit until last question
 
-        // Function to start a 2-month countdown automatically when becoming a donor
-        function startTwoMonthCountdown(donorName) {
-            // Stop any existing countdown first
-            stopCountdown();
+                    // Disable next button if current question is not answered
+                    nextQuestionButton.disabled =
+                        quizAnswers[currentQuestionIndex] === null;
 
-            // Calculate 2 months from now (approximately 60 days)
-            const now = new Date();
-            const twoMonthsLater = new Date(now.getTime() + (60 * 24 * 60 * 60 * 1000)); // 60 days in milliseconds
-
-            targetTime = twoMonthsLater;
-
-            // Update the countdown title and message
-            const countdownTitle = document.querySelector('#countdown .countdown-title');
-            const countdownMessage = document.getElementById('countdown-message');
-
-            countdownTitle.textContent = `⏰ ${donorName}'s Transformation Countdown`;
-            countdownMessage.innerHTML = `<span style="color: #e60000;">Welcome to the eternal circle, ${donorName}!</span><br>Your mystical transformation begins now...`;
-            countdownMessage.classList.remove('countdown-finished'); // Remove finished class if present
-
-            // Start the countdown immediately
-            startCountdown();
-
-            // Scroll to the countdown section
-            document.getElementById('countdown').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function updateCountdownDisplay() {
-            if (!targetTime) return;
-            const now = new Date().getTime();
-            const distance = targetTime.getTime() - now;
-            if (distance <= 0) {
-                // Countdown finished
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-
-                const countdownMessage = document.getElementById('countdown-message');
-                countdownMessage.innerHTML = '<span class="countdown-finished">🌙 The transformation is complete! The ancient blood flows eternal within you... 🌙</span>';
-
-                // Play wolf howl if sound is enabled
-                if (isSoundPlaying) {
-                    const wolfHowlSound = document.getElementById('wolf-howl-sound');
-                    wolfHowlSound.currentTime = 0;
-                    wolfHowlSound.volume = 0.6;
-                    wolfHowlSound.play().catch(e => console.log("Wolf howl for countdown finish failed:", e));
+                    if (currentQuestionIndex === quizQuestions.length - 1) {
+                        nextQuestionButton.style.display = "none";
+                        submitQuizButton.style.display = "inline-block";
+                        // Enable submit button only if the last question is answered
+                        submitQuizButton.disabled =
+                            quizAnswers[currentQuestionIndex] === null;
+                    }
                 }
+            };
 
-                stopCountdown();
-                return;
-            }
-            // Calculate time units
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            // Update display with zero padding
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-        }
-
-        function startCountdown() {
-            if (isCountdownActive || !targetTime) return;
-
-            isCountdownActive = true;
-            countdownInterval = setInterval(updateCountdownDisplay, 1000);
-            updateCountdownDisplay(); // Initial update
-
-            // Play drip sound if enabled
-            if (isSoundPlaying) {
-                const dripSound = document.getElementById('drip-sound');
-                dripSound.currentTime = 0;
-                dripSound.volume = 0.4;
-                dripSound.play().catch(e => console.log("Drip sound for countdown start failed:", e));
-            }
-        }
-
-        function stopCountdown() {
-            isCountdownActive = false;
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-                countdownInterval = null;
-            }
-        }
-
-        // Demo function to test the countdown (simulates donor registration)
-        function startDemoCountdown() {
-            const demoNames = ['Dracula', 'Mina', 'Van Helsing', 'Renfield', 'Lucy'];
-            const randomName = demoNames[Math.floor(Math.random() * demoNames.length)];
-            startTwoMonthCountdown(randomName);
-            // Show the game section also for demo
-            document.getElementById('bat-catcher-game').style.display = 'block';
-        }
-
-        // --- VAMPIRE QUIZ LOGIC ---
-        const quizQuestions = [
-            {
-                question: "What time does your energy peak?",
-                options: [
-                    "Morning sunshine (6AM-10AM)",
-                    "Daytime hustle (10AM-4PM)",
-                    "Evening calm (4PM-8PM)",
-                    "Midnight mystique (8PM-4AM)",
-                    "The witching hour (3AM, specifically)",
-                ],
-                valueMap: [0, 1, 2, 4, 5],
-            },
-            {
-                question: "Your preferred beverage is:",
-                options: [
-                    "Green tea or herbal infusion",
-                    "Strong black coffee",
-                    "A fine red wine",
-                    "Something with an... unusual crimson hue",
-                    "I have very specific dietary requirements",
-                ],
-                valueMap: [0, 1, 3, 4, 5],
-            },
-            {
-                question: "How do you react to garlic?",
-                options: [
-                    "Love it! The more the better",
-                    "It's fine in moderation",
-                    "I can tolerate small amounts",
-                    "It makes me slightly uncomfortable",
-                    "I have a severe allergic reaction",
-                ],
-                valueMap: [0, 1, 2, 4, 5],
-            },
-            {
-                question: "Your ideal home would be:",
-                options: [
-                    "A sunny beach house",
-                    "A modern city apartment",
-                    "A cozy countryside cottage",
-                    "A gothic mansion with secret passages",
-                    "An ancient, possibly cursed castle",
-                ],
-                valueMap: [0, 1, 2, 4, 5],
-            },
-            {
-                question: "What's your exercise routine?",
-                options: [
-                    "Morning jog in the park",
-                    "Gym sessions after work",
-                    "Yoga at sunset",
-                    "Late-night fencing practice",
-                    "I don't exercise - I have other methods",
-                ],
-                valueMap: [0, 1, 2, 3, 5],
-            },
-            {
-                question: "Your reflection shows:",
-                options: [
-                    "Everything perfectly clearly",
-                    "Mostly clear, but slightly hazy sometimes",
-                    "It depends on the lighting",
-                    "It's... inconsistent",
-                    "What reflection?",
-                ],
-                valueMap: [0, 1, 2, 4, 5],
-            },
-            {
-                question: "How do you handle sunlight?",
-                options: [
-                    "I thrive in it",
-                    "I enjoy it with sunscreen",
-                    "I prefer shade but tolerate it",
-                    "It makes me uncomfortable",
-                    "I have a medical condition",
-                ],
-                valueMap: [0, 1, 2, 4, 5],
-            },
-            {
-                question: "Your sleeping habits are:",
-                options: [
-                    "Early to bed, early to rise",
-                    "Regular 11PM-7AM schedule",
-                    "I'm a night owl",
-                    "I sleep during daylight hours",
-                    "I don't sleep... I rest",
-                ],
-                valueMap: [0, 1, 2, 4, 5],
-            },
-            {
-                question: "Your skin tone is best described as:",
-                options: [
-                    "Sun-kissed and warm",
-                    "Healthy and natural",
-                    "Pale but normal",
-                    "Unnaturally pale",
-                    "Let's just say I don't tan",
-                ],
-                valueMap: [0, 1, 2, 3, 5],
-            },
-            {
-                question: "How old do people think you are?",
-                options: [
-                    "My exact biological age",
-                    "Slightly younger than I am",
-                    "Hard to tell - I look ageless",
-                    "Much younger than I should",
-                    "I've looked this way for centuries",
-                ],
-                valueMap: [0, 1, 3, 4, 5],
-            },
-        ];
-
-        const quizContainer = document.getElementById("quiz-container");
-        const quizProgress = document.getElementById("quiz-progress");
-        const prevButton = document.getElementById("prev-question");
-        const nextButton = document.getElementById("next-question");
-        const submitButton = document.getElementById("submit-quiz");
-        const quizResultContainer = document.getElementById("quiz-result-container"); // New
-        const quizResult = document.getElementById("quiz-result");
-        const resultDesc = document.getElementById("result-description");
-
-        let currentQuestion = 0;
-        const totalQuestions = quizQuestions.length;
-        const userAnswers = new Array(totalQuestions).fill(null);
-
-        function buildQuiz() {
-            showQuestion(currentQuestion);
-            updateProgress();
-            updateNavigation();
-            quizResultContainer.style.display = 'none'; // Ensure result is hidden at start
-        }
-
-        function showQuestion(index) {
-            quizContainer.innerHTML = "";
-
-            const q = quizQuestions[index];
-            const questionDiv = document.createElement("div");
-            questionDiv.classList.add("quiz-question");
-
-            const questionText = document.createElement("p");
-            questionText.innerText = q.question;
-            questionDiv.appendChild(questionText);
-
-            const optionsContainer = document.createElement("div");
-            optionsContainer.classList.add("quiz-options");
-
-            q.options.forEach((option, i) => {
-                const label = document.createElement("label");
-                const radio = document.createElement("input");
-                radio.type = "radio";
-                radio.name = "question";
-                radio.value = q.valueMap[i];
-
-                if (userAnswers[index] === i) {
-                    radio.checked = true;
-                }
-
-                radio.addEventListener("change", () => {
-                    userAnswers[index] = i;
-                    updateNavigation();
+            const calculateResult = () => {
+                totalVampireScore = 0;
+                quizQuestions.forEach((q, qIndex) => {
+                    const selectedOptionIndex = quizAnswers[qIndex];
+                    if (selectedOptionIndex !== null) {
+                        totalVampireScore += q.vampireScore[selectedOptionIndex];
+                    }
                 });
 
-                label.appendChild(radio);
-                label.appendChild(document.createTextNode(option));
-                optionsContainer.appendChild(label);
+                const maxScore = quizQuestions.length * 2; // Each question max score is 2
+                const percentage = (totalVampireScore / maxScore) * 100;
+
+                let resultText = "";
+                let resultDesc = "";
+
+                if (percentage >= 80) {
+                    resultText = "You are a True Child of the Night!";
+                    resultDesc =
+                        "Your essence resonates deeply with the ancient bloodlines. Embrace your destiny, for the shadows call to you.";
+                    if (isSoundOn) {
+                        evilLaughSound.play();
+                    }
+                } else if (percentage >= 50) {
+                    resultText = "You Have Vampire Tendencies.";
+                    resultDesc =
+                        "The darkness stirs within you, but you still cling to the light. You are on the edge of a thrilling transformation.";
+                } else if (percentage >= 20) {
+                    resultText = "A Human with a Touch of the Macabre.";
+                    resultDesc =
+                        "You appreciate the gothic and mysterious, but your pulse still beats strongly with human vitality. Keep an eye out for strange cravings!";
+                } else {
+                    resultText = "Definitely Human (For Now...).";
+                    resultDesc =
+                        "Your human spirit shines bright, perhaps too bright for the night creatures. Don't worry, the garlic will protect you... maybe.";
+                }
+
+                quizResultDiv.textContent = resultText;
+                resultDescriptionDiv.textContent = resultDesc;
+                quizResultDiv.style.display = "block";
+                resultDescriptionDiv.style.display = "block";
+
+                // Hide quiz navigation and submit button after results are shown
+                quizNavigation.style.display = "none";
+                submitQuizButton.style.display = "none";
+                quizProgress.style.display = "none";
+            };
+
+            nextQuestionButton.addEventListener("click", () => {
+                if (currentQuestionIndex < quizQuestions.length - 1) {
+                    currentQuestionIndex++;
+                    renderQuestion();
+                }
             });
 
-            questionDiv.appendChild(optionsContainer);
-            quizContainer.appendChild(questionDiv);
-        }
-
-        function updateProgress() {
-            quizProgress.textContent = `Question ${currentQuestion + 1} of ${totalQuestions}`;
-        }
-
-        function updateNavigation() {
-            prevButton.style.display = currentQuestion > 0 ? "block" : "none";
-
-            if (currentQuestion < totalQuestions - 1) {
-                nextButton.style.display = "block";
-                submitButton.style.display = "none";
-            } else {
-                nextButton.style.display = "none";
-                submitButton.style.display =
-                    userAnswers[currentQuestion] !== null ? "block" : "none";
-            }
-
-            nextButton.disabled = userAnswers[currentQuestion] === null;
-        }
-
-        function calculateResult() {
-            let totalScore = 0;
-            let answeredAll = true;
-
-            for (let i = 0; i < totalQuestions; i++) {
-                if (userAnswers[i] === null) {
-                    answeredAll = false;
-                    break;
+            prevQuestionButton.addEventListener("click", () => {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    renderQuestion();
                 }
-                totalScore += parseInt(quizQuestions[i].valueMap[userAnswers[i]]);
-            }
+            });
 
-            if (!answeredAll) {
-                alert("Please answer all questions before submitting!");
-                return null;
-            }
+            submitQuizButton.addEventListener("click", calculateResult);
 
-            const maxScore = totalQuestions * 5;
-            return Math.round((totalScore / maxScore) * 100);
-        }
+            renderQuestion(); // Initial render
 
-        function showResult(percentage) {
-            quizResultContainer.style.display = 'block'; // Show the result container
-            let resultText = "";
-            let descriptionText = "";
+            // --- Countdown Timer ---
+            const daysSpan = document.getElementById("days");
+            const hoursSpan = document.getElementById("hours");
+            const minutesSpan = document.getElementById("minutes");
+            const secondsSpan = document.getElementById("seconds");
+            const countdownMessage = document.getElementById("countdown-message");
+            let countdownInterval;
 
-            if (percentage <= 20) {
-                resultText = "Mere Mortal";
-                descriptionText = "You're as human as they come! Sunlight, garlic, and normal aging don't bother you one bit.";
-            } else if (percentage <= 40) {
-                resultText = "Night Enthusiast";
-                descriptionText = "You've got a taste for the nocturnal but still firmly planted in humanity.";
-            } else if (percentage <= 60) {
-                resultText = "Vampire Adjacent";
-                descriptionText = "There's something... different about you. Have you always been this pale, or is it just the lighting?";
-            } else if (percentage <= 80) {
-                resultText = "Creature of the Night";
-                descriptionText = "You're definitely more vampire than human. Sunlight bothers you, and people comment on your timeless appearance.";
-            } else {
-                resultText = "Ancient One";
-                descriptionText = "By the Dark Lords! You're either a full-blooded vampire or doing an incredible impression of one.";
-            }
+            // Set a target date and time (e.g., next Halloween in Liteni, Suceava County, Romania)
+            // Liteni is in EEST (Eastern European Summer Time), which is UTC+3 in summer.
+            // Let's pick a fixed date for the demo, like Halloween 2025.
+            const targetDate = new Date("2025-10-31T00:00:00+03:00").getTime(); // Halloween 2025 at midnight EEST
 
-            quizResult.textContent = resultText;
-            resultDesc.textContent = descriptionText;
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
 
-            if (isSoundPlaying) {
-                const chimeSound = document.getElementById("chime-sound");
-                chimeSound.currentTime = 0;
-                chimeSound.volume = 0.5;
-                chimeSound.play().catch((e) => console.log("Sound error:", e));
-            }
-        }
-
-        prevButton.addEventListener("click", () => {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                showQuestion(currentQuestion);
-                updateProgress();
-                updateNavigation();
-                quizResultContainer.style.display = 'none'; // Hide result if navigating back
-            }
-        });
-
-        nextButton.addEventListener("click", () => {
-            if (
-                userAnswers[currentQuestion] !== null &&
-                currentQuestion < totalQuestions - 1
-            ) {
-                currentQuestion++;
-                showQuestion(currentQuestion);
-                updateProgress();
-                updateNavigation();
-                quizResultContainer.style.display = 'none'; // Hide result if navigating forward
-            }
-        });
-
-        submitButton.addEventListener("click", () => {
-            const percentage = calculateResult();
-            if (percentage !== null) {
-                showResult(percentage);
-                document.getElementById('vampire-quiz').scrollIntoView({ behavior: "smooth", block: "end" }); // Scroll to result
-            }
-        });
-
-
-        // Initial load: Setup, load donors, and manage welcome overlay
-        document.addEventListener('DOMContentLoaded', () => {
-            const welcomeOverlay = document.getElementById('initial-welcome-overlay');
-            const enterSiteButton = document.getElementById('enter-site-button');
-
-            // Load donors from local storage
-            const storedDonors = localStorage.getItem('transylvaniaBloodDonors');
-            if (storedDonors) {
-                try {
-                    donors = JSON.parse(storedDonors);
-                    updateDonorListAndInventory();
-                    // If there are existing donors, show the game
-                    if (donors.length > 0) {
-                        document.getElementById('bat-catcher-game').style.display = 'block';
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    countdownMessage.textContent =
+                        "The Blood Moon rises! Your transformation is complete!";
+                    countdownMessage.classList.add("countdown-finished");
+                    daysSpan.textContent =
+                        hoursSpan.textContent =
+                        minutesSpan.textContent =
+                        secondsSpan.textContent =
+                            "00";
+                    if (isSoundOn) {
+                        wolfHowlSound.play(); // Play a spooky sound when countdown finishes
                     }
-                } catch (e) {
-                    console.error("Error parsing stored donors from localStorage:", e);
-                    localStorage.removeItem('transylvaniaBloodDonors'); // Clear bad data
+                    return;
                 }
-            } else {
-                updateDonorListAndInventory(); // Show initial "No donors" message
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor(
+                    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                daysSpan.textContent = String(days).padStart(2, "0");
+                hoursSpan.textContent = String(hours).padStart(2, "0");
+                minutesSpan.textContent = String(minutes).padStart(2, "0");
+                secondsSpan.textContent = String(seconds).padStart(2, "0");
             }
 
-            // Ensure sound is off initially (it will be turned on if welcome screen plays sound)
-            batSound.pause();
-            typingSound.pause();
-            wolfHowlSound.pause();
-            evilLaughSound.pause();
-            // Pause new ambient sounds
-            windChimeSound.pause();
-            creakSound.pause();
-            distantHowlSound.pause();
+            // Function to start the countdown (e.g., when a donor registers)
+            window.startDemoCountdown = () => {
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                }
+                countdownMessage.textContent =
+                    "The countdown to the next Blood Moon has begun!";
+                countdownMessage.classList.remove("countdown-finished");
+                countdownInterval = setInterval(updateCountdown, 1000);
+                updateCountdown(); // Initial call to display immediately
+            };
 
+            // Call it once on load to display initial countdown (or "00" if already passed)
+            updateCountdown();
 
-            soundOffIcon.style.display = 'block';
-            soundOnIcon.style.display = 'none';
-            isSoundPlaying = false; // Explicitly set state
+            // --- Bat Catcher Game ---
+            const gameArea = document.getElementById("game-area");
+            const gameStartButton = document.getElementById("game-start-button");
+            const scoreDisplay = document.getElementById("score-display");
+            const timerDisplay = document.getElementById("timer-display");
+            const transitionOverlay = document.getElementById("transition-overlay");
 
-            // Check if the user has visited this session
-            if (sessionStorage.getItem('siteVisited')) {
-                welcomeOverlay.classList.add('hidden'); // Hide it immediately
-            } else {
-                // If not visited, show it and play the evil laugh
-                welcomeOverlay.classList.remove('hidden'); // Ensure it's visible
-                // Set isSoundPlaying to true temporarily just to allow evil laugh on first load
-                // The main sound toggle button will still be in "off" state.
-                isSoundPlaying = true;
-                evilLaughSound.currentTime = 0;
-                evilLaughSound.volume = 1.0; // Play at full volume
-                evilLaughSound.play().catch(e => console.log("Evil laugh playback failed:", e))
-                    .finally(() => {
-                        // After playing, revert isSoundPlaying to false
-                        // so Toccata doesn't auto-start if user didn't click sound toggle
-                        isSoundPlaying = false;
-                    });
+            let score = 0;
+            let gameTimer = 30; // seconds
+            let gameInterval;
+            let batSpawnInterval;
+            let isGameRunning = false;
 
-                enterSiteButton.addEventListener('click', () => {
-                    welcomeOverlay.classList.add('hidden');
-                    sessionStorage.setItem('siteVisited', 'true'); // Mark as visited
-                    if (evilLaughSound && !evilLaughSound.paused) { // Check if still playing
-                        evilLaughSound.pause();
-                        evilLaughSound.currentTime = 0;
+            const spawnBat = () => {
+                if (!isGameRunning) return;
+
+                const bat = document.createElement("img");
+                bat.src = "dracula_head.png"; // Use Dracula's head as the target
+                bat.classList.add("game-bat");
+
+                const maxX = gameArea.offsetWidth - 80; // 80px is bat width
+                const maxY = gameArea.offsetHeight - 80; // 80px is bat height
+
+                bat.style.left = `${Math.random() * maxX}px`;
+                bat.style.top = `${Math.random() * maxY}px`;
+
+                // Set random duration for how long the bat stays
+                const stayDuration = 800 + Math.random() * 1200; // 0.8 to 2 seconds
+
+                gameArea.appendChild(bat);
+
+                bat.addEventListener("click", () => {
+                    if (isGameRunning) {
+                        score++;
+                        scoreDisplay.textContent = `Score: ${score}`;
+                        bat.remove(); // Remove clicked bat
+                        if (isSoundOn) {
+                            dripSound.currentTime = 0; // Play drip sound on hit
+                            dripSound.play();
+                        }
                     }
                 });
+
+                // Remove bat if not clicked within its stayDuration
+                setTimeout(() => {
+                    if (bat.parentNode === gameArea) {
+                        bat.remove();
+                    }
+                }, stayDuration);
+            };
+
+            const startGame = () => {
+                isGameRunning = true;
+                score = 0;
+                gameTimer = 30;
+                scoreDisplay.textContent = `Score: ${score}`;
+                timerDisplay.textContent = `Time: ${gameTimer}s`;
+                gameStartButton.disabled = true;
+                gameStartButton.classList.add("disabled");
+                gameArea.innerHTML = ""; // Clear any lingering bats
+
+                gameInterval = setInterval(() => {
+                    gameTimer--;
+                    timerDisplay.textContent = `Time: ${gameTimer}s`;
+
+                    if (gameTimer <= 0) {
+                        endGame();
+                    }
+                }, 1000);
+
+                batSpawnInterval = setInterval(spawnBat, 700); // Spawn a bat every 0.7 seconds
+                transitionOverlay.style.opacity = "1"; // Show overlay
+                transitionOverlay.style.visibility = "visible";
+                setTimeout(() => {
+                    transitionOverlay.style.opacity = "0"; // Fade out
+                    transitionOverlay.style.visibility = "hidden";
+                }, 1500); // Keep overlay for 1.5 seconds
+
+                if (isSoundOn) {
+                    wolfHowlSound.play().catch(e => console.log("Audio play prevented:", e));
+                }
+            };
+
+            const endGame = () => {
+                isGameRunning = false;
+                clearInterval(gameInterval);
+                clearInterval(batSpawnInterval);
+                gameStartButton.disabled = false;
+                gameStartButton.classList.remove("disabled");
+                gameArea.innerHTML = ""; // Clear all bats
+                alert(`Game Over! You caught ${score} Vlad(s)!`);
+            };
+
+            gameStartButton.addEventListener("click", startGame);
+
+            // --- Donor Registration and List ---
+            const donorNameInput = document.getElementById("name");
+            const bloodGroupSelect = document.getElementById("group");
+            const donorListUl = document.getElementById("donor-list");
+            const noDonorsMessage = document.getElementById("no-donors-message");
+            const inventorySummary = document.getElementById("inventory-summary");
+
+            let donors = JSON.parse(localStorage.getItem("donors")) || [];
+
+            const updateDonorList = () => {
+                donorListUl.innerHTML = "";
+                if (donors.length === 0) {
+                    noDonorsMessage.style.display = "block";
+                } else {
+                    noDonorsMessage.style.display = "none";
+                    donors.forEach((donor) => {
+                        const li = document.createElement("li");
+                        li.style.cssText = `
+                            background-color: rgba(42, 42, 42, 0.7);
+                            padding: 8px 12px;
+                            margin-bottom: 5px;
+                            border-radius: 5px;
+                            border: 1px solid #e60000;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            font-family: Arial, sans-serif;
+                            font-size: 0.95em;
+                        `;
+                        li.innerHTML = `
+                            <span>${donor.name} <span style="background-color: #ff3333; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.8em; margin-left: 5px;">${donor.group}</span></span>
+                            <button onclick="removeDonor('${donor.id}')" style="background-color: #cc0000; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 0.8em; margin-top: 0; width: auto;">Remove</button>
+                        `;
+                        donorListUl.appendChild(li);
+                    });
+                }
+                updateBloodInventory();
+            };
+
+            const updateBloodInventory = () => {
+                const inventory = {};
+                donors.forEach((donor) => {
+                    inventory[donor.group] = (inventory[donor.group] || 0) + 1;
+                });
+
+                let summaryText = "";
+                if (Object.keys(inventory).length === 0) {
+                    summaryText = "No blood data available.";
+                } else {
+                    for (const group in inventory) {
+                        summaryText += `${group}: ${inventory[group]} units<br>`;
+                    }
+                }
+                inventorySummary.innerHTML = summaryText;
+            };
+
+            window.submitDonor = () => {
+                const name = donorNameInput.value.trim();
+                const group = bloodGroupSelect.value;
+                if (name) {
+                    const newDonor = {
+                        id: Date.now().toString(), // Simple unique ID
+                        name: name,
+                        group: group,
+                        isDonor: true, // Flag for chat
+                    };
+                    donors.push(newDonor);
+                    localStorage.setItem("donors", JSON.stringify(donors));
+                    updateDonorList();
+                    donorNameInput.value = "";
+                    typeText(
+                        outputDiv,
+                        templates[Math.floor(Math.random() * templates.length)]
+                    );
+
+                    // Add a system message to the chat about the new donor
+                    addChatMessage(
+                        "system",
+                        `${name} (${group}) has joined the Blood Network!`,
+                        "system" // Use a specific class for system messages
+                    );
+
+                    // If chat username is not set, set it to the donor's name
+                    if (!localStorage.getItem('chatUsername')) {
+                        localStorage.setItem('chatUsername', name);
+                        localStorage.setItem('chatUserBloodGroup', group);
+                        // Optionally hide username input overlay if it was shown for chat
+                        document.getElementById('chat-username-input-overlay').style.display = 'none';
+                    }
+                } else {
+                    alert("Please enter your name!");
+                }
+            };
+
+            window.removeDonor = (id) => {
+                donors = donors.filter((donor) => donor.id !== id);
+                localStorage.setItem("donors", JSON.stringify(donors));
+                updateDonorList();
+            };
+
+            updateDonorList(); // Initial load of donor list
+
+            // --- Random Vampire Fact ---
+            const vampireFacts = [
+                "The word 'vampire' first appeared in English in 1734.",
+                "In some folklore, vampires can be repelled by mustard seeds.",
+                "Bram Stoker's Dracula was inspired by Eastern European folklore and Vlad the Impaler.",
+                "Garlic is believed to ward off vampires due to its strong odor, which they supposedly find offensive.",
+                "Vampires are often depicted as unable to cross running water without assistance.",
+                "Mirrors are said to reveal no reflection of a vampire, as they lack a soul.",
+                "In Haitian Vodou, a 'loogaroo' is a female vampire who sheds her skin at night.",
+                "The 'Nosferatu' is another name for a vampire, popularized by the 1922 silent film.",
+                "Some legends claim vampires can transform into bats, wolves, or mist.",
+                "The fear of vampires is known as 'vampirophobia'.",
+            ];
+
+            const vampireFactOutput = document.getElementById("vampire-fact-output");
+
+            window.displayRandomVampireFact = () => {
+                const randomIndex = Math.floor(Math.random() * vampireFacts.length);
+                vampireFactOutput.textContent = vampireFacts[randomIndex];
+            };
+
+            // --- Blood Type Craving Compatibility ---
+            const bloodCravings = {
+                "A+": "Craves fresh berries and the thrill of new beginnings.",
+                "A-": "Desires ancient wines and forgotten secrets.",
+                "B+": "Longs for exotic spices and untamed wilderness.",
+                "B-": "Pines for bitter chocolate and forbidden knowledge.",
+                "AB+": "Seeks balance, perhaps a taste of moonlight and shadow.",
+                "AB-": "Yearns for icy winds and untold mysteries.",
+                "O+": "Needs strong coffee and the vigor of the hunt.",
+                "O-": "Hungers for the very essence of life, pure and undiluted.",
+            };
+
+            const cravingGroupSelect = document.getElementById("craving-group");
+            const cravingOutput = document.getElementById("craving-output");
+
+            window.getBloodCraving = () => {
+                const selectedGroup = cravingGroupSelect.value;
+                cravingOutput.textContent = bloodCravings[selectedGroup];
+            };
+
+            // --- NEW: Global Chat Functionality ---
+            const navChatIcon = document.getElementById("nav-chat-icon");
+            const globalChatWindow = document.getElementById("global-chat-window");
+            const closeChat = globalChatWindow.querySelector(".close-chat");
+            const chatMessagesContainer = document.getElementById("chat-messages-container");
+            const chatMessageInput = document.getElementById("chat-message-input");
+            const sendMessageButton = document.getElementById("send-message-button");
+            const chatUsernameInputOverlay = document.getElementById("chat-username-input-overlay");
+            const chatUsernameSetup = document.getElementById("chat-username-setup");
+            const setChatUsernameButton = document.getElementById("set-chat-username-button");
+
+            let chatUsername = localStorage.getItem("chatUsername");
+            let chatUserBloodGroup = localStorage.getItem("chatUserBloodGroup");
+            let chatMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+
+            // Display stored messages
+            const loadChatMessages = () => {
+                chatMessagesContainer.innerHTML = "";
+                chatMessages.forEach(msg => {
+                    appendChatMessage(msg.sender, msg.message, msg.type, msg.bloodGroup);
+                });
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Scroll to bottom
+            };
+
+            const appendChatMessage = (sender, message, type, bloodGroup = null) => {
+                const messageElement = document.createElement("div");
+                messageElement.classList.add("chat-message");
+                messageElement.classList.add(type); // 'self', 'other', 'system'
+
+                let senderName = `<strong>${sender}</strong>`;
+                if (bloodGroup) {
+                    senderName += `<span class="blood-group">${bloodGroup}</span>`;
+                }
+
+                messageElement.innerHTML = `${senderName}: ${message}`;
+                chatMessagesContainer.appendChild(messageElement);
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Auto-scroll to latest message
+            };
+
+            const handleSendMessage = () => {
+                const messageText = chatMessageInput.value.trim();
+                if (messageText) {
+                    const message = {
+                        sender: chatUsername,
+                        message: messageText,
+                        type: "self",
+                        bloodGroup: chatUserBloodGroup // Include blood group
+                    };
+                    chatMessages.push(message);
+                    localStorage.setItem("chatMessages", JSON.stringify(chatMessages));
+                    appendChatMessage(message.sender, message.message, message.type, message.bloodGroup);
+                    chatMessageInput.value = "";
+
+                    // Simulate a simple "server" response after a short delay
+                    setTimeout(() => {
+                        const botResponses = [
+                            "Hmm, an interesting thought...",
+                            "Indeed.",
+                            "The shadows whisper agreement.",
+                            "Your words carry weight.",
+                            "A keen observation, mortal.",
+                            "I shall ponder this.",
+                            "Very well.",
+                        ];
+                        const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+                        const botMessage = {
+                            sender: "Mysterious Entity",
+                            message: randomResponse,
+                            type: "other",
+                            bloodGroup: null // No blood group for bot
+                        };
+                        chatMessages.push(botMessage);
+                        localStorage.setItem("chatMessages", JSON.stringify(chatMessages));
+                        appendChatMessage(botMessage.sender, botMessage.message, botMessage.type, botMessage.bloodGroup);
+                    }, 1000 + Math.random() * 1000); // 1-2 seconds delay
+                }
+            };
+
+            // Event Listeners for Chat
+            navChatIcon.addEventListener("click", (e) => {
+                e.preventDefault(); // Prevent default link behavior
+                if (!chatUsername) {
+                    chatUsernameInputOverlay.style.display = "flex";
+                    chatUsernameSetup.focus();
+                } else {
+                    globalChatWindow.classList.toggle("active");
+                    if (globalChatWindow.classList.contains("active")) {
+                        chatMessageInput.focus();
+                        loadChatMessages(); // Load messages when chat opens
+                    }
+                }
+            });
+
+            closeChat.addEventListener("click", () => {
+                globalChatWindow.classList.remove("active");
+            });
+
+            sendMessageButton.addEventListener("click", handleSendMessage);
+
+            chatMessageInput.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    handleSendMessage();
+                }
+            });
+
+            setChatUsernameButton.addEventListener("click", () => {
+                const username = chatUsernameSetup.value.trim();
+                if (username) {
+                    chatUsername = username;
+                    localStorage.setItem("chatUsername", chatUsername);
+                    // Check if the user is a donor and get their blood group
+                    const donor = donors.find(d => d.name.toLowerCase() === username.toLowerCase());
+                    if (donor) {
+                        chatUserBloodGroup = donor.group;
+                        localStorage.setItem("chatUserBloodGroup", chatUserBloodGroup);
+                    } else {
+                        chatUserBloodGroup = null; // Ensure it's null if not a donor
+                        localStorage.removeItem("chatUserBloodGroup");
+                    }
+
+                    chatUsernameInputOverlay.style.display = "none";
+                    globalChatWindow.classList.add("active");
+                    chatMessageInput.focus();
+                    loadChatMessages(); // Load messages after setting username
+                    addChatMessage("system", `${chatUsername} has entered the chat.`, "system");
+                } else {
+                    alert("Please enter a username to join the chat!");
+                }
+            });
+
+            // Initial check for chat username on page load
+            if (chatUsername) {
+                loadChatMessages();
+            } else {
+                // If no username, the chat window will not open until username is set
+                // You could add a prompt here or just wait for them to click the chat icon
             }
-
-            // Start the random glitch effect loop
-            activateRandomGlitch();
-
-            // Initialize the quiz
-            buildQuiz();
         });
     </script>
 </body>
-
 </html>
