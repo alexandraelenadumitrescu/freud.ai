@@ -1,1 +1,836 @@
-<h1>Hello! acesta este homepage-ul siteului freud.ai</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transylvania Blood Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cinzel Decorative', serif;
+            background-color: #0d0d0d;
+            color: #f5f5f5;
+            overflow-x: hidden;
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1542848906-8809e6c38b25?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Overlay pentru a intuneca imaginea de fundal */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        header {
+            background-color: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            font-size: 32px;
+            color: #e60000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Stiluri pentru logo */
+        .header-logo {
+            height: 80px;
+            width: auto;
+            margin-right: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        nav {
+            background-color: #1a1a1a;
+            padding: 10px;
+            text-align: center;
+            position: sticky;
+            top: 72px;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        nav a {
+            color: #ccc;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #e60000;
+        }
+
+        section {
+            padding: 40px;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.6;
+            background-color: rgba(26, 26, 26, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(230, 0, 0, 0.4);
+            margin-top: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h2 {
+            color: #e60000;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        input,
+        select,
+        button {
+            padding: 12px;
+            margin-top: 10px;
+            width: calc(100% - 24px);
+            background: #2a2a2a;
+            color: #f5f5f5;
+            border: 1px solid #e60000;
+            border-radius: 5px;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1em;
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #ff3333;
+            box-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
+        }
+
+        button {
+            background-color: #e60000;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: #cc0000;
+        }
+
+        #letter {
+            background-color: rgba(26, 26, 26, 0.8);
+            padding: 20px;
+            border: 1px dashed #e60000;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(230, 0, 0, 0.3);
+            white-space: pre-wrap;
+        }
+
+        /* New styles for handwriting effect */
+        #output {
+            font-family: 'Dancing Script', cursive;
+            /* Apply handwriting font */
+            font-size: 1.5em;
+            /* Make it larger for better readability */
+            color: #ccc;
+            /* Slightly lighter color for the letter text */
+            min-height: 200px;
+            /* Ensure enough space for the letter */
+        }
+
+        /* Typing cursor effect */
+        .typing-cursor::after {
+            content: '|';
+            display: inline-block;
+            animation: blink-caret 0.75s infinite;
+        }
+
+        @keyframes blink-caret {
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: #e60000;
+            }
+        }
+
+        /* Stiluri pentru lilieci */
+        .bat {
+            position: fixed;
+            width: 60px;
+            height: auto;
+            pointer-events: none;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.3));
+            z-index: 5;
+        }
+
+        @keyframes flyToRight {
+            0% {
+                transform: translateX(0vw) translateY(var(--startY)) scaleX(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: translateX(50vw) translateY(var(--midY)) scaleX(1);
+            }
+
+            100% {
+                transform: translateX(100vw) translateY(var(--endY)) scaleX(1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes flyToLeft {
+            0% {
+                transform: translateX(100vw) translateY(var(--startY)) scaleX(-1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: translateX(50vw) translateY(var(--midY)) scaleX(-1);
+            }
+
+            100% {
+                transform: translateX(0vw) translateY(var(--endY)) scaleX(-1);
+                opacity: 0.7;
+            }
+        }
+
+        /* Blood Drop Animation */
+        .blood-drop {
+            position: absolute;
+            background-color: #e60000;
+            border-radius: 50%;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: drip 1s ease-out forwards;
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.7));
+        }
+
+        @keyframes drip {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(50px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Mist Effect on Scroll */
+        .mist-overlay {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(to top, rgba(230, 0, 0, 0.2), transparent);
+            z-index: 20;
+            pointer-events: none;
+            transition: height 0.5s ease-out;
+        }
+
+        /* Mouse Glow */
+        #mouse-glow {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 0, 0, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            filter: blur(20px);
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+
+        /* Sound Toggle Button */
+        #sound-toggle-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #f5f5f5;
+            /* Changed to white for better contrast with red glow */
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            /* Red glow for button */
+            z-index: 200;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        #sound-toggle-button:hover {
+            background-color: #e0e0e0;
+            /* Lighter grey for hover effect */
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Stiluri pentru imaginile din butonul de sunet */
+        #sound-toggle-button img {
+            width: 35px;
+            height: 35px;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Initially hide the sound-on icon - controlled by JS display property */
+        #sound-on-icon {
+            display: none;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            header {
+                font-size: 24px;
+                flex-direction: column;
+            }
+
+            .header-logo {
+                height: 60px;
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+
+            section {
+                padding: 20px;
+                margin: 20px auto;
+            }
+
+            nav a {
+                margin: 0 10px;
+                font-size: 0.9em;
+            }
+
+            #sound-toggle-button {
+                width: 50px;
+                height: 50px;
+                bottom: 10px;
+                left: 10px;
+            }
+
+            #sound-toggle-button img {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bat-container"></div>
+    <div id="mouse-glow"></div>
+    <div class="mist-overlay" id="mist-overlay"></div>
+
+    <audio id="bat-sound" loop>
+        <source src="Toccata-and-fugue-in-d-minor.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="drip-sound">
+        <source src="water-drip-72357.mp3" type="audio/mp3">
+    </audio>
+    <audio id="chime-sound">
+        <source src="spooky-chimes-359877.mp3" type="audio/mp3">
+    </audio>
+    <audio id="typing-sound">
+        <source src="typewriter-100-88009.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="wolf-howl-sound">
+        <source src="wolf-howl.mp3" type="audio/mp3"> Your browser does not support the audio element.
+    </audio>
+
+
+    <header>
+        <img src="blood-donors-needed-halloween-dracula-volunteer-light-nikita-goel.jpg" alt="Transylvania Blood Network Logo" class="header-logo">
+        🩸 Transylvania Blood Network
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#donate">Donate</a>
+        <a href="#registered-donors">Donors</a>
+        <a href="#facts-cravings">Secrets</a>
+        <a href="#letter">Your Letter</a>
+        <a href="#about">About</a>
+    </nav>
+
+    <section id="home">
+        <h2>Welcome</h2>
+        <p>Transylvania Blood Network connects generous donors with those who need them most. But more than blood, we deliver humanity,
+            wrapped in a veil of ancient mystery. Every pulse, a story. Every drop, a destiny.</p>
+    </section>
+
+    <section id="donate">
+        <h2>Become a Donor</h2>
+        <label for="name">Your Name</label>
+        <input type="text" id="name" placeholder="Enter your name...">
+
+        <label for="group">Blood Group</label>
+        <select id="group">
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+            <option>O+</option>
+            <option>O-</option>
+        </select>
+
+        <button onclick="submitDonor()">Generate Letter</button>
+    </section>
+
+    <section id="registered-donors">
+        <h2>Registered Donors & Blood Inventory</h2>
+        <div id="donor-list-container" style="max-height: 300px; overflow-y: auto; border: 1px solid #e60000; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+            <p id="no-donors-message" style="text-align: center; color: #ccc;">No donors registered yet.</p>
+            <ul id="donor-list" style="list-style-type: none; padding: 0;">
+                </ul>
+        </div>
+        <div id="blood-inventory" style="background-color: rgba(42, 42, 42, 0.8); padding: 15px; border-radius: 5px; border: 1px solid #e60000;">
+            <h3>Current Blood Inventory:</h3>
+            <p id="inventory-summary" style="color: #f5f5f5;">No blood data available.</p>
+        </div>
+        <button onclick="clearAllDonors()" style="margin-top: 20px; background-color: #550000;">Clear All Donors (Local)</button>
+    </section>
+
+    <section id="facts-cravings">
+        <h2>Transylvanian Secrets & Cravings</h2>
+
+        <h3>Random Vampire Fact:</h3>
+        <button onclick="displayRandomVampireFact()">Reveal a Secret</button>
+        <p id="vampire-fact-output" style="margin-top: 15px; font-style: italic; color: #ccc;">Click to uncover ancient truths.</p>
+
+        <h3 style="margin-top: 30px;">Blood Type Craving Compatibility:</h3>
+        <label for="craving-group">Select Blood Type:</label>
+        <select id="craving-group">
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+            <option>O+</option>
+            <option>O-</option>
+        </select>
+        <button onclick="getBloodCraving()">Discover Cravings</button>
+        <p id="craving-output" style="margin-top: 15px; font-style: italic; color: #ccc;">What will your blood crave tonight?</p>
+    </section>
+
+    <section id="letter">
+        <h2>Your Letter</h2>
+        <div id="output">Fill in your data above to see your letter.</div>
+    </section>
+
+    <section id="about">
+        <h2>About</h2>
+        <p>This web app was created in a 48h hackathon by a team of beginner developers from Romania. Inspired by our
+            culture and humanity, we believe every drop tells a story. And perhaps, awakens something more primal within
+            us all.</p>
+    </section>
+
+    <button id="sound-toggle-button" aria-label="Toggle Sound">
+        <img id="sound-off-icon" src="haut-parleur-rouge-et-icone-sonore.png" alt="Sound Off">
+        <img id="sound-on-icon" src="icone-du-son-et-du-haut-parleur-rosu.png" alt="Sound On">
+    </button>
+
+    <script>
+        const templates = [
+            // Original Templates
+            "Dear stranger,\\n\\nA part of me now lives in you. In this silent exchange, I hope you find strength. May your journey be long and filled with hidden wonders.\\n\\n– Someone who believes in you, from the shadows.",
+            "You may never know my name, but my blood runs with hope. Let this be more than survival — let it be transformation. Embrace the night.",
+            "We may never meet. But in this quiet act, I've shared life. Keep moving. Keep feeling. The ancient currents flow through us all.\\n\\n– A quiet ally, cloaked in starlight.",
+            "They say blood is thicker than water. I say it's thicker than distance, thicker than time. I'm with you. Always. A hidden guardian watches over.",
+            "My veins whispered: share. So I did. You're not alone. Someone out there cares, in ways you cannot yet comprehend. Embrace the mystery.",
+            // New "Funny/Weird" Templates
+            "Dearest Donor,\\n\\nYour generosity is... intoxicating. I've already felt a peculiar urge to organize my dusty crypt collection. Coincidence? I think not. Perhaps we'll share a moonlit stroll soon.\\n\\n— A Grateful (and slightly odd) Recipient.",
+            "To the Brave One,\\n\\nThank you. My spectral librarian now has enough energy to alphabetize the scrolls of ancient curses. And I finally have the strength to rearrange my coffin. So much tidier now!\\n\\n— Lord Vlad (he prefers 'Vlad').",
+            "Greetings,\\n\\nYour donation has significantly improved my nightly levitation practice. I can now float at least two inches higher! Expect an invitation to our next 'Midnight Picnic for the Peculiar'.\\n\\n— The Nocturnal Neighbor.",
+            "A word of caution, dear donor: you might develop a sudden fondness for rare steak, avoiding garlic, or finding dusty corners strangely appealing. It's just... the transfusion. Nothing to worry about. Probably.\\n\\n— Sincerely, The Transylvanian Blood Bank (definitely human).",
+            "Recipient,\\n\\nThe transfusion went splendidly! My last craving for ancient dust has subsided, replaced by an inexplicable desire for strong, dark coffee. Coincidence? Or the true power of O-negative?\\n\\n— Anonymously Yours (but mostly Nocturnal).",
+            "This blood… it sings! Or perhaps that's just the ancient echoes within these castle walls. Anyway, thank you. I now feel empowered to finally learn to play the pipe organ. Loudly. All night.\\n\\n— Your New, Energetic Friend."
+        ];
+
+        let typingInterval; // To hold the interval for typing effect
+
+        // --- NEW DONOR MANAGEMENT LOGIC ---
+
+        // Global array to store donors
+        let donors = [];
+
+        // Function to update the donor list and inventory display
+        function updateDonorListAndInventory() {
+            const donorListUl = document.getElementById('donor-list');
+            const noDonorsMessage = document.getElementById('no-donors-message');
+            const inventorySummary = document.getElementById('inventory-summary');
+
+            donorListUl.innerHTML = ''; // Clear existing list
+            const bloodCounts = {}; // To store counts of each blood group
+
+            if (donors.length === 0) {
+                noDonorsMessage.style.display = 'block';
+            } else {
+                noDonorsMessage.style.display = 'none';
+                donors.forEach(donor => {
+                    const listItem = document.createElement('li');
+                    listItem.style.marginBottom = '8px';
+                    listItem.style.borderBottom = '1px dotted #550000';
+                    listItem.style.paddingBottom = '5px';
+                    listItem.innerHTML = `<strong>${donor.name}</strong> (${donor.group}) - Donated on ${donor.date}`;
+                    donorListUl.appendChild(listItem);
+
+                    // Count blood types for inventory
+                    bloodCounts[donor.group] = (bloodCounts[donor.group] || 0) + 1;
+                });
+            }
+
+            // Update inventory summary
+            let summaryText = 'No blood data available.';
+            if (Object.keys(bloodCounts).length > 0) {
+                summaryText = Object.entries(bloodCounts)
+                    .map(([group, count]) => `${group}: ${count} unit${count > 1 ? 's' : ''}`)
+                    .join(', ');
+            }
+            inventorySummary.innerText = summaryText;
+        }
+
+        // Function to clear all locally stored donors
+        function clearAllDonors() {
+            if (confirm("Are you sure you want to clear all registered donors from your local browser storage? This action cannot be undone.")) {
+                localStorage.removeItem('transylvaniaBloodDonors');
+                donors = []; // Clear the in-memory array
+                updateDonorListAndInventory(); // Update UI
+                alert("All donor data cleared!");
+            }
+        }
+
+        // New function to submit donor data and then generate the letter
+        function submitDonor() {
+            const nameInput = document.getElementById('name');
+            const groupSelect = document.getElementById('group');
+
+            const name = nameInput.value.trim();
+            const group = groupSelect.value;
+
+            if (!name) {
+                alert("Please enter your name to register as a donor.");
+                return;
+            }
+
+            const newDonor = {
+                name: name,
+                group: group,
+                date: new Date().toLocaleDateString('en-GB') // Format date consistently (e.g., 26/07/2025)
+            };
+
+            donors.push(newDonor);
+            localStorage.setItem('transylvaniaBloodDonors', JSON.stringify(donors));
+
+            // Clear form fields
+            nameInput.value = '';
+            groupSelect.value = 'A+'; // Reset to default or first option
+
+            // Update UI components (donor list and inventory)
+            updateDonorListAndInventory();
+
+            // Now, call the function to generate and display the letter for this new donor
+            generateLetterForDonor(newDonor);
+
+            // Scroll to the letter section
+            document.getElementById('letter').scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+        // Modified function to generate the letter (now accepts donorData as argument)
+        function generateLetterForDonor(donorData) {
+            const outputDiv = document.getElementById('output');
+            const letterTemplate = templates[Math.floor(Math.random() * templates.length)];
+            const fullText = `Blood Group: ${donorData.group}\nDonor: ${donorData.name || 'Anonymous'}\n\n${letterTemplate}`;
+
+            // Clear previous typing interval if any
+            if (typingInterval) {
+                clearInterval(typingInterval);
+            }
+
+            // Reset output and add typing cursor
+            outputDiv.innerText = '';
+            outputDiv.classList.add('typing-cursor');
+
+            let charIndex = 0;
+            const typingSound = document.getElementById('typing-sound');
+            typingSound.volume = 0.2; // Adjust typing sound volume
+
+            typingInterval = setInterval(() => {
+                if (charIndex < fullText.length) {
+                    outputDiv.innerText += fullText.charAt(charIndex);
+                    // Play typing sound for each character only if overall sound is enabled
+                    if (isSoundPlaying) { // Check if main sound is active
+                        typingSound.currentTime = 0; // Rewind to start for quick playback
+                        typingSound.play().catch(e => console.log("Typing sound playback failed:", e));
+                    }
+                    charIndex++;
+                } else {
+                    clearInterval(typingInterval);
+                    outputDiv.classList.remove('typing-cursor'); // Remove cursor after typing
+                    typingSound.pause(); // Pause typing sound
+                    typingSound.currentTime = 0; // Reset typing sound
+                }
+            }, 50); // Typing speed (milliseconds per character)
+
+            // Play drip sound only if overall sound is enabled
+            if (isSoundPlaying) { // Check if main sound is active
+                const dripSound = document.getElementById('drip-sound');
+                dripSound.currentTime = 0; // Rewind to start
+                dripSound.play().catch(e => console.log("Drip sound playback failed:", e));
+            }
+
+            // Generate blood drops (existing logic)
+            const button = document.querySelector('#donate button'); // Refers to the "Generate Letter" button
+            const buttonRect = button.getBoundingClientRect();
+            for (let i = 0; i < 5; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('blood-drop');
+                drop.style.width = `${10 + Math.random() * 10}px`;
+                drop.style.height = drop.style.width;
+                drop.style.left = `${buttonRect.left + buttonRect.width / 2 + (Math.random() - 0.5) * 50}px`;
+                drop.style.top = `${buttonRect.bottom - 10}px`;
+                document.body.appendChild(drop);
+
+                // Remove after animation
+                drop.addEventListener('animationend', () => {
+                    drop.remove();
+                });
+            }
+        }
+
+        // --- NEW FUNNY/WEIRD JAVASCRIPT LOGIC ---
+
+        const vampireFacts = [
+            "Did you know: Vampires prefer their coffee O-negative, with a splash of existential dread.",
+            "A vampire's favorite pastime is reorganizing their crypt by moonlight.",
+            "Garlic breath is a myth; it's just that most vampires hate strong odors, like freshly brewed coffee or extreme politeness.",
+            "The oldest known vampire was actually allergic to blood. He survived on a diet of ancient dust bunnies and awkward silences.",
+            "Vampires are notoriously bad at hide-and-seek. They always forget they don't have a reflection.",
+            "Contrary to popular belief, vampires are excellent bakers. Their favorite treat? Red velvet cake, naturally.",
+            "A true Transylvanian vampire always irons his cape before a night out. Wrinkles are simply unacceptable.",
+            "The secret to eternal youth? It's not just the blood; it's avoiding direct sunlight and excessive small talk.",
+            "If a vampire offers you 'a bite to eat,' always clarify if they mean food or... you.",
+            "Most vampires struggle with modern technology. They still think 'bluetooth' is a dental condition."
+        ];
+
+        function displayRandomVampireFact() {
+            const factOutput = document.getElementById('vampire-fact-output');
+            const randomFact = vampireFacts[Math.floor(Math.random() * vampireFacts.length)];
+            factOutput.innerText = randomFact;
+        }
+
+        const cravingCompatibility = {
+            'A+': "You might develop a sudden craving for organic kale smoothies... and the occasional moonlit nap in a dusty attic.",
+            'A-': "Expect an inexplicable desire for strong, dark coffee, preferably brewed over ancient rituals. And maybe a fear of sunlight.",
+            'B+': "You'll find yourself drawn to obscure gothic poetry, obscure art, and the occasional urge to waltz alone in an abandoned ballroom.",
+            'B-': "Prepare for a newfound appreciation for rare steak, dusty tomes, and the subtle art of not blinking. Also, a mild aversion to daylight.",
+            'AB+': "Your inner existentialist will awaken, possibly paired with a craving for deep philosophical debates and the occasional craving for sparkling water... and fear of crucifixes.",
+            'AB-': "You might feel compelled to reorganize your entire home after midnight, develop a love for bats, and a strange distaste for loud noises.",
+            'O+': "A primal urge for exploration in ancient forests might emerge, alongside an appreciation for fresh, raw ingredients. And perhaps, a new sensitivity to garlic.",
+            'O-': "You'll find yourself yearning for ancient castles, moonlit walks, and a profound understanding of shadows. Also, an uncanny ability to find lost keys."
+        };
+
+        function getBloodCraving() {
+            const cravingGroupSelect = document.getElementById('craving-group');
+            const cravingOutput = document.getElementById('craving-output');
+            const selectedGroup = cravingGroupSelect.value;
+            cravingOutput.innerText = cravingCompatibility[selectedGroup] || "No unique cravings detected for this type... yet.";
+        }
+
+
+        // --- EXISTING JAVASCRIPT LOGIC (rearranged and integrated) ---
+
+        const batSound = document.getElementById('bat-sound');
+        const typingSound = document.getElementById('typing-sound');
+        const wolfHowlSound = document.getElementById('wolf-howl-sound'); // New sound element
+
+        // JavaScript pentru lilieci zburători
+        const batContainer = document.getElementById('bat-container');
+        const numberOfBats = 7;
+        const batImageSrc = 'halloween-flying-bat-sticker-u889c-x450.png'; // Make sure this file exists
+
+        for (let i = 0; i < numberOfBats; i++) {
+            const startY = Math.random() * window.innerHeight;
+            const midY = Math.random() * window.innerHeight;
+            const endY = Math.random() * window.innerHeight;
+
+            const bat = document.createElement('img');
+            bat.src = batImageSrc;
+            bat.classList.add('bat');
+            bat.style.setProperty('--startY', startY + 'px');
+            bat.style.setProperty('--midY', midY + 'px');
+            bat.style.setProperty('--endY', endY + 'px');
+
+            const animationDuration = 15 + Math.random() * 10;
+            const animationDelay = Math.random() * 10;
+            bat.style.animationDuration = animationDuration + 's';
+            bat.style.animationDelay = animationDelay + 's';
+            bat.style.animationIterationCount = 'infinite';
+
+            if (Math.random() < 0.5) {
+                bat.style.animationName = 'flyToRight';
+            } else {
+                bat.style.animationName = 'flyToLeft';
+            }
+            batContainer.appendChild(bat);
+        }
+
+        // Mist Effect on Scroll
+        const mistOverlay = document.getElementById('mist-overlay');
+        window.addEventListener('scroll', () => {
+            const scrollPercentage = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            mistOverlay.style.height = `${scrollPercentage * 100}vh`;
+        });
+
+        // Mouse Glow Effect
+        const mouseGlow = document.getElementById('mouse-glow');
+        let mouseMoveTimeout;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseGlow.style.left = `${e.clientX}px`;
+            mouseGlow.style.top = `${e.clientY}px`;
+            mouseGlow.style.opacity = 1;
+
+            clearTimeout(mouseMoveTimeout);
+            mouseMoveTimeout = setTimeout(() => {
+                mouseGlow.style.opacity = 0;
+            }, 500);
+        });
+
+        // Input Field Pulsating Border
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('focus', () => {
+                element.style.boxShadow = '0 0 12px rgba(255, 51, 51, 0.8)';
+            });
+            element.addEventListener('blur', () => {
+                element.style.boxShadow = '';
+            });
+        });
+
+        // Navigation link hover sound
+        const navLinks = document.querySelectorAll('nav a');
+        const chimeSound = document.getElementById('chime-sound');
+
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                // Play chime sound only if main sound is active
+                if (isSoundPlaying) {
+                    chimeSound.currentTime = 0;
+                    chimeSound.volume = 0.5;
+                    chimeSound.play().catch(e => console.log("Chime sound playback failed:", e));
+                }
+            });
+        });
+
+        // Sound Toggle Button Logic
+        const soundToggleButton = document.getElementById('sound-toggle-button');
+        const soundOffIcon = document.getElementById('sound-off-icon');
+        const soundOnIcon = document.getElementById('sound-on-icon');
+        let isSoundPlaying = false; // Initial state: sound is off
+        let wolfHowlInterval; // To control the wolf howl sound
+
+        function toggleBackgroundSound() {
+            if (isSoundPlaying) {
+                batSound.pause();
+                batSound.currentTime = 0;
+                typingSound.pause();
+                typingSound.currentTime = 0;
+                wolfHowlSound.pause(); // Stop wolf howl
+                clearInterval(wolfHowlInterval); // Clear wolf howl interval
+                soundOffIcon.style.display = 'block';
+                soundOnIcon.style.display = 'none';
+                isSoundPlaying = false;
+            } else {
+                batSound.volume = 0.3; // Volume for the Toccata
+                batSound.play().catch(error => {
+                    console.error("Eroare la redarea sunetului batSound (Toccata):", error);
+                });
+                soundOffIcon.style.display = 'none';
+                soundOnIcon.style.display = 'block';
+                isSoundPlaying = true;
+                startWolfHowlTimer(); // Start wolf howl timer
+            }
+        }
+
+        // Function to play wolf howl randomly
+        function startWolfHowlTimer() {
+            if (wolfHowlInterval) {
+                clearInterval(wolfHowlInterval); // Clear any existing interval
+            }
+            wolfHowlInterval = setInterval(() => {
+                if (isSoundPlaying && Math.random() < 0.3) { // 30% chance to howl
+                    wolfHowlSound.currentTime = 0;
+                    wolfHowlSound.volume = 0.4;
+                    wolfHowlSound.play().catch(e => console.log("Wolf howl playback failed:", e));
+                }
+            }, 15000 + Math.random() * 15000); // Howl every 15-30 seconds
+        }
+
+
+        // Attach event listener to the button
+        soundToggleButton.addEventListener('click', toggleBackgroundSound);
+
+        // Initial load: Setup, load donors, and ensure sound is off
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load donors from local storage
+            const storedDonors = localStorage.getItem('transylvaniaBloodDonors');
+            if (storedDonors) {
+                try {
+                    donors = JSON.parse(storedDonors);
+                    updateDonorListAndInventory();
+                } catch (e) {
+                    console.error("Error parsing stored donors from localStorage:", e);
+                    localStorage.removeItem('transylvaniaBloodDonors'); // Clear bad data
+                }
+            } else {
+                updateDonorListAndInventory(); // Show initial "No donors" message
+            }
+
+            // Ensure sound is off initially
+            batSound.pause();
+            typingSound.pause();
+            wolfHowlSound.pause();
+            soundOffIcon.style.display = 'block';
+            soundOnIcon.style.display = 'none';
+            isSoundPlaying = false; // Explicitly set state
+        });
+    </script>
+</body>
+
+</html>
