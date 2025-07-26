@@ -1241,136 +1241,113 @@
 
     <section id="bat-catcher-game">
         <h2>Catch Vlad!</h2>
-        <p>
-            Click on Vlad Tepes as fast as you can to score points before time runs
-            out!
-        </p>
         <div id="game-info">
-            <span id="score-display">Score: 0</span>
-            <span id="timer-display">Time: 30s</span>
+            <div>Score: <span id="score">0</span></div>
+            <div>Time: <span id="time-left">30</span>s</div>
         </div>
         <div id="game-area"></div>
-        <button id="game-start-button">Start Game!</button>
+        <button id="game-start-button">Start Game</button>
     </section>
 
     <section id="vampire-quiz">
-        <h2>How Much Vampire Are You?</h2>
-        <p class="quiz-progress" id="quiz-progress">Question 1 of 10</p>
-        <div id="quiz-container"></div>
-        <div class="quiz-navigation" id="quiz-navigation">
-            <button id="prev-question" style="display: none">← Previous</button>
-            <button id="next-question">Next →</button>
+        <h2>The Vampire Quiz</h2>
+        <div id="quiz-container">
+            <p class="quiz-progress">Question 1 of 5</p>
+            <div class="quiz-question">
+                <p>What is generally believed to repel vampires?</p>
+                <div class="quiz-options">
+                    <label>
+                        <input type="radio" name="q1" value="a" /> Sunlight
+                    </label>
+                    <label>
+                        <input type="radio" name="q1" value="b" /> Garlic
+                    </label>
+                    <label>
+                        <input type="radio" name="q1" value="c" /> Holy Water
+                    </label>
+                    <label>
+                        <input type="radio" name="q1" value="d" /> All of the above
+                    </label>
+                </div>
+            </div>
+            <div class="quiz-navigation">
+                <button id="prev-question" style="display: none">Previous</button>
+                <button id="next-question">Next</button>
+            </div>
+            <button id="submit-quiz" style="display: none">Submit Quiz</button>
         </div>
-        <button id="submit-quiz" style="display: none">
-            Reveal Your True Nature
-        </button>
         <div id="quiz-result"></div>
-        <div id="result-description"></div>
+        <p id="result-description"></p>
     </section>
 
     <section id="countdown-section">
-        <h2>Transformation Countdown</h2>
         <div id="countdown-timer">
-            <div class="countdown-title">⏰ Time Until Next Blood Moon</div>
-
+            <h2 class="countdown-title">Next Full Moon Transformation</h2>
+            <p class="countdown-message" id="transformation-message">
+                Prepare yourself... the night approaches.
+            </p>
             <div class="timer-display">
                 <div class="time-unit">
                     <span class="time-number" id="days">00</span>
-                    <div class="time-label">Days</div>
+                    <span class="time-label">Days</span>
                 </div>
                 <div class="time-unit">
                     <span class="time-number" id="hours">00</span>
-                    <div class="time-label">Hours</div>
+                    <span class="time-label">Hours</span>
                 </div>
                 <div class="time-unit">
                     <span class="time-number" id="minutes">00</span>
-                    <div class="time-label">Minutes</div>
+                    <span class="time-label">Minutes</span>
                 </div>
                 <div class="time-unit">
                     <span class="time-number" id="seconds">00</span>
-                    <div class="time-label">Seconds</div>
+                    <span class="time-label">Seconds</span>
                 </div>
             </div>
-
-            <div class="countdown-message" id="countdown-message">
-                Register as a donor to begin your mystical transformation countdown...
-            </div>
-
-            <button class="demo-button" onclick="startDemoCountdown()">
-                🩸 Become a Donor (Demo)
-            </button>
+            <button class="demo-button" onclick="setCountdownDate()">Set New Transformation</button>
         </div>
     </section>
-
     <section id="letter">
-        <h2>Your Letter</h2>
-        <div id="output">Fill in your data above to see your letter.</div>
+        <h2>Your Personalized Letter</h2>
+        <div id="output" class="typing-cursor"></div>
     </section>
 
     <section id="contact-us">
-        <h2>Send a Message</h2>
-        <p>
-            Do you have a question, a secret to share, or an eerie suggestion? Send
-            us a raven message!
-        </p>
+        <h2>Contact Us</h2>
         <form id="contact-form">
-            <label for="contact-name">Your Name</label>
-            <input
-                type="text"
-                id="contact-name"
-                placeholder="Enter your name..."
-                required
-            />
+            <label for="contact-name">Name:</label>
+            <input type="text" id="contact-name" name="name" required />
 
-            <label for="contact-email">Your Email</label>
-            <input
-                type="email"
-                id="contact-email"
-                placeholder="Enter your email..."
-                required
-            />
+            <label for="contact-email">Email:</label>
+            <input type="email" id="contact-email" name="email" required />
 
-            <label for="contact-message">Your Message</label>
-            <textarea
-                id="contact-message"
-                placeholder="Type your message here..."
-                required
-            ></textarea>
+            <label for="contact-message">Message:</label>
+            <textarea id="contact-message" name="message" required></textarea>
 
             <button type="submit">Send Message</button>
-            <div id="contact-success-message" class="success-message"></div>
+            <div class="success-message">
+                Your message has been received by our shadowy network!
+            </div>
         </form>
     </section>
 
     <section id="about">
-        <h2>About</h2>
+        <h2>About Transylvania Blood Network</h2>
         <p>
-            This web app was created in a 48h hackathon by a team of beginner
-            developers from Romania. Inspired by our culture and humanity, we
-            believe every drop tells a story. And perhaps, awakens something more
-            primal within us all.
+            The Transylvania Blood Network is a mysterious organization operating
+            from the ancient lands of Transylvania. We are dedicated to ensuring
+            the flow of life's vital essence. Our history is as old as the mountains,
+            and our purpose as enduring as the night. Join us, if you dare, in
+            this timeless endeavor.
         </p>
     </section>
 
-    <button id="sound-toggle-button" aria-label="Toggle Sound">
-        <img
-            id="sound-off-icon"
-            src="haut-parleur-rouge-et-icone-sonore.png"
-            alt="Sound Off"
-        />
-        <img
-            id="sound-on-icon"
-            src="icone-du-son-si-difuzor-rosu.png"
-            alt="Sound On"
-        />
-    </button>
-
     <div id="global-chat-window">
         <div class="chat-header">
-            <h3>Bloodline Chat</h3>
-            <span class="close-chat">&times;</span>
+            <h3>Global Crypt Chat</h3>
+            <span class="close-chat" id="close-chat-button">&times;</span>
         </div>
-        <div class="chat-body" id="chat-messages-container">
+        <div class="chat-body" id="chat-messages">
             </div>
         <div class="chat-footer">
             <input
@@ -1382,904 +1359,769 @@
         </div>
     </div>
 
-    <div id="chat-username-input-overlay" style="display: none;">
+    <div id="chat-username-input-overlay">
         <div id="chat-username-input-box">
-            <label for="chat-username-setup">Enter your chat name:</label>
-            <input type="text" id="chat-username-setup" placeholder="Your Name" />
-            <button id="set-chat-username-button">Start Chatting</button>
+            <label for="chat-username">Enter your Crypt Name:</label>
+            <input type="text" id="chat-username" placeholder="e.g., Shadow_Drifter" />
+            <button id="set-username-button">Enter Chat</button>
         </div>
     </div>
 
+    <button id="sound-toggle-button">
+        <img id="sound-on-icon" src="sound-on.png" alt="Sound On" />
+        <img id="sound-off-icon" src="sound-off.png" alt="Sound Off" />
+    </button>
+
     <script>
-        const templates = [
-            // Original Templates
-            "Dear stranger,\\n\\nA part of me now lives in you. In this silent exchange, I hope you find strength. May your journey be long and filled with hidden wonders.\\n\\n– Someone who believes in you, from the shadows.",
-            "You may never know my name, but my blood runs with hope. Let this be more than survival — let it be transformation. Embrace the night.",
-            "We may never meet. But in this quiet act, I've shared life. Keep moving. Keep feeling. The ancient currents flow through us all.\\n\\n– A quiet ally, cloaked in starlight.",
-            "They say blood is thicker than water. I say it's thicker than distance, thicker than time. I'm with you. Always. A hidden guardian watches over.",
-            "My veins whispered: share. So I did. You're not alone. Someone out there cares, in ways you cannot yet comprehend. Embrace the mystery.",
-            // New "Funny/Weird" Templates
-            "Dearest Donor,\\n\\nYour generosity is... intoxicating. I've already felt a peculiar urge to organize my dusty crypt collection. Coincidence? I think not. Perhaps we'll share a moonlit stroll soon.\\n\\n— A Grateful (and slightly odd) Recipient.",
-            "To the Brave One,\\n\\nThank you. My spectral librarian now has enough energy to alphabetize the scrolls of ancient curses. And I finally have the strength to rearrange my coffin. So much tidier now!\\n\\n— Lord Vlad (he prefers 'Vlad').",
-            "Greetings,\\n\\nYour donation has significantly improved my nightly levitation practice. I can now float at least two inches higher! Expect an invitation to our next 'Midnight Picnic for the Peculiar'.\\n\\n— The Nocturnal Neighbor.",
-            "A word of caution, dear donor: you might develop a sudden fondness for rare steak, avoiding garlic, or finding dusty corners strangely appealing. It's just... the transfusion. Nothing to worry about. Probably.\\n\\n— Sincerely, The Transylvanian Blood Bank (definitely human).",
-            "Recipient,\\n\\nThe transfusion went splendidly! My last craving for ancient dust has subsided, replaced by an inexplicable desire for strong, dark coffee. Coincidence? Or the true power of O-negative?\\n\\n— Anonymously Yours (but mostly Nocturnal).",
-            "This blood… it sings! Or perhaps that's just the ancient echoes within these castle walls. Anyway, thank you. I now feel empowered to finally learn to play the pipe organ. Loudly. All night.\\n\\n— Your New, Energetic Friend.",
-        ];
+        // Global variable for audio state
+        let isSoundOn = false;
+        const batSound = document.getElementById("bat-sound");
+        const dripSound = document.getElementById("drip-sound");
+        const chimeSound = document.getElementById("chime-sound");
+        const typingSound = document.getElementById("typing-sound");
+        const wolfHowlSound = document.getElementById("wolf-howl-sound");
+        const evilLaughSound = document.getElementById("evil-laugh-sound");
 
-        let typingInterval; // To hold the interval for typing effect
+        const soundOnIcon = document.getElementById("sound-on-icon");
+        const soundOffIcon = document.getElementById("sound-off-icon");
 
-        // --- Core Site Functionality ---
-        document.addEventListener("DOMContentLoaded", () => {
-            const enterSiteButton = document.getElementById("enter-site-button");
-            const initialWelcomeOverlay = document.getElementById(
-                "initial-welcome-overlay"
-            );
-            const batSound = document.getElementById("bat-sound");
-            const dripSound = document.getElementById("drip-sound");
-            const chimeSound = document.getElementById("chime-sound");
-            const typingSound = document.getElementById("typing-sound");
-            const wolfHowlSound = document.getElementById("wolf-howl-sound");
-            const evilLaughSound = document.getElementById("evil-laugh-sound");
-
-            // Sound Toggle
-            const soundToggleButton = document.getElementById("sound-toggle-button");
-            const soundOffIcon = document.getElementById("sound-off-icon");
-            const soundOnIcon = document.getElementById("sound-on-icon");
-            let isSoundOn = false; // Initial state
-
-            // Check localStorage for sound preference
-            const savedSoundPreference = localStorage.getItem('isSoundOn');
-            if (savedSoundPreference === 'true') {
-                isSoundOn = true;
-                soundOnIcon.style.display = 'block';
-                soundOffIcon.style.display = 'none';
-            } else {
-                isSoundOn = false;
-                soundOnIcon.style.display = 'none';
-                soundOffIcon.style.display = 'block';
-            }
-
-
-            enterSiteButton.addEventListener("click", () => {
-                initialWelcomeOverlay.classList.add("hidden");
-                // Play main background music if sound is enabled
+        document
+            .getElementById("enter-site-button")
+            .addEventListener("click", function () {
+                document.getElementById("initial-welcome-overlay").classList.add("hidden");
+                // Start playing background music only after user interaction
                 if (isSoundOn) {
-                    batSound.play().catch(e => console.log("Audio play prevented:", e));
+                    batSound.play();
                 }
             });
 
-            soundToggleButton.addEventListener("click", () => {
+        document
+            .getElementById("sound-toggle-button")
+            .addEventListener("click", function () {
                 isSoundOn = !isSoundOn;
                 if (isSoundOn) {
+                    batSound.play();
                     soundOnIcon.style.display = "block";
                     soundOffIcon.style.display = "none";
-                    batSound.play().catch(e => console.log("Audio play prevented:", e));
                 } else {
+                    batSound.pause();
                     soundOnIcon.style.display = "none";
                     soundOffIcon.style.display = "block";
-                    batSound.pause();
-                    batSound.currentTime = 0; // Reset audio
                 }
-                localStorage.setItem('isSoundOn', isSoundOn); // Save preference
             });
 
+        function playSound(soundElement) {
+            if (isSoundOn) {
+                soundElement.currentTime = 0; // Rewind to start
+                soundElement.play();
+            }
+        }
 
-            // Typing effect for the letter
+        // Mouse Glow Effect
+        const mouseGlow = document.getElementById("mouse-glow");
+        document.addEventListener("mousemove", (e) => {
+            mouseGlow.style.left = `${e.clientX}px`;
+            mouseGlow.style.top = `${e.clientY}px`;
+            mouseGlow.style.opacity = 1;
+        });
+
+        document.addEventListener("mouseleave", () => {
+            mouseGlow.style.opacity = 0;
+        });
+
+        // Mist Effect on Scroll
+        const mistOverlay = document.getElementById("mist-overlay");
+        window.addEventListener("scroll", () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = window.scrollY;
+            const scrollProgress = scrolled / scrollHeight;
+            mistOverlay.style.height = `${scrollProgress * 100}vh`; // Increase height based on scroll
+        });
+
+        // Background Bat Animation
+        const batContainer = document.getElementById("bat-container");
+        const batImageSrc = "bat-silhouette.png"; // Replace with your bat image path
+
+        function createBat() {
+            const bat = document.createElement("img");
+            bat.src = batImageSrc;
+            bat.classList.add("bat");
+            batContainer.appendChild(bat);
+
+            const startY = Math.random() * (window.innerHeight * 0.8);
+            const midY = Math.random() * (window.innerHeight * 0.8);
+            const endY = Math.random() * (window.innerHeight * 0.8);
+
+            const duration = 10 + Math.random() * 10; // 10-20 seconds
+            const direction = Math.random() > 0.5 ? "left" : "right";
+
+            bat.style.setProperty("--startY", `${startY}px`);
+            bat.style.setProperty("--midY", `${midY}px`);
+            bat.style.setProperty("--endY", `${endY}px`);
+            bat.style.animation = `flyTo${direction === "right" ? "Right" : "Left"
+                } ${duration}s linear infinite`;
+
+            if (direction === "left") {
+                bat.style.left = "100vw"; // Start from right
+            } else {
+                bat.style.left = "-60px"; // Start from left
+            }
+
+            bat.style.top = `${startY}px`;
+
+            // Remove bat after one animation cycle to prevent accumulation
+            bat.addEventListener("animationiteration", () => {
+                bat.remove();
+            });
+        }
+
+        setInterval(createBat, 3000); // Create a new bat every 3 seconds
+
+        // Blood Drip on Click
+        document.addEventListener("click", (e) => {
+            const drop = document.createElement("div");
+            drop.classList.add("blood-drop");
+            document.body.appendChild(drop);
+
+            const size = 10 + Math.random() * 10; // 10-20px
+            drop.style.width = `${size}px`;
+            drop.style.height = `${size}px`;
+            drop.style.left = `${e.clientX}px`;
+            drop.style.top = `${e.clientY}px`;
+
+            playSound(dripSound); // Play drip sound
+
+            drop.addEventListener("animationend", () => {
+                drop.remove();
+            });
+        });
+
+        const donors = JSON.parse(localStorage.getItem("donors")) || [];
+        const bloodInventory = JSON.parse(localStorage.getItem("bloodInventory")) || {};
+
+        function updateDonorList() {
+            const donorList = document.getElementById("donor-list");
+            const noDonorsMessage = document.getElementById("no-donors-message");
+            donorList.innerHTML = ""; // Clear existing list
+
+            if (donors.length === 0) {
+                noDonorsMessage.style.display = "block";
+            } else {
+                noDonorsMessage.style.display = "none";
+                donors.forEach((donor) => {
+                    const listItem = document.createElement("li");
+                    listItem.style.cssText = `
+                background-color: rgba(42, 42, 42, 0.7);
+                border: 1px solid #550000;
+                border-radius: 5px;
+                padding: 10px;
+                margin-bottom: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 0 8px rgba(255, 0, 0, 0.2);
+            `;
+                    listItem.innerHTML = `
+                <span>${donor.name} (<span style="color: #e60000; font-weight: bold;">${donor.group}</span>)</span>
+                <button
+                    onclick="removeDonor('${donor.id}')"
+                    style="
+                        background-color: #8b0000;
+                        color: white;
+                        border: none;
+                        padding: 5px 10px;
+                        border-radius: 3px;
+                        cursor: pointer;
+                        font-size: 0.8em;
+                        width: auto;
+                        margin-top: 0;
+                    "
+                >
+                    Remove
+                </button>
+            `;
+                    donorList.appendChild(listItem);
+                });
+            }
+        }
+
+        function updateBloodInventory() {
+            const inventorySummary = document.getElementById("inventory-summary");
+            let summaryHtml = "";
+            let hasBlood = false;
+
+            for (const group in bloodInventory) {
+                if (bloodInventory[group] > 0) {
+                    summaryHtml += `<p>${group}: ${bloodInventory[group]} units</p>`;
+                    hasBlood = true;
+                }
+            }
+
+            if (!hasBlood) {
+                inventorySummary.textContent = "No blood data available.";
+            } else {
+                inventorySummary.innerHTML = summaryHtml;
+            }
+        }
+
+        function submitDonor() {
+            const name = document.getElementById("name").value.trim();
+            const group = document.getElementById("group").value;
+
+            if (name) {
+                const newDonor = { id: Date.now().toString(), name, group };
+                donors.push(newDonor);
+                localStorage.setItem("donors", JSON.stringify(donors));
+
+                // Update blood inventory
+                bloodInventory[group] = (bloodInventory[group] || 0) + 1;
+                localStorage.setItem("bloodInventory", JSON.stringify(bloodInventory));
+
+                updateDonorList();
+                updateBloodInventory();
+                generatePersonalizedLetter(name, group);
+                document.getElementById("name").value = ""; // Clear input
+            } else {
+                alert("Please enter your name!");
+            }
+        }
+
+        function removeDonor(id) {
+            const donorIndex = donors.findIndex((donor) => donor.id === id);
+            if (donorIndex > -1) {
+                const removedDonor = donors.splice(donorIndex, 1)[0];
+                localStorage.setItem("donors", JSON.stringify(donors));
+
+                // Decrease blood inventory
+                if (bloodInventory[removedDonor.group]) {
+                    bloodInventory[removedDonor.group]--;
+                    if (bloodInventory[removedDonor.group] <= 0) {
+                        delete bloodInventory[removedDonor.group]; // Remove if 0 or less
+                    }
+                    localStorage.setItem("bloodInventory", JSON.stringify(bloodInventory));
+                }
+
+                updateDonorList();
+                updateBloodInventory();
+            }
+        }
+
+        function clearAllDonors() {
+            if (confirm("Are you sure you want to clear all registered donors and blood inventory? This cannot be undone.")) {
+                donors.length = 0; // Clear the array
+                for (const group in bloodInventory) {
+                    delete bloodInventory[group]; // Clear the object
+                }
+                localStorage.removeItem("donors");
+                localStorage.removeItem("bloodInventory");
+                updateDonorList();
+                updateBloodInventory();
+                alert("All donors and inventory cleared!");
+            }
+        }
+
+        function generatePersonalizedLetter(name, group) {
             const outputDiv = document.getElementById("output");
-            const typeText = (element, text, delay = 50) => {
-                let i = 0;
-                element.innerHTML = ""; // Clear previous content
-                element.classList.add("typing-cursor");
+            outputDiv.textContent = ""; // Clear previous text
+            outputDiv.classList.add("typing-cursor");
 
-                if (typingInterval) {
-                    clearInterval(typingInterval);
-                }
-                if (isSoundOn) {
-                    typingSound.play();
-                }
+            const letterContent = `My Dearest ${name}, kindred spirit,
 
-                typingInterval = setInterval(() => {
-                    if (i < text.length) {
-                        element.innerHTML += text.charAt(i);
-                        i++;
-                    } else {
-                        clearInterval(typingInterval);
-                        element.classList.remove("typing-cursor");
-                        if (isSoundOn) {
-                            typingSound.pause();
-                            typingSound.currentTime = 0;
-                        }
-                    }
-                }, delay);
-            };
+Your generous spirit, pure and vital ${group} blood, flows into the very veins of Transylvania. With each beat of your noble heart, you strengthen our ancient network, weaving your destiny with ours. The moon watches, the shadows whisper, and a profound gratitude echoes through the ancestral halls.
 
-            // Bats flying in background
-            const batContainer = document.getElementById("bat-container");
-            const createBat = () => {
-                const bat = document.createElement("img");
-                bat.src = "bat.gif"; // Assuming you have a bat.gif
-                bat.classList.add("bat");
-                bat.style.position = "absolute";
-                const startY = Math.random() * (window.innerHeight * 0.8);
-                const midY = Math.random() * (window.innerHeight * 0.8);
-                const endY = Math.random() * (window.innerHeight * 0.8);
-                const duration = 10 + Math.random() * 10; // 10-20 seconds
+Know that your contribution is not merely a gift, but a pact. A pact signed in scarlet, binding you to the timeless ebb and flow of this land. We shall remember your essence.
 
-                bat.style.setProperty("--startY", `${startY}px`);
-                bat.style.setProperty("--midY", `${midY}px`);
-                bat.style.setProperty("--endY", `${endY}px`);
+Until the next crimson dawn,
 
-                if (Math.random() > 0.5) {
-                    // Fly right to left
-                    bat.style.left = "100vw";
-                    bat.style.animation = `flyToLeft ${duration}s linear infinite`;
-                    bat.style.transform = "scaleX(-1)"; // Flip bat horizontally
+Count Dracula
+Master of the Transylvania Blood Network`;
+
+            let i = 0;
+            const speed = 50; // typing speed in milliseconds
+
+            function typeWriter() {
+                if (i < letterContent.length) {
+                    outputDiv.textContent += letterContent.charAt(i);
+                    i++;
+                    playSound(typingSound);
+                    setTimeout(typeWriter, speed);
                 } else {
-                    // Fly left to right
-                    bat.style.left = "-10vw";
-                    bat.style.animation = `flyToRight ${duration}s linear infinite`;
+                    outputDiv.classList.remove("typing-cursor"); // Remove cursor after typing
                 }
+            }
+            typeWriter();
+        }
 
-                bat.style.top = `${startY}px`;
-                batContainer.appendChild(bat);
+        // Initialize lists on load
+        updateDonorList();
+        updateBloodInventory();
 
-                // Remove bat after animation to prevent accumulation
-                setTimeout(() => {
-                    bat.remove();
-                }, duration * 1000);
+        // Vampire Facts and Cravings
+        const vampireFacts = [
+            "The first known literary mention of vampires appeared in the early 18th century.",
+            "Garlic is believed to repel vampires due to its strong odor, which interferes with their heightened senses.",
+            "Vampires are often depicted as unable to cross running water, a symbol of purity and life.",
+            "The word 'vampire' likely comes from the Slavic word 'vampir'.",
+            "Vlad the Impaler, a 15th-century Wallachian prince, is often associated with the Dracula legend.",
+            "Some folklore suggests vampires can be killed by a stake through the heart, specifically of wood like hawthorn or ash.",
+            "In certain legends, vampires are compelled to count seeds if spilled, making them vulnerable.",
+            "Mirrors supposedly don't reflect vampires, symbolizing their soulless nature.",
+            "Bram Stoker's 'Dracula' (1897) popularized many modern vampire tropes.",
+            "The bat is a common animal associated with vampires, linking them to night and flight.",
+        ];
+
+        const bloodCravings = {
+            "A+": "A deep, earthy cabernet, robust and full-bodied.",
+            "A-": "A crisp, chilled pinot grigio, delicate and sharp.",
+            "B+": "A rich, velvety merlot with notes of dark berries.",
+            "B-": "A light-bodied, sparkling rosé, effervescent and sweet.",
+            "AB+": "A complex, aged port wine, a blend of many essences.",
+            "AB-": "A rare, ice-cold vodka, clean and potent.",
+            "O+": "A hearty, rustic red ale, satisfying and strong.",
+            "O-": "A pure, distilled absinthe, ethereal and captivating.",
+        };
+
+        function displayRandomVampireFact() {
+            const factOutput = document.getElementById("vampire-fact-output");
+            const randomIndex = Math.floor(Math.random() * vampireFacts.length);
+            factOutput.textContent = vampireFacts[randomIndex];
+            playSound(chimeSound); // Play a mysterious chime
+        }
+
+        function getBloodCraving() {
+            const selectedGroup = document.getElementById("craving-group").value;
+            const cravingOutput = document.getElementById("craving-output");
+            cravingOutput.textContent = bloodCravings[selectedGroup] || "No specific craving known for this type.";
+            playSound(wolfHowlSound); // Play wolf howl for cravings
+        }
+
+        // Catch Vlad! Game
+        const gameArea = document.getElementById("game-area");
+        const scoreDisplay = document.getElementById("score");
+        const timeLeftDisplay = document.getElementById("time-left");
+        const gameStartButton = document.getElementById("game-start-button");
+        let score = 0;
+        let timeLeft = 30;
+        let gameTimer;
+        let vladTimer;
+        let isGameRunning = false;
+
+        const vladImageSrc = "vlad-the-impaler.png"; // Replace with your Vlad image path
+
+        function createVlad() {
+            if (!isGameRunning) return;
+
+            const vlad = document.createElement("img");
+            vlad.src = vladImageSrc;
+            vlad.classList.add("game-bat"); // Reusing bat style
+            gameArea.appendChild(vlad);
+
+            const gameAreaRect = gameArea.getBoundingClientRect();
+            const maxX = gameAreaRect.width - 80; // Vlad width
+            const maxY = gameAreaRect.height - 80; // Vlad height
+
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            vlad.style.left = `${randomX}px`;
+            vlad.style.top = `${randomY}px`;
+
+            vlad.onclick = () => {
+                if (isGameRunning) {
+                    score++;
+                    scoreDisplay.textContent = score;
+                    vlad.remove();
+                    playSound(dripSound); // Sound on hit
+                    createVlad(); // Immediately create a new one
+                }
             };
 
-            // Create a few bats initially
-            for (let i = 0; i < 5; i++) {
-                setTimeout(createBat, Math.random() * 5000);
-            }
-            // Create new bats periodically
-            setInterval(createBat, 5000); // New bat every 5 seconds
-
-            // Mist effect on scroll
-            const mistOverlay = document.getElementById("mist-overlay");
-            window.addEventListener("scroll", () => {
-                const scrollPercentage =
-                    window.scrollY / (document.body.scrollHeight - window.innerHeight);
-                const maxHeight = 300; // Max height of the mist
-                mistOverlay.style.height = `${scrollPercentage * maxHeight}px`;
-            });
-
-            // Mouse glow effect
-            const mouseGlow = document.getElementById("mouse-glow");
-            let mouseTimeout;
-            document.addEventListener("mousemove", (e) => {
-                mouseGlow.style.left = `${e.clientX}px`;
-                mouseGlow.style.top = `${e.clientY}px`;
-                mouseGlow.style.opacity = "1"; // Show glow on mouse move
-
-                clearTimeout(mouseTimeout);
-                mouseTimeout = setTimeout(() => {
-                    mouseGlow.style.opacity = "0"; // Fade out after inactivity
-                }, 100);
-            });
-
-            // Blood Drip on Click
-            document.addEventListener("click", (e) => {
-                const drop = document.createElement("div");
-                drop.classList.add("blood-drop");
-                drop.style.width = drop.style.height = `${10 + Math.random() * 10}px`;
-                drop.style.left = `${e.clientX}px`;
-                drop.style.top = `${e.clientY}px`;
-                document.body.appendChild(drop);
-
-                if (isSoundOn) {
-                    dripSound.currentTime = 0; // Reset sound for quick successive clicks
-                    dripSound.play();
+            // Remove Vlad after a short time if not clicked
+            setTimeout(() => {
+                if (vlad.parentNode === gameArea) {
+                    vlad.remove();
+                    if (isGameRunning) {
+                        createVlad(); // Create a new one if missed
+                    }
                 }
+            }, 1000 + Math.random() * 500); // Vlad stays for 1-1.5 seconds
+        }
 
-                drop.addEventListener("animationend", () => {
-                    drop.remove();
-                });
-            });
+        function startGame() {
+            if (isGameRunning) return; // Prevent multiple starts
+            isGameRunning = true;
+            score = 0;
+            timeLeft = 30;
+            scoreDisplay.textContent = score;
+            timeLeftDisplay.textContent = timeLeft;
+            gameStartButton.textContent = "Game In Progress...";
+            gameStartButton.classList.add("disabled");
 
-            // --- Contact Form ---
-            const contactForm = document.getElementById("contact-form");
-            const contactSuccessMessage = document.getElementById(
-                "contact-success-message"
-            );
+            gameArea.innerHTML = ""; // Clear previous Vlads
 
-            contactForm.addEventListener("submit", (event) => {
-                event.preventDefault(); // Prevent default form submission
-
-                contactSuccessMessage.textContent = "Raven message sent! We'll be in touch... eventually.";
-                contactSuccessMessage.style.display = "block"; // Show message
-                if (isSoundOn) {
-                    chimeSound.play(); // Play a success sound
+            gameTimer = setInterval(() => {
+                timeLeft--;
+                timeLeftDisplay.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    endGame();
                 }
-                contactForm.reset(); // Clear the form
+            }, 1000);
 
-                setTimeout(() => {
-                    contactSuccessMessage.style.display = "none";
-                }, 5000); // Hide message after 5 seconds
-            });
+            vladTimer = setInterval(createVlad, 1500); // Vlad appears every 1.5 seconds
+            createVlad(); // Create first Vlad immediately
+        }
 
-            // --- Vampire Quiz ---
-            const quizQuestions = [
-                {
-                    question: "When do you feel most energetic?",
-                    options: [
-                        "A) During the day, under the sun.",
-                        "B) At dusk, as shadows lengthen.",
-                        "C) In the dead of night.",
-                        "D) Whenever there's good coffee.",
-                    ],
-                    vampireScore: [0, 1, 2, 0],
-                },
-                {
-                    question: "What's your preferred diet?",
-                    options: [
-                        "A) A balanced diet with lots of garlic.",
-                        "B) Mostly proteins, well-done.",
-                        "C) Rare steak, or anything that drips.",
-                        "D) Anything a human would eat, mostly.",
-                    ],
-                    vampireScore: [0, 0, 2, 1],
-                },
-                {
-                    question: "How do you react to sunlight?",
-                    options: [
-                        "A) Love it, can't get enough!",
-                        "B) I prefer shade, but it's tolerable.",
-                        "C) It irritates my skin and eyes; I avoid it.",
-                        "D) I get a bit sleepy in direct sun.",
-                    ],
-                    vampireScore: [0, 1, 2, 0],
-                },
-                {
-                    question: "What's your ideal living situation?",
-                    options: [
-                        "A) A sunny cottage with a garden.",
-                        "B) A cozy home, good curtains are a must.",
-                        "C) A secluded castle or ancient crypt.",
-                        "D) Anywhere comfortable, really.",
-                    ],
-                    vampireScore: [0, 1, 2, 0],
-                },
-                {
-                    question: "Your favorite animal is...",
-                    options: [
-                        "A) A golden retriever.",
-                        "B) A cat.",
-                        "C) A bat or a wolf.",
-                        "D) A houseplant (low maintenance).",
-                    ],
-                    vampireScore: [0, 0, 2, 0],
-                },
-                {
-                    question: "What type of fashion appeals to you most?",
-                    options: [
-                        "A) Bright and cheerful.",
-                        "B) Comfortable and practical.",
-                        "C) Elegant, dark, and timeless.",
-                        "D) Whatever's trending.",
-                    ],
-                    vampireScore: [0, 0, 2, 0],
-                },
-                {
-                    question: "How do you handle mirrors?",
-                    options: [
-                        "A) Perfectly normal, I check my outfit.",
-                        "B) I use them, but don't obsess.",
-                        "C) I avoid them; they never quite capture my... essence.",
-                        "D) They're fine, but selfies are better.",
-                    ],
-                    vampireScore: [0, 0, 2, 0],
-                },
-                {
-                    question: "Your social life consists of...",
-                    options: [
-                        "A) Lots of daytime gatherings.",
-                        "B) Evening dinners with friends.",
-                        "C) Exclusive nocturnal gatherings, by invitation only.",
-                        "D) Binge-watching shows alone.",
-                    ],
-                    vampireScore: [0, 1, 2, 0],
-                },
-                {
-                    question: "If you heard a wolf howl, you would...",
-                    options: [
-                        "A) Be slightly scared.",
-                        "B) Be curious.",
-                        "C) Feel a deep, primal connection.",
-                        "D) Check if it's on TV.",
-                    ],
-                    vampireScore: [0, 1, 2, 0],
-                },
-                {
-                    question: "What's your biggest fear?",
-                    options: [
-                        "A) Public speaking.",
-                        "B) Spiders.",
-                        "C) Wooden stakes and silver.",
-                        "D) Running out of Wi-Fi.",
-                    ],
-                    vampireScore: [0, 0, 2, 0],
-                },
-            ];
+        function endGame() {
+            isGameRunning = false;
+            clearInterval(gameTimer);
+            clearInterval(vladTimer);
+            gameStartButton.textContent = "Start Game";
+            gameStartButton.classList.remove("disabled");
+            gameArea.innerHTML = `<p style="color: #e60000; font-size: 1.5em;">Time's Up! You caught ${score} Vlads.</p>`;
+            playSound(evilLaughSound); // Play evil laugh at end of game
+        }
 
-            let currentQuestionIndex = 0;
-            let totalVampireScore = 0;
-            let quizAnswers = new Array(quizQuestions.length).fill(null); // To store selected answers
+        gameStartButton.addEventListener("click", startGame);
 
-            const quizContainer = document.getElementById("quiz-container");
-            const quizProgress = document.getElementById("quiz-progress");
-            const prevQuestionButton = document.getElementById("prev-question");
-            const nextQuestionButton = document.getElementById("next-question");
-            const submitQuizButton = document.getElementById("submit-quiz");
-            const quizResultDiv = document.getElementById("quiz-result");
-            const resultDescriptionDiv = document.getElementById("result-description");
+        // Vampire Quiz
+        const quizData = [
+            {
+                question: "What is generally believed to repel vampires?",
+                options: ["Sunlight", "Garlic", "Holy Water", "All of the above"],
+                answer: "All of the above",
+            },
+            {
+                question: "Which author wrote 'Dracula'?",
+                options: ["Mary Shelley", "Bram Stoker", "Edgar Allan Poe", "Anne Rice"],
+                answer: "Bram Stoker",
+            },
+            {
+                question: "Vampires are often depicted as being unable to see their reflection in:",
+                options: ["Puddles", "Mirrors", "Water", "Shiny metal"],
+                answer: "Mirrors",
+            },
+            {
+                question: "According to some folklore, what must a vampire do if a bag of seeds is spilled?",
+                options: ["Eat them all", "Count every single one", "Ignore them", "Plant them"],
+                answer: "Count every single one",
+            },
+            {
+                question: "What type of wood is traditionally used for a vampire-killing stake?",
+                options: ["Oak", "Pine", "Hawthorn or Ash", "Maple"],
+                answer: "Hawthorn or Ash",
+            },
+        ];
 
-            const renderQuestion = () => {
-                if (currentQuestionIndex < quizQuestions.length) {
-                    const q = quizQuestions[currentQuestionIndex];
-                    let questionHtml = `<div class="quiz-question">
-                                        <p>${
-                                            currentQuestionIndex + 1
-                                        }. ${q.question}</p>
-                                        <div class="quiz-options">`;
-                    q.options.forEach((option, index) => {
-                        const uniqueId = `q${currentQuestionIndex}-opt${index}`;
-                        const isChecked =
-                            quizAnswers[currentQuestionIndex] === index ? "checked" : "";
-                        questionHtml += `
-                            <label for="${uniqueId}">
-                                <input type="radio" id="${uniqueId}" name="question${currentQuestionIndex}" value="${index}" ${isChecked}>
-                                ${option}
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(quizData.length).fill(null); // To store answers
+        let scoreQuiz = 0;
+
+        const quizContainer = document.getElementById("quiz-container");
+        const quizResultDiv = document.getElementById("quiz-result");
+        const resultDescriptionDiv = document.getElementById("result-description");
+        const submitQuizButton = document.getElementById("submit-quiz");
+        const prevQuestionButton = document.getElementById("prev-question");
+        const nextQuestionButton = document.getElementById("next-question");
+        const quizProgressSpan = quizContainer.querySelector(".quiz-progress");
+
+        function loadQuestion(index) {
+            const q = quizData[index];
+            quizContainer.innerHTML = `
+                <p class="quiz-progress">Question ${index + 1} of ${quizData.length}</p>
+                <div class="quiz-question">
+                    <p>${q.question}</p>
+                    <div class="quiz-options">
+                        ${q.options
+                    .map(
+                        (option, i) => `
+                            <label>
+                                <input type="radio" name="current_q" value="${option}" ${userAnswers[index] === option ? "checked" : ""
+                        } /> ${option}
                             </label>
-                        `;
-                    });
-                    questionHtml += `</div></div>`;
-                    quizContainer.innerHTML = questionHtml;
-                    quizProgress.textContent = `Question ${
-                        currentQuestionIndex + 1
-                    } of ${quizQuestions.length}`;
+                        `
+                    )
+                    .join("")}
+                    </div>
+                </div>
+                <div class="quiz-navigation">
+                    <button id="prev-question" style="${index === 0 ? "display: none;" : ""
+                }">Previous</button>
+                    <button id="next-question" style="${index === quizData.length - 1 ? "display: none;" : ""
+                }">Next</button>
+                </div>
+                <button id="submit-quiz" style="${index === quizData.length - 1 ? "display: block;" : "display: none;"
+                }">Submit Quiz</button>
+            `;
 
-                    // Add event listeners for radio buttons
-                    document
-                        .querySelectorAll(
-                            `input[name="question${currentQuestionIndex}"]`
-                        )
-                        .forEach((radio) => {
-                            radio.addEventListener("change", (event) => {
-                                quizAnswers[currentQuestionIndex] = parseInt(
-                                    event.target.value
-                                );
-                                // Enable next button if an answer is selected
-                                if (quizAnswers[currentQuestionIndex] !== null) {
-                                    nextQuestionButton.disabled = false;
-                                }
-                            });
-                        });
-
-                    // Update navigation button visibility and disabled state
-                    prevQuestionButton.style.display =
-                        currentQuestionIndex > 0 ? "inline-block" : "none";
-                    nextQuestionButton.style.display = "inline-block";
-                    submitQuizButton.style.display = "none"; // Hide submit until last question
-
-                    // Disable next button if current question is not answered
-                    nextQuestionButton.disabled =
-                        quizAnswers[currentQuestionIndex] === null;
-
-                    if (currentQuestionIndex === quizQuestions.length - 1) {
-                        nextQuestionButton.style.display = "none";
-                        submitQuizButton.style.display = "inline-block";
-                        // Enable submit button only if the last question is answered
-                        submitQuizButton.disabled =
-                            quizAnswers[currentQuestionIndex] === null;
-                    }
-                }
-            };
-
-            const calculateResult = () => {
-                totalVampireScore = 0;
-                quizQuestions.forEach((q, qIndex) => {
-                    const selectedOptionIndex = quizAnswers[qIndex];
-                    if (selectedOptionIndex !== null) {
-                        totalVampireScore += q.vampireScore[selectedOptionIndex];
-                    }
-                });
-
-                const maxScore = quizQuestions.length * 2; // Each question max score is 2
-                const percentage = (totalVampireScore / maxScore) * 100;
-
-                let resultText = "";
-                let resultDesc = "";
-
-                if (percentage >= 80) {
-                    resultText = "You are a True Child of the Night!";
-                    resultDesc =
-                        "Your essence resonates deeply with the ancient bloodlines. Embrace your destiny, for the shadows call to you.";
-                    if (isSoundOn) {
-                        evilLaughSound.play();
-                    }
-                } else if (percentage >= 50) {
-                    resultText = "You Have Vampire Tendencies.";
-                    resultDesc =
-                        "The darkness stirs within you, but you still cling to the light. You are on the edge of a thrilling transformation.";
-                } else if (percentage >= 20) {
-                    resultText = "A Human with a Touch of the Macabre.";
-                    resultDesc =
-                        "You appreciate the gothic and mysterious, but your pulse still beats strongly with human vitality. Keep an eye out for strange cravings!";
-                } else {
-                    resultText = "Definitely Human (For Now...).";
-                    resultDesc =
-                        "Your human spirit shines bright, perhaps too bright for the night creatures. Don't worry, the garlic will protect you... maybe.";
-                }
-
-                quizResultDiv.textContent = resultText;
-                resultDescriptionDiv.textContent = resultDesc;
-                quizResultDiv.style.display = "block";
-                resultDescriptionDiv.style.display = "block";
-
-                // Hide quiz navigation and submit button after results are shown
-                quizNavigation.style.display = "none";
-                submitQuizButton.style.display = "none";
-                quizProgress.style.display = "none";
-            };
-
-            nextQuestionButton.addEventListener("click", () => {
-                if (currentQuestionIndex < quizQuestions.length - 1) {
-                    currentQuestionIndex++;
-                    renderQuestion();
-                }
+            // Re-attach event listeners after recreating elements
+            document.getElementById("prev-question").addEventListener("click", () => {
+                saveAnswer();
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
             });
-
-            prevQuestionButton.addEventListener("click", () => {
-                if (currentQuestionIndex > 0) {
-                    currentQuestionIndex--;
-                    renderQuestion();
-                }
+            document.getElementById("next-question").addEventListener("click", () => {
+                saveAnswer();
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
             });
+            if (index === quizData.length - 1) {
+                document.getElementById("submit-quiz").addEventListener("click", submitQuiz);
+            }
+        }
 
-            submitQuizButton.addEventListener("click", calculateResult);
+        function saveAnswer() {
+            const selectedOption = document.querySelector(
+                'input[name="current_q"]:checked'
+            );
+            if (selectedOption) {
+                userAnswers[currentQuestionIndex] = selectedOption.value;
+            } else {
+                userAnswers[currentQuestionIndex] = null; // Ensure null if no selection
+            }
+        }
 
-            renderQuestion(); // Initial render
-
-            // --- Countdown Timer ---
-            const daysSpan = document.getElementById("days");
-            const hoursSpan = document.getElementById("hours");
-            const minutesSpan = document.getElementById("minutes");
-            const secondsSpan = document.getElementById("seconds");
-            const countdownMessage = document.getElementById("countdown-message");
-            let countdownInterval;
-
-            // Set a target date and time (e.g., next Halloween in Liteni, Suceava County, Romania)
-            // Liteni is in EEST (Eastern European Summer Time), which is UTC+3 in summer.
-            // Let's pick a fixed date for the demo, like Halloween 2025.
-            const targetDate = new Date("2025-10-31T00:00:00+03:00").getTime(); // Halloween 2025 at midnight EEST
-
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-
-                if (distance < 0) {
-                    clearInterval(countdownInterval);
-                    countdownMessage.textContent =
-                        "The Blood Moon rises! Your transformation is complete!";
-                    countdownMessage.classList.add("countdown-finished");
-                    daysSpan.textContent =
-                        hoursSpan.textContent =
-                        minutesSpan.textContent =
-                        secondsSpan.textContent =
-                            "00";
-                    if (isSoundOn) {
-                        wolfHowlSound.play(); // Play a spooky sound when countdown finishes
-                    }
-                    return;
+        function submitQuiz() {
+            saveAnswer(); // Save answer for the last question
+            scoreQuiz = 0;
+            for (let i = 0; i < quizData.length; i++) {
+                if (userAnswers[i] === quizData[i].answer) {
+                    scoreQuiz++;
                 }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor(
-                    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-                );
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                daysSpan.textContent = String(days).padStart(2, "0");
-                hoursSpan.textContent = String(hours).padStart(2, "0");
-                minutesSpan.textContent = String(minutes).padStart(2, "0");
-                secondsSpan.textContent = String(seconds).padStart(2, "0");
             }
 
-            // Function to start the countdown (e.g., when a donor registers)
-            window.startDemoCountdown = () => {
+            quizResultDiv.textContent = `You scored ${scoreQuiz} out of ${quizData.length}!`;
+            if (scoreQuiz === quizData.length) {
+                resultDescriptionDiv.textContent =
+                    "A true connoisseur of the arcane! You are one of us.";
+            } else if (scoreQuiz >= quizData.length / 2) {
+                resultDescriptionDiv.textContent =
+                    "You possess some forbidden knowledge. The night awaits your further studies.";
+            } else {
+                resultDescriptionDiv.textContent =
+                    "Your understanding of the shadows is… limited. Perhaps more research is needed.";
+            }
+            playSound(chimeSound); // Play chime for quiz result
+        }
+
+        loadQuestion(currentQuestionIndex); // Load the first question on page load
+
+        // Contact Form Submission
+        document.getElementById("contact-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById("contact-name").value;
+            const email = document.getElementById("contact-email").value;
+            const message = document.getElementById("contact-message").value;
+
+            // In a real application, you would send this data to a server
+            console.log("Contact Form Submitted:");
+            console.log("Name:", name);
+            console.log("Email:", email);
+            console.log("Message:", message);
+
+            const successMessage = this.querySelector(".success-message");
+            successMessage.style.display = "block";
+            playSound(chimeSound); // Play chime on success
+
+            // Optionally clear the form
+            this.reset();
+
+            // Hide the success message after a few seconds
+            setTimeout(() => {
+                successMessage.style.display = "none";
+            }, 5000);
+        });
+
+        // Countdown Timer Logic
+        const daysSpan = document.getElementById('days');
+        const hoursSpan = document.getElementById('hours');
+        const minutesSpan = document.getElementById('minutes');
+        const secondsSpan = document.getElementById('seconds');
+        const transformationMessage = document.getElementById('transformation-message');
+
+        let countdownInterval;
+        let targetDate = localStorage.getItem('countdownTargetDate') ? new Date(localStorage.getItem('countdownTargetDate')) : null;
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            if (!targetDate || now > targetDate.getTime()) {
+                transformationMessage.textContent = "The transformation has passed. A new cycle will begin soon...";
+                transformationMessage.classList.add('countdown-finished');
+                daysSpan.textContent = '00';
+                hoursSpan.textContent = '00';
+                minutesSpan.textContent = '00';
+                secondsSpan.textContent = '00';
+                clearInterval(countdownInterval);
+                return;
+            }
+
+            const distance = targetDate.getTime() - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            daysSpan.textContent = String(days).padStart(2, '0');
+            hoursSpan.textContent = String(hours).padStart(2, '0');
+            minutesSpan.textContent = String(minutes).padStart(2, '0');
+            secondsSpan.textContent = String(seconds).padStart(2, '0');
+
+            transformationMessage.textContent = "Prepare yourself... the night approaches.";
+            transformationMessage.classList.remove('countdown-finished');
+
+            if (distance < 0) {
+                transformationMessage.textContent = "The transformation is complete! Embrace your new form.";
+                transformationMessage.classList.add('countdown-finished');
+                clearInterval(countdownInterval);
+            }
+        }
+
+        function setCountdownDate() {
+            const daysToAdd = parseInt(prompt("Enter the number of days until the next transformation:", "30"));
+            if (!isNaN(daysToAdd) && daysToAdd > 0) {
+                targetDate = new Date();
+                targetDate.setDate(targetDate.getDate() + daysToAdd);
+                targetDate.setHours(23, 59, 59, 999); // Set to end of the day
+
+                localStorage.setItem('countdownTargetDate', targetDate.toISOString());
                 if (countdownInterval) {
                     clearInterval(countdownInterval);
                 }
-                countdownMessage.textContent =
-                    "The countdown to the next Blood Moon has begun!";
-                countdownMessage.classList.remove("countdown-finished");
                 countdownInterval = setInterval(updateCountdown, 1000);
-                updateCountdown(); // Initial call to display immediately
-            };
-
-            // Call it once on load to display initial countdown (or "00" if already passed)
-            updateCountdown();
-
-            // --- Bat Catcher Game ---
-            const gameArea = document.getElementById("game-area");
-            const gameStartButton = document.getElementById("game-start-button");
-            const scoreDisplay = document.getElementById("score-display");
-            const timerDisplay = document.getElementById("timer-display");
-            const transitionOverlay = document.getElementById("transition-overlay");
-
-            let score = 0;
-            let gameTimer = 30; // seconds
-            let gameInterval;
-            let batSpawnInterval;
-            let isGameRunning = false;
-
-            const spawnBat = () => {
-                if (!isGameRunning) return;
-
-                const bat = document.createElement("img");
-                bat.src = "dracula_head.png"; // Use Dracula's head as the target
-                bat.classList.add("game-bat");
-
-                const maxX = gameArea.offsetWidth - 80; // 80px is bat width
-                const maxY = gameArea.offsetHeight - 80; // 80px is bat height
-
-                bat.style.left = `${Math.random() * maxX}px`;
-                bat.style.top = `${Math.random() * maxY}px`;
-
-                // Set random duration for how long the bat stays
-                const stayDuration = 800 + Math.random() * 1200; // 0.8 to 2 seconds
-
-                gameArea.appendChild(bat);
-
-                bat.addEventListener("click", () => {
-                    if (isGameRunning) {
-                        score++;
-                        scoreDisplay.textContent = `Score: ${score}`;
-                        bat.remove(); // Remove clicked bat
-                        if (isSoundOn) {
-                            dripSound.currentTime = 0; // Play drip sound on hit
-                            dripSound.play();
-                        }
-                    }
-                });
-
-                // Remove bat if not clicked within its stayDuration
-                setTimeout(() => {
-                    if (bat.parentNode === gameArea) {
-                        bat.remove();
-                    }
-                }, stayDuration);
-            };
-
-            const startGame = () => {
-                isGameRunning = true;
-                score = 0;
-                gameTimer = 30;
-                scoreDisplay.textContent = `Score: ${score}`;
-                timerDisplay.textContent = `Time: ${gameTimer}s`;
-                gameStartButton.disabled = true;
-                gameStartButton.classList.add("disabled");
-                gameArea.innerHTML = ""; // Clear any lingering bats
-
-                gameInterval = setInterval(() => {
-                    gameTimer--;
-                    timerDisplay.textContent = `Time: ${gameTimer}s`;
-
-                    if (gameTimer <= 0) {
-                        endGame();
-                    }
-                }, 1000);
-
-                batSpawnInterval = setInterval(spawnBat, 700); // Spawn a bat every 0.7 seconds
-                transitionOverlay.style.opacity = "1"; // Show overlay
-                transitionOverlay.style.visibility = "visible";
-                setTimeout(() => {
-                    transitionOverlay.style.opacity = "0"; // Fade out
-                    transitionOverlay.style.visibility = "hidden";
-                }, 1500); // Keep overlay for 1.5 seconds
-
-                if (isSoundOn) {
-                    wolfHowlSound.play().catch(e => console.log("Audio play prevented:", e));
-                }
-            };
-
-            const endGame = () => {
-                isGameRunning = false;
-                clearInterval(gameInterval);
-                clearInterval(batSpawnInterval);
-                gameStartButton.disabled = false;
-                gameStartButton.classList.remove("disabled");
-                gameArea.innerHTML = ""; // Clear all bats
-                alert(`Game Over! You caught ${score} Vlad(s)!`);
-            };
-
-            gameStartButton.addEventListener("click", startGame);
-
-            // --- Donor Registration and List ---
-            const donorNameInput = document.getElementById("name");
-            const bloodGroupSelect = document.getElementById("group");
-            const donorListUl = document.getElementById("donor-list");
-            const noDonorsMessage = document.getElementById("no-donors-message");
-            const inventorySummary = document.getElementById("inventory-summary");
-
-            let donors = JSON.parse(localStorage.getItem("donors")) || [];
-
-            const updateDonorList = () => {
-                donorListUl.innerHTML = "";
-                if (donors.length === 0) {
-                    noDonorsMessage.style.display = "block";
-                } else {
-                    noDonorsMessage.style.display = "none";
-                    donors.forEach((donor) => {
-                        const li = document.createElement("li");
-                        li.style.cssText = `
-                            background-color: rgba(42, 42, 42, 0.7);
-                            padding: 8px 12px;
-                            margin-bottom: 5px;
-                            border-radius: 5px;
-                            border: 1px solid #e60000;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            font-family: Arial, sans-serif;
-                            font-size: 0.95em;
-                        `;
-                        li.innerHTML = `
-                            <span>${donor.name} <span style="background-color: #ff3333; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.8em; margin-left: 5px;">${donor.group}</span></span>
-                            <button onclick="removeDonor('${donor.id}')" style="background-color: #cc0000; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 0.8em; margin-top: 0; width: auto;">Remove</button>
-                        `;
-                        donorListUl.appendChild(li);
-                    });
-                }
-                updateBloodInventory();
-            };
-
-            const updateBloodInventory = () => {
-                const inventory = {};
-                donors.forEach((donor) => {
-                    inventory[donor.group] = (inventory[donor.group] || 0) + 1;
-                });
-
-                let summaryText = "";
-                if (Object.keys(inventory).length === 0) {
-                    summaryText = "No blood data available.";
-                } else {
-                    for (const group in inventory) {
-                        summaryText += `${group}: ${inventory[group]} units<br>`;
-                    }
-                }
-                inventorySummary.innerHTML = summaryText;
-            };
-
-            window.submitDonor = () => {
-                const name = donorNameInput.value.trim();
-                const group = bloodGroupSelect.value;
-                if (name) {
-                    const newDonor = {
-                        id: Date.now().toString(), // Simple unique ID
-                        name: name,
-                        group: group,
-                        isDonor: true, // Flag for chat
-                    };
-                    donors.push(newDonor);
-                    localStorage.setItem("donors", JSON.stringify(donors));
-                    updateDonorList();
-                    donorNameInput.value = "";
-                    typeText(
-                        outputDiv,
-                        templates[Math.floor(Math.random() * templates.length)]
-                    );
-
-                    // Add a system message to the chat about the new donor
-                    addChatMessage(
-                        "system",
-                        `${name} (${group}) has joined the Blood Network!`,
-                        "system" // Use a specific class for system messages
-                    );
-
-                    // If chat username is not set, set it to the donor's name
-                    if (!localStorage.getItem('chatUsername')) {
-                        localStorage.setItem('chatUsername', name);
-                        localStorage.setItem('chatUserBloodGroup', group);
-                        // Optionally hide username input overlay if it was shown for chat
-                        document.getElementById('chat-username-input-overlay').style.display = 'none';
-                    }
-                } else {
-                    alert("Please enter your name!");
-                }
-            };
-
-            window.removeDonor = (id) => {
-                donors = donors.filter((donor) => donor.id !== id);
-                localStorage.setItem("donors", JSON.stringify(donors));
-                updateDonorList();
-            };
-
-            updateDonorList(); // Initial load of donor list
-
-            // --- Random Vampire Fact ---
-            const vampireFacts = [
-                "The word 'vampire' first appeared in English in 1734.",
-                "In some folklore, vampires can be repelled by mustard seeds.",
-                "Bram Stoker's Dracula was inspired by Eastern European folklore and Vlad the Impaler.",
-                "Garlic is believed to ward off vampires due to its strong odor, which they supposedly find offensive.",
-                "Vampires are often depicted as unable to cross running water without assistance.",
-                "Mirrors are said to reveal no reflection of a vampire, as they lack a soul.",
-                "In Haitian Vodou, a 'loogaroo' is a female vampire who sheds her skin at night.",
-                "The 'Nosferatu' is another name for a vampire, popularized by the 1922 silent film.",
-                "Some legends claim vampires can transform into bats, wolves, or mist.",
-                "The fear of vampires is known as 'vampirophobia'.",
-            ];
-
-            const vampireFactOutput = document.getElementById("vampire-fact-output");
-
-            window.displayRandomVampireFact = () => {
-                const randomIndex = Math.floor(Math.random() * vampireFacts.length);
-                vampireFactOutput.textContent = vampireFacts[randomIndex];
-            };
-
-            // --- Blood Type Craving Compatibility ---
-            const bloodCravings = {
-                "A+": "Craves fresh berries and the thrill of new beginnings.",
-                "A-": "Desires ancient wines and forgotten secrets.",
-                "B+": "Longs for exotic spices and untamed wilderness.",
-                "B-": "Pines for bitter chocolate and forbidden knowledge.",
-                "AB+": "Seeks balance, perhaps a taste of moonlight and shadow.",
-                "AB-": "Yearns for icy winds and untold mysteries.",
-                "O+": "Needs strong coffee and the vigor of the hunt.",
-                "O-": "Hungers for the very essence of life, pure and undiluted.",
-            };
-
-            const cravingGroupSelect = document.getElementById("craving-group");
-            const cravingOutput = document.getElementById("craving-output");
-
-            window.getBloodCraving = () => {
-                const selectedGroup = cravingGroupSelect.value;
-                cravingOutput.textContent = bloodCravings[selectedGroup];
-            };
-
-            // --- NEW: Global Chat Functionality ---
-            const navChatIcon = document.getElementById("nav-chat-icon");
-            const globalChatWindow = document.getElementById("global-chat-window");
-            const closeChat = globalChatWindow.querySelector(".close-chat");
-            const chatMessagesContainer = document.getElementById("chat-messages-container");
-            const chatMessageInput = document.getElementById("chat-message-input");
-            const sendMessageButton = document.getElementById("send-message-button");
-            const chatUsernameInputOverlay = document.getElementById("chat-username-input-overlay");
-            const chatUsernameSetup = document.getElementById("chat-username-setup");
-            const setChatUsernameButton = document.getElementById("set-chat-username-button");
-
-            let chatUsername = localStorage.getItem("chatUsername");
-            let chatUserBloodGroup = localStorage.getItem("chatUserBloodGroup");
-            let chatMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
-
-            // Display stored messages
-            const loadChatMessages = () => {
-                chatMessagesContainer.innerHTML = "";
-                chatMessages.forEach(msg => {
-                    appendChatMessage(msg.sender, msg.message, msg.type, msg.bloodGroup);
-                });
-                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Scroll to bottom
-            };
-
-            const appendChatMessage = (sender, message, type, bloodGroup = null) => {
-                const messageElement = document.createElement("div");
-                messageElement.classList.add("chat-message");
-                messageElement.classList.add(type); // 'self', 'other', 'system'
-
-                let senderName = `<strong>${sender}</strong>`;
-                if (bloodGroup) {
-                    senderName += `<span class="blood-group">${bloodGroup}</span>`;
-                }
-
-                messageElement.innerHTML = `${senderName}: ${message}`;
-                chatMessagesContainer.appendChild(messageElement);
-                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Auto-scroll to latest message
-            };
-
-            const handleSendMessage = () => {
-                const messageText = chatMessageInput.value.trim();
-                if (messageText) {
-                    const message = {
-                        sender: chatUsername,
-                        message: messageText,
-                        type: "self",
-                        bloodGroup: chatUserBloodGroup // Include blood group
-                    };
-                    chatMessages.push(message);
-                    localStorage.setItem("chatMessages", JSON.stringify(chatMessages));
-                    appendChatMessage(message.sender, message.message, message.type, message.bloodGroup);
-                    chatMessageInput.value = "";
-
-                    // Simulate a simple "server" response after a short delay
-                    setTimeout(() => {
-                        const botResponses = [
-                            "Hmm, an interesting thought...",
-                            "Indeed.",
-                            "The shadows whisper agreement.",
-                            "Your words carry weight.",
-                            "A keen observation, mortal.",
-                            "I shall ponder this.",
-                            "Very well.",
-                        ];
-                        const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
-                        const botMessage = {
-                            sender: "Mysterious Entity",
-                            message: randomResponse,
-                            type: "other",
-                            bloodGroup: null // No blood group for bot
-                        };
-                        chatMessages.push(botMessage);
-                        localStorage.setItem("chatMessages", JSON.stringify(chatMessages));
-                        appendChatMessage(botMessage.sender, botMessage.message, botMessage.type, botMessage.bloodGroup);
-                    }, 1000 + Math.random() * 1000); // 1-2 seconds delay
-                }
-            };
-
-            // Event Listeners for Chat
-            navChatIcon.addEventListener("click", (e) => {
-                e.preventDefault(); // Prevent default link behavior
-                if (!chatUsername) {
-                    chatUsernameInputOverlay.style.display = "flex";
-                    chatUsernameSetup.focus();
-                } else {
-                    globalChatWindow.classList.toggle("active");
-                    if (globalChatWindow.classList.contains("active")) {
-                        chatMessageInput.focus();
-                        loadChatMessages(); // Load messages when chat opens
-                    }
-                }
-            });
-
-            closeChat.addEventListener("click", () => {
-                globalChatWindow.classList.remove("active");
-            });
-
-            sendMessageButton.addEventListener("click", handleSendMessage);
-
-            chatMessageInput.addEventListener("keypress", (e) => {
-                if (e.key === "Enter") {
-                    handleSendMessage();
-                }
-            });
-
-            setChatUsernameButton.addEventListener("click", () => {
-                const username = chatUsernameSetup.value.trim();
-                if (username) {
-                    chatUsername = username;
-                    localStorage.setItem("chatUsername", chatUsername);
-                    // Check if the user is a donor and get their blood group
-                    const donor = donors.find(d => d.name.toLowerCase() === username.toLowerCase());
-                    if (donor) {
-                        chatUserBloodGroup = donor.group;
-                        localStorage.setItem("chatUserBloodGroup", chatUserBloodGroup);
-                    } else {
-                        chatUserBloodGroup = null; // Ensure it's null if not a donor
-                        localStorage.removeItem("chatUserBloodGroup");
-                    }
-
-                    chatUsernameInputOverlay.style.display = "none";
-                    globalChatWindow.classList.add("active");
-                    chatMessageInput.focus();
-                    loadChatMessages(); // Load messages after setting username
-                    addChatMessage("system", `${chatUsername} has entered the chat.`, "system");
-                } else {
-                    alert("Please enter a username to join the chat!");
-                }
-            });
-
-            // Initial check for chat username on page load
-            if (chatUsername) {
-                loadChatMessages();
+                updateCountdown(); // Call immediately to update display
             } else {
-                // If no username, the chat window will not open until username is set
-                // You could add a prompt here or just wait for them to click the chat icon
+                alert("Please enter a valid positive number of days.");
+            }
+        }
+
+        // Initialize countdown on page load
+        if (targetDate) {
+            countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown();
+        } else {
+            // If no date is set, show a prompt or default message
+            transformationMessage.textContent = "Click 'Set New Transformation' to begin the countdown.";
+            daysSpan.textContent = '00';
+            hoursSpan.textContent = '00';
+            minutesSpan.textContent = '00';
+            secondsSpan.textContent = '00';
+        }
+
+
+        // Global Chat Functionality
+        const navChatIcon = document.getElementById('nav-chat-icon');
+        const globalChatWindow = document.getElementById('global-chat-window');
+        const closeChatButton = document.getElementById('close-chat-button');
+        const chatMessagesDiv = document.getElementById('chat-messages');
+        const chatMessageInput = document.getElementById('chat-message-input');
+        const sendMessageButton = document.getElementById('send-message-button');
+        const chatUsernameInputOverlay = document.getElementById('chat-username-input-overlay');
+        const chatUsernameInput = document.getElementById('chat-username');
+        const setUsernameButton = document.getElementById('set-username-button');
+
+        let chatUsername = localStorage.getItem('chatUsername'); // Try to load username
+
+        // Function to append messages to the chat window
+        function appendMessage(username, message, bloodGroup, isSelf = false) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message');
+            if (isSelf) {
+                messageElement.classList.add('self');
+            } else {
+                messageElement.classList.add('other');
+            }
+            messageElement.innerHTML = `<strong>${username}</strong> <span class="blood-group">${bloodGroup}</span>: ${message}`;
+            chatMessagesDiv.appendChild(messageElement);
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Scroll to bottom
+        }
+
+        // Simulate receiving messages from other users
+        function simulateIncomingMessage() {
+            const sampleMessages = [
+                "The night is truly enchanting tonight.",
+                "Anyone else feeling a peculiar thirst?",
+                "Heard whispers of a new blood moon rising...",
+                "Beware the dawn!",
+                "Has anyone seen Vlad lately?",
+                "The shadows grow longer with each passing moment."
+            ];
+            const sampleUsernames = ["Nocturne", "Crimson_Specter", "Shadow_Dancer", "Blood_Mistress", "Countess_Liz", "Grave_Walker"];
+            const sampleBloodGroups = ["O+", "A-", "B+", "AB-", "A+", "O-"];
+
+            const randomMessage = sampleMessages[Math.floor(Math.random() * sampleMessages.length)];
+            const randomUser = sampleUsernames[Math.floor(Math.random() * sampleUsernames.length)];
+            const randomBloodGroup = sampleBloodGroups[Math.floor(Math.random() * sampleBloodGroups.length)];
+
+            // Simulate typing delay
+            setTimeout(() => {
+                appendMessage(randomUser, randomMessage, randomBloodGroup);
+            }, 1000 + Math.random() * 2000);
+        }
+
+        // Send message function
+        function sendMessage() {
+            const message = chatMessageInput.value.trim();
+            if (message && chatUsername) {
+                const userBloodGroup = document.getElementById('group').value; // Get the user's selected blood group from donor form
+                appendMessage(chatUsername, message, userBloodGroup || 'Unknown', true); // Display message as self
+                chatMessageInput.value = ''; // Clear input
+
+                // Simulate a response after sending your message
+                simulateIncomingMessage();
+            } else if (!chatUsername) {
+                alert("Please set your Crypt Name before sending messages!");
+                chatUsernameInputOverlay.style.display = 'flex'; // Show username input
+            }
+        }
+
+        // Event listeners for chat
+        navChatIcon.addEventListener('click', () => {
+            if (chatUsername) {
+                globalChatWindow.classList.add('active');
+                chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Scroll to bottom on open
+                chatMessageInput.focus();
+            } else {
+                chatUsernameInputOverlay.style.display = 'flex';
             }
         });
+
+        closeChatButton.addEventListener('click', () => {
+            globalChatWindow.classList.remove('active');
+        });
+
+        sendMessageButton.addEventListener('click', sendMessage);
+        chatMessageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Username input handling
+        setUsernameButton.addEventListener('click', () => {
+            const enteredUsername = chatUsernameInput.value.trim();
+            if (enteredUsername) {
+                chatUsername = enteredUsername;
+                localStorage.setItem('chatUsername', chatUsername);
+                chatUsernameInputOverlay.style.display = 'none';
+                globalChatWindow.classList.add('active'); // Open chat after setting username
+                chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Scroll to bottom
+                chatMessageInput.focus();
+            } else {
+                alert("Please enter a valid Crypt Name!");
+            }
+        });
+
+        // Hide username input if already set on load
+        if (chatUsername) {
+            chatUsernameInputOverlay.style.display = 'none';
+        }
+
+        // Initialize with a welcome message in chat (optional)
+        if (chatUsername) {
+            appendMessage("System", `Welcome, ${chatUsername}! The shadows are listening...`, "SYS", false);
+        }
+
     </script>
 </body>
 </html>
