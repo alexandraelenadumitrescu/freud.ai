@@ -296,6 +296,11 @@
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
         }
 
+        #sound-toggle-button:active {
+            transform: scale(0.95);
+            transition: transform 0.1s ease;
+        }
+
         /* Stiluri pentru imaginile din butonul de sunet */
         #sound-toggle-button img {
             width: 35px;
@@ -767,41 +772,51 @@
 
         function toggleBackgroundSound() {
             if (isSoundPlaying) {
+                // Turn sound OFF
                 batSound.pause();
                 batSound.currentTime = 0;
                 typingSound.pause();
                 typingSound.currentTime = 0;
-                wolfHowlSound.pause(); // Stop wolf howl
-                clearInterval(wolfHowlInterval); // Clear wolf howl interval
+                wolfHowlSound.pause();
+                wolfHowlSound.currentTime = 0;
+                clearInterval(wolfHowlInterval);
                 soundOffIcon.style.display = 'block';
                 soundOnIcon.style.display = 'none';
                 isSoundPlaying = false;
+                console.log('Sound turned OFF');
             } else {
-                batSound.volume = 0.3; // Volume for the Toccata
-                batSound.play().catch(error => {
-                    console.error("Eroare la redarea sunetului batSound (Toccata):", error);
+                // Turn sound ON
+                batSound.volume = 0.3;
+                batSound.play().then(() => {
+                    console.log('Background music started successfully');
+                }).catch(error => {
+                    console.error("Error playing background music:", error);
+                    // If autoplay is blocked, show user-friendly message
+                    if (error.name === 'NotAllowedError') {
+                        alert('Please click the sound button again to enable audio. Some browsers require user interaction to play audio.');
+                    }
                 });
                 soundOffIcon.style.display = 'none';
                 soundOnIcon.style.display = 'block';
                 isSoundPlaying = true;
-                startWolfHowlTimer(); // Start wolf howl timer
+                startWolfHowlTimer();
+                console.log('Sound turned ON');
             }
         }
 
         // Function to play wolf howl randomly
         function startWolfHowlTimer() {
             if (wolfHowlInterval) {
-                clearInterval(wolfHowlInterval); // Clear any existing interval
+                clearInterval(wolfHowlInterval);
             }
             wolfHowlInterval = setInterval(() => {
-                if (isSoundPlaying && Math.random() < 0.3) { // 30% chance to howl
+                if (isSoundPlaying && Math.random() < 0.3) {
                     wolfHowlSound.currentTime = 0;
                     wolfHowlSound.volume = 0.4;
                     wolfHowlSound.play().catch(e => console.log("Wolf howl playback failed:", e));
                 }
-            }, 15000 + Math.random() * 15000); // Howl every 15-30 seconds
+            }, 15000 + Math.random() * 15000);
         }
-
 
         // Attach event listener to the button
         soundToggleButton.addEventListener('click', toggleBackgroundSound);
@@ -822,14 +837,33 @@
                 updateDonorListAndInventory(); // Show initial "No donors" message
             }
 
-            // Ensure sound is off initially
-            batSound.pause();
-            typingSound.pause();
-            wolfHowlSound.pause();
+            // Initialize sound system
+            initializeSoundSystem();
+        });
+
+        // Function to initialize sound system
+        function initializeSoundSystem() {
+            // Ensure all audio elements are properly loaded
+            const audioElements = [batSound, typingSound, wolfHowlSound, chimeSound, dripSound];
+            
+            audioElements.forEach(audio => {
+                audio.load();
+                audio.pause();
+                audio.currentTime = 0;
+            });
+
+            // Set initial sound button state
             soundOffIcon.style.display = 'block';
             soundOnIcon.style.display = 'none';
-            isSoundPlaying = false; // Explicitly set state
-        });
+            isSoundPlaying = false;
+            
+            // Clear any existing intervals
+            if (wolfHowlInterval) {
+                clearInterval(wolfHowlInterval);
+            }
+            
+            console.log('Sound system initialized - Sound is OFF');
+        }
     </script>
 </body>
 
