@@ -591,6 +591,172 @@
         background-color: #770000;
       }
 
+      /* Countdown Timer Styles */
+      #countdown-timer {
+        background: linear-gradient(
+          135deg,
+          rgba(26, 26, 26, 0.95),
+          rgba(42, 42, 42, 0.85)
+        );
+        border: 2px solid #e60000;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(230, 0, 0, 0.6),
+          inset 0 0 20px rgba(0, 0, 0, 0.8);
+        position: relative;
+        overflow: hidden;
+      }
+
+      #countdown-timer::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #e60000, #ff3333, #cc0000, #e60000);
+        border-radius: 15px;
+        z-index: -1;
+        animation: borderPulse 3s ease-in-out infinite;
+      }
+
+      @keyframes borderPulse {
+        0%,
+        100% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .countdown-title {
+        font-size: 1.8em;
+        color: #e60000;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(230, 0, 0, 0.8);
+        letter-spacing: 2px;
+      }
+
+      .timer-display {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+      }
+
+      .time-unit {
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid #e60000;
+        border-radius: 10px;
+        padding: 15px 10px;
+        min-width: 80px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .time-unit::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(230, 0, 0, 0.3),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      .time-number {
+        font-size: 2.5em;
+        color: #f5f5f5;
+        font-weight: bold;
+        text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        display: block;
+        line-height: 1;
+        animation: numberGlow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes numberGlow {
+        from {
+          text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+        to {
+          text-shadow: 0 0 25px rgba(255, 0, 0, 1),
+            0 0 35px rgba(255, 0, 0, 0.5);
+        }
+      }
+
+      .time-label {
+        font-size: 0.9em;
+        color: #ccc;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 5px;
+      }
+
+      .countdown-message {
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        color: #ccc;
+        font-style: italic;
+        min-height: 25px;
+      }
+
+      .countdown-finished {
+        animation: finishedPulse 1s ease-in-out infinite;
+        color: #ff3333 !important;
+        font-weight: bold;
+      }
+
+      @keyframes finishedPulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      /* Demo button to test the countdown */
+      .demo-button {
+        background: linear-gradient(135deg, #e60000, #cc0000);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        color: #f5f5f5;
+        font-family: "Cinzel Decorative", serif;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 20px;
+        width: 100%;
+      }
+
+      .demo-button:hover {
+        background: linear-gradient(135deg, #ff3333, #e60000);
+        box-shadow: 0 0 15px rgba(230, 0, 0, 0.8);
+        transform: translateY(-2px);
+      }
+
       /* Responsive design */
       @media (max-width: 768px) {
         #initial-welcome-overlay .welcome-image {
@@ -650,6 +816,24 @@
         #vampire-quiz {
           padding: 20px;
         }
+
+        /* Countdown responsive styles */
+        .timer-display {
+          gap: 10px;
+        }
+
+        .time-unit {
+          min-width: 70px;
+          padding: 10px 5px;
+        }
+
+        .time-number {
+          font-size: 2em;
+        }
+
+        .countdown-title {
+          font-size: 1.5em;
+        }
       }
     </style>
   </head>
@@ -707,6 +891,7 @@
       <a href="#facts-cravings">Secrets</a>
       <a href="#bat-catcher-game">Catch Vlad!</a>
       <a href="#vampire-quiz">Vampire Quiz</a>
+      <a href="#countdown-section">Transformation</a>
       <a href="#letter">Your Letter</a>
       <a href="#contact-us">Contact</a>
       <a href="#about">About</a>
@@ -841,6 +1026,42 @@
       </button>
       <div id="quiz-result"></div>
       <div id="result-description"></div>
+    </section>
+
+    <!-- New Countdown Timer Section -->
+    <section id="countdown-section">
+      <h2>Transformation Countdown</h2>
+      <div id="countdown-timer">
+        <div class="countdown-title">⏰ Time Until Next Blood Moon</div>
+
+        <div class="timer-display">
+          <div class="time-unit">
+            <span class="time-number" id="days">00</span>
+            <div class="time-label">Days</div>
+          </div>
+          <div class="time-unit">
+            <span class="time-number" id="hours">00</span>
+            <div class="time-label">Hours</div>
+          </div>
+          <div class="time-unit">
+            <span class="time-number" id="minutes">00</span>
+            <div class="time-label">Minutes</div>
+          </div>
+          <div class="time-unit">
+            <span class="time-number" id="seconds">00</span>
+            <div class="time-label">Seconds</div>
+          </div>
+        </div>
+
+        <div class="countdown-message" id="countdown-message">
+          Register as a donor to begin your mystical transformation countdown...
+        </div>
+
+        <!-- Demo button to test the countdown functionality -->
+        <button class="demo-button" onclick="startDemoCountdown()">
+          🩸 Become a Donor (Demo)
+        </button>
+      </div>
     </section>
 
     <section id="letter">
@@ -1443,6 +1664,133 @@
           quizContainer.scrollIntoView({ behavior: "smooth", block: "end" });
         }
       });
+
+      // --- COUNTDOWN TIMER LOGIC ---
+      let countdownInterval;
+      let targetTime = null;
+      let isCountdownActive = false;
+
+      // Function to start a 2-month countdown automatically when becoming a donor
+      function startTwoMonthCountdown(donorName) {
+        // Stop any existing countdown first
+        stopCountdown();
+
+        // Calculate 2 months from now (approximately 60 days)
+        const now = new Date();
+        const twoMonthsLater = new Date(
+          now.getTime() + 60 * 24 * 60 * 60 * 1000
+        ); // 60 days in milliseconds
+
+        targetTime = twoMonthsLater;
+
+        // Update the countdown title and message
+        const countdownTitle = document.querySelector(".countdown-title");
+        const countdownMessage = document.getElementById("countdown-message");
+
+        countdownTitle.textContent = `⏰ ${donorName}'s Transformation Countdown`;
+        countdownMessage.innerHTML = `<span style="color: #e60000;">Welcome to the eternal circle, ${donorName}!</span><br>Your mystical transformation begins now...`;
+
+        // Start the countdown immediately
+        startCountdown();
+      }
+
+      function updateCountdownDisplay() {
+        if (!targetTime) return;
+
+        const now = new Date().getTime();
+        const distance = targetTime.getTime() - now;
+
+        if (distance <= 0) {
+          // Countdown finished
+          document.getElementById("days").textContent = "00";
+          document.getElementById("hours").textContent = "00";
+          document.getElementById("minutes").textContent = "00";
+          document.getElementById("seconds").textContent = "00";
+
+          const countdownMessage = document.getElementById("countdown-message");
+          countdownMessage.innerHTML =
+            '<span class="countdown-finished">🌙 The transformation is complete! The ancient blood flows eternal within you... 🌙</span>';
+
+          // Play wolf howl if sound is enabled
+          if (isSoundPlaying) {
+            const wolfHowlSound = document.getElementById("wolf-howl-sound");
+            wolfHowlSound.currentTime = 0;
+            wolfHowlSound.volume = 0.6;
+            wolfHowlSound
+              .play()
+              .catch((e) =>
+                console.log("Wolf howl for countdown finish failed:", e)
+              );
+          }
+
+          stopCountdown();
+          return;
+        }
+
+        // Calculate time units
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Update display with zero padding
+        document.getElementById("days").textContent = days
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("hours").textContent = hours
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("minutes").textContent = minutes
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("seconds").textContent = seconds
+          .toString()
+          .padStart(2, "0");
+      }
+
+      function startCountdown() {
+        if (isCountdownActive || !targetTime) return;
+
+        isCountdownActive = true;
+        countdownInterval = setInterval(updateCountdownDisplay, 1000);
+        updateCountdownDisplay(); // Initial update
+
+        // Play drip sound if enabled
+        if (isSoundPlaying) {
+          const dripSound = document.getElementById("drip-sound");
+          dripSound.currentTime = 0;
+          dripSound.volume = 0.4;
+          dripSound
+            .play()
+            .catch((e) =>
+              console.log("Drip sound for countdown start failed:", e)
+            );
+        }
+      }
+
+      function stopCountdown() {
+        isCountdownActive = false;
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+          countdownInterval = null;
+        }
+      }
+
+      // Demo function to test the countdown (simulates donor registration)
+      function startDemoCountdown() {
+        const demoNames = [
+          "Dracula",
+          "Mina",
+          "Van Helsing",
+          "Renfield",
+          "Lucy",
+        ];
+        const randomName =
+          demoNames[Math.floor(Math.random() * demoNames.length)];
+        startTwoMonthCountdown(randomName);
+      }
 
       // --- EXISTING JAVASCRIPT LOGIC (rearranged and integrated) ---
 
