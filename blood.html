@@ -24,6 +24,7 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
+    <script src="https://unpkg.com/three@0.166.1/build/three.min.js"></script>
     <style>
       /* CSS pentru site-ul principal */
       body {
@@ -1162,7 +1163,7 @@
         <a href="#transylvania-map"
           ><i class="fas fa-map-marked-alt"></i> Blood Centers</a
         >
-        <a href="#" id="open-lab"><i class="fas fa-flask"></i> Blood Lab</a>
+
         <a href="#vampire-quiz"
           ><i class="fas fa-question-circle"></i> Vampire Quiz</a
         >
@@ -1416,28 +1417,26 @@
     </div>
 
     <!-- Container pentru jocul 3D -->
-    <div id="lab-container" class="lab-container">
-      <button class="close-lab" id="close-lab">×</button>
-      <div class="lab-header">
+    <!-- Înlocuiește tot div-ul lab-container existent cu acesta -->
+    <!-- 3D Transfusion Lab - HTML only, fără CSS/JS -->
+    <div id="lab-container" style="display: none">
+      <div id="info-panel">
         <h1>3D Transfusion Lab</h1>
-        <p id="instructions">
+        <p id="lab-instructions">
           Drag the syringe to the patient's arm to collect blood.
         </p>
-
         <div id="confirmation-wrapper" class="hidden">
           <select id="blood-type-select"></select>
           <button id="confirm-type-button">Confirm Blood Type</button>
         </div>
-
         <div id="final-feedback-overlay" class="hidden">
           <div id="final-feedback-text"></div>
           <button id="next-patient-button">Next Patient</button>
         </div>
+        <button id="close-lab" class="close-lab">✖</button>
       </div>
-
       <div id="lab-canvas-container" class="lab-canvas-container"></div>
     </div>
-
     <!-- Scripturi -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/three@0.166.1/build/three.min.js"></script>
@@ -2810,5 +2809,6 @@
         });
       }
     </script>
+    <script src="blood.js"></script>
   </body>
 </html>
