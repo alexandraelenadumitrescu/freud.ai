@@ -71,10 +71,11 @@ An interactive simulation:
 ---
 
 ## File Structure
-├── index.html # Main landing page
-├── game.html # Catch Vlad! game
-├── blood.js  # Main logic for site interactivity: sound system, animations, donor system, quiz, games, countdown, and 3D transfusion lab
-├── blood.css # Themed CSS
-├── README.md # This file
-├── *.mp3, *.png, *.jpeg # Sound & image assets
+index.html        # Main landing page  
+game.html         # Catch Vlad! game  
+blood.js          # Main logic for site interactivity: sound system, animations, donor system, quiz, games, countdown, and 3D transfusion lab  
+blood.css         # Themed CSS  
+README.md         # This file  
+*.mp3, *.png, *.jpeg  # Sound & image assets  
+
 
